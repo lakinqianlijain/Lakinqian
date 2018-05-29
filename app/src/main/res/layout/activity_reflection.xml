@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/first"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/basic_reflection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="apk内部反射"
+            />
+        <Button
+            android:id="@+id/framework"
+            android:layout_toRightOf="@+id/basic_reflection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FrameWork层反射"/>
+        <Button
+            android:id="@+id/between_apk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/framework"
+            android:text="APK间反射"/>
+    </RelativeLayout>
+
+</RelativeLayout>
