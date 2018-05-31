@@ -5,11 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.qlj.lakinqiandemo.hook.HookActivity;
 import com.qlj.lakinqiandemo.ui.ReflectionActivity;
 import com.qlj.lakinqiandemo.utils.JumpActivityUtil;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    Button mReflection;
+    Button mReflection, mHOOK;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +22,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initView() {
         mReflection = findViewById(R.id.reflection);
         mReflection.setOnClickListener(this);
+        mHOOK = findViewById(R.id.hook);
+        mHOOK.setOnClickListener(this);
     }
 
     @Override
@@ -28,6 +31,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()){
             case R.id.reflection:
                 JumpActivityUtil.JumpSelfActivity(this, ReflectionActivity.class);
+                break;
+            case R.id.hook:
+                JumpActivityUtil.JumpSelfActivity(this, HookActivity.class);
+                break;
         }
     }
 }

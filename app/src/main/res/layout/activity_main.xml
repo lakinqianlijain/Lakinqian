@@ -17,24 +17,11 @@
             android:text="反射"
             />
         <Button
-            android:id="@+id/getMsg"
+            android:id="@+id/hook"
             android:layout_toRightOf="@+id/reflection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="获取视频信息"/>
-        <Button
-            android:id="@+id/share"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/getMsg"
-            android:text="分享"/>
-        <Button
-            android:id="@+id/compress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/share"
-            android:text="压缩"
-            />
+            android:text="HOOK"/>
     </RelativeLayout>
 
 </RelativeLayout>
