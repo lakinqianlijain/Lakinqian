@@ -1,16 +1,16 @@
 package com.qlj.lakinqiandemo;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import com.qlj.lakinqiandemo.hook.HookActivity;
+import com.qlj.lakinqiandemo.mvp.login.view.LoginActivity;
 import com.qlj.lakinqiandemo.ui.ReflectionActivity;
 import com.qlj.lakinqiandemo.utils.JumpActivityUtil;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    Button mReflection, mHOOK;
+public class MainActivity extends BaseActivity implements View.OnClickListener {
+    Button mReflection, mHOOK, mMVP;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mReflection.setOnClickListener(this);
         mHOOK = findViewById(R.id.hook);
         mHOOK.setOnClickListener(this);
+        mMVP = findViewById(R.id.mvp);
+        mMVP.setOnClickListener(this);
     }
 
     @Override
@@ -34,6 +36,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.hook:
                 JumpActivityUtil.JumpSelfActivity(this, HookActivity.class);
+                break;
+            case R.id.mvp:
+                JumpActivityUtil.JumpSelfActivity(this, LoginActivity.class);
                 break;
         }
     }

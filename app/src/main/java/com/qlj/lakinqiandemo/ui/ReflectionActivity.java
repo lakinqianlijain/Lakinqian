@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.qlj.lakinqiandemo.BaseActivity;
 import com.qlj.lakinqiandemo.R;
 
 import com.qlj.lakinqiandemo.reflection.util.Util;
@@ -15,7 +16,7 @@ import com.qlj.lakinqiandemo.reflection.util.Util;
  * Created by lakinqian on 2018/5/29.
  */
 
-public class ReflectionActivity extends AppCompatActivity implements View.OnClickListener  {
+public class ReflectionActivity extends BaseActivity implements View.OnClickListener  {
     Button mBasicReflection, mFrameWork, mBetweenApk;
 
     @Override

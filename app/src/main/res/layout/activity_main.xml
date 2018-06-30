@@ -22,6 +22,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="HOOK"/>
+        <Button
+            android:id="@+id/mvp"
+            android:layout_toRightOf="@+id/hook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MVP"/>
+
     </RelativeLayout>
 
 </RelativeLayout>

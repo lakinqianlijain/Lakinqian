@@ -3,7 +3,7 @@
     package="com.qlj.lakinqiandemo">
 
 
-    <uses-permission android:name ="android.permission.FORCE_STOP_PACKAGES"/>
+    <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES" />
 
     <application
         android:name=".JianApplication"
@@ -21,10 +21,10 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name="com.qlj.lakinqiandemo.ui.ReflectionActivity"/>
-        <activity
-            android:name="com.qlj.lakinqiandemo.hook.HookActivity"/>
+        <activity android:name="com.qlj.lakinqiandemo.ui.ReflectionActivity" />
+        <activity android:name="com.qlj.lakinqiandemo.hook.HookActivity" />
+        <activity android:name="com.qlj.lakinqiandemo.mvp.login.view.LoginActivity" />
+
     </application>
 
 </manifest>
