@@ -1,15 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#bcf7f4f7">
+    android:background="#fed255">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_loading"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:gravity="center"
         android:text="Loading..."
-        android:textSize="30sp"
-        android:textColor="#40ff53"/>
+        android:textColor="#40ff53"
+        android:textSize="30sp" />
+
+    <RelativeLayout
+        android:id="@+id/rl_leaf_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_loading"
+        android:layout_marginTop="20dp">
+
+        <com.qlj.lakinqiandemo.animation.LeafLoadingView
+            android:id="@+id/leaf_loading"
+            android:layout_width="302dp"
+            android:layout_height="61dp"
+            android:layout_centerHorizontal="true" />
+
+        <ImageView
+            android:id="@+id/fan_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="35dp"
+            android:src="@drawable/fengshan" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_leaf_content"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:id="@+id/btn_load"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginStart="50dp"
+            android:text="Load"
+            android:textSize="25sp" />
+
+        <Button
+            android:id="@+id/btn_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="80dp"
+            android:layout_marginStart="80dp"
+            android:text="Clear"
+            android:textSize="25sp" />
+
+    </LinearLayout>
+
 
 </RelativeLayout>

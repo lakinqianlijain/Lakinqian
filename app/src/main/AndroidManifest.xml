@@ -24,6 +24,8 @@
         <activity android:name="com.qlj.lakinqiandemo.reflection.ReflectionActivity" />
         <activity android:name="com.qlj.lakinqiandemo.hook.HookActivity" />
         <activity android:name="com.qlj.lakinqiandemo.mvp.login.view.LoginActivity" />
+        <activity android:name="com.qlj.lakinqiandemo.animation.LoadingActivity" />
+
 
     </application>
 

@@ -28,6 +28,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="MVP"/>
+        <Button
+            android:id="@+id/animation"
+            android:layout_toRightOf="@+id/mvp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ANIMATION"/>
+
 
     </RelativeLayout>
 
