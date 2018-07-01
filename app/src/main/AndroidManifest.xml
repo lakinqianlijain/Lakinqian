@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.qlj.lakinqiandemo.ui.ReflectionActivity" />
+        <activity android:name="com.qlj.lakinqiandemo.reflection.ReflectionActivity" />
         <activity android:name="com.qlj.lakinqiandemo.hook.HookActivity" />
         <activity android:name="com.qlj.lakinqiandemo.mvp.login.view.LoginActivity" />
 
