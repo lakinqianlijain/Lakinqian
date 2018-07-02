@@ -10,6 +10,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.qlj.lakinqiandemo.R;
@@ -17,6 +18,8 @@ import com.qlj.lakinqiandemo.R;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+
+import static com.qlj.lakinqiandemo.utils.CommonUtil.TAG;
 
 /**
  * Created by Administrator on 2018/7/1.
@@ -110,6 +113,7 @@ public class LeafLoadingView extends View {
         mRightMargin = UiUtils.dipToPx(mContext, RIGHT_MARGIN);
         mProgressWidth = mTotalWidth - mLeftMargin - mRightMargin;
         mArcRadius = (mTotalHeight - 2 * mLeftMargin) / 2;
+        Log.e("6666", "onSizeChanged: "+ mArcRadius);
 
         // 外框的绘制
         mOuterSrcRect = new Rect(0, 0, mOuterWidth, mOuterHeight);
@@ -141,7 +145,10 @@ public class LeafLoadingView extends View {
         }
         // 此处没有按标准的面积来算，而是按长度来计算进度
         mCurrentProgressPosition = mProgressWidth * mProgress / TOTAL_PROGRESS;
-        if (mProgress < mArcRadius) {
+        if (mCurrentProgressPosition < mArcRadius) {
+            Log.i(TAG, "mProgress = " + mProgress + "---mCurrentProgressPosition = "
+                    + mCurrentProgressPosition
+                    + "--mArcProgressWidth" + mArcRadius);
             // 这个时候需要绘制白色ARC,在绘制黄色ARC,在绘制白色矩形
             // 白色ARC
             canvas.drawArc(mArcRectF, 90, 180, false, mWhitePaint);
@@ -156,6 +163,9 @@ public class LeafLoadingView extends View {
             // 绘制叶子
             drawLeafs(canvas);
         } else {
+            Log.i(TAG, "mProgress = " + mProgress + "---transfer-----mCurrentProgressPosition = "
+                    + mCurrentProgressPosition
+                    + "--mArcProgressWidth" + mArcRadius);
             // 这个时候，黄色半圆已经填满，需要先绘制白色矩形，在绘制黄色半圆和黄色矩形，这样才能显示出叶子融入进度条的感觉
             // 绘制白色矩形，这是白色矩形的X坐标为mCurrentProgressPosition
             mWhiteRectF.left = mCurrentProgressPosition;
@@ -163,6 +173,8 @@ public class LeafLoadingView extends View {
             // 绘制黄色ARC
             canvas.drawArc(mArcRectF, 90, 180, false, mOrangePaint);
             // 3.绘制黄色矩形
+            mOrangeRectF.left = mArcRightLocation;
+            mOrangeRectF.right = mCurrentProgressPosition;
             canvas.drawRect(mOrangeRectF, mOrangePaint);
             // 绘制叶子
             drawLeafs(canvas);
