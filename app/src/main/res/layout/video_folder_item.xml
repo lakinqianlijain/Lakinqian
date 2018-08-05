@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_folder_item"
+    android:layout_width="match_parent"
+    android:layout_height="152dp"
+    android:layout_marginTop="-20dp"
+    android:background="@drawable/bg_folder_white"
+    android:paddingBottom="8dp"
+    android:paddingTop="8dp">
+
+    <ImageView
+        android:id="@+id/iv_video_thumb"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/ic_video_thumb_default"
+        android:gravity="center"
+        android:layout_marginLeft="20dp">
+    </ImageView>
+
+    <TextView
+        android:id="@+id/tv_folder_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="-3dp"
+        android:layout_marginTop="34dp"
+        android:layout_toEndOf="@+id/iv_video_thumb"
+        android:gravity="start"
+        android:minHeight="27dp"
+        android:textColor="#C0000000"
+        android:textSize="18dp"
+        tools:text="Camera"
+        android:layout_toRightOf="@+id/iv_video_thumb"
+        android:layout_marginLeft="-3dp" />
+
+    <TextView
+        android:id="@+id/tv_video_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_folder_name"
+        android:layout_marginStart="-3dp"
+        android:layout_toEndOf="@+id/iv_video_thumb"
+        android:gravity="center_vertical"
+        android:minHeight="20dp"
+        android:textColor="#80000000"
+        android:textSize="16dp"
+        tools:text="12 Videos"
+        android:layout_toRightOf="@+id/iv_video_thumb"
+        android:layout_marginLeft="-3dp" />
+
+    <ImageView
+        android:id="@+id/iv_folder_more"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="12dp"
+        android:layout_marginTop="12dp"
+        android:src="@drawable/ic_show_more"
+        android:layout_marginRight="12dp"
+        android:layout_alignParentRight="true" />
+
+</RelativeLayout>

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">LakinqianDemo</string>
+
+    <string name="text_search_view">Search</string>
 </resources>

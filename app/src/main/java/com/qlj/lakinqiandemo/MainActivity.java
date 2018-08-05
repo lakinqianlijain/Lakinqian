@@ -5,13 +5,15 @@ import android.view.View;
 import android.widget.Button;
 
 import com.qlj.lakinqiandemo.animation.LoadingActivity;
+import com.qlj.lakinqiandemo.contralayout.FirstActivity;
+import com.qlj.lakinqiandemo.contralayout.ToolBarSampleSnar;
 import com.qlj.lakinqiandemo.hook.HookActivity;
 import com.qlj.lakinqiandemo.mvp.login.view.LoginActivity;
 import com.qlj.lakinqiandemo.reflection.ReflectionActivity;
 import com.qlj.lakinqiandemo.utils.JumpActivityUtil;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
-    Button mReflection, mHOOK, mMVP, mAnimation;
+    Button mReflection, mHOOK, mMVP, mAnimation, mContralayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mMVP.setOnClickListener(this);
         mAnimation = findViewById(R.id.animation);
         mAnimation.setOnClickListener(this);
+        mContralayout = findViewById(R.id.contralayout);
+        mContralayout.setOnClickListener(this);
     }
 
     @Override
@@ -45,6 +49,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.animation:
                 JumpActivityUtil.JumpSelfActivity(this, LoadingActivity.class);
+                break;
+            case R.id.contralayout:
+                JumpActivityUtil.JumpSelfActivity(this, FirstActivity.class);
                 break;
         }
     }

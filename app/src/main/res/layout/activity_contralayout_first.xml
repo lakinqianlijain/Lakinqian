@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="116dp"
+        android:background="#FFFFFFFF"
+        app:elevation="0dp">
+
+        <RelativeLayout
+            android:id="@+id/title_panel"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="24dp"
+            app:layout_scrollFlags="scroll|snap">
+
+            <ImageView
+                android:id="@+id/iv_title_image"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_video_image" />
+
+            <ImageView
+                android:id="@+id/iv_title_more"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="12dp"
+                android:layout_marginRight="12dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_show_more" />
+
+
+            <ImageView
+                android:id="@+id/iv_private"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_toLeftOf="@+id/iv_title_more"
+                android:layout_toStartOf="@+id/iv_title_more"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_video_private" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_search_view"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/ic_search_background"
+            android:orientation="horizontal"
+            app:layout_scrollFlags="scroll|snap">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="14dp"
+                android:layout_marginStart="14dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_search_image" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:gravity="center_vertical"
+                android:hint="@string/text_search_view"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="#4D000000"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+
+    </android.support.design.widget.AppBarLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/folder_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/iv_center_image"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"
+            android:background="#F2F2F2"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_title_video"
+            android:visibility="gone"
+            tools:visibility="visible" />
+    </FrameLayout>
+
+</android.support.design.widget.CoordinatorLayout>

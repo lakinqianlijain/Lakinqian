@@ -38,4 +38,18 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/first">
+
+        <Button
+            android:id="@+id/contralayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="contralayout"
+            />
+    </RelativeLayout>
+
 </RelativeLayout>
