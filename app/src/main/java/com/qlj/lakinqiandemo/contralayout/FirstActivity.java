@@ -1,9 +1,9 @@
 package com.qlj.lakinqiandemo.contralayout;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -15,11 +15,12 @@ import com.qlj.lakinqiandemo.R;
  */
 
 public class FirstActivity extends BaseActivity {
-    private RecyclerView mRecycler;
     private RelativeLayout mTitlePanel;
     private LinearLayout mSearchView;
     private LinearLayoutManager mLayoutManager;
     private BaseAdapter mAdapter;
+    private SwipeRefreshRecycler mSwipeRefreshLayout;
+    private Handler mHandler = new Handler();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,17 +29,29 @@ public class FirstActivity extends BaseActivity {
     }
 
     private void initView() {
-        mRecycler = findViewById(R.id.folder_list);
         mTitlePanel = findViewById(R.id.title_panel);
         mSearchView = findViewById(R.id.ll_search_view);
+        mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshRecycler.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mSwipeRefreshLayout.setRefreshing(true);
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                }, 2000);
+            }
+        });
         initRecyclerView();
     }
 
     private void initRecyclerView() {
         mLayoutManager = new LinearLayoutManager(this);
-        mRecycler.setLayoutManager(mLayoutManager);
+        mSwipeRefreshLayout.setLayoutManager(mLayoutManager);
         mAdapter = new BaseAdapter(this);
-        mRecycler.setAdapter(mAdapter);
+        mSwipeRefreshLayout.setAdapter(mAdapter);
         mAdapter.setData(50);
     }
 

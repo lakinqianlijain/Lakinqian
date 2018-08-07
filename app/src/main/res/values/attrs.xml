@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SwipeRefreshRecycler">
+        <attr name="waveHeight" format="dimension" />
+        <attr name="headHeight" format="dimension" />
+    </declare-styleable>
+</resources>

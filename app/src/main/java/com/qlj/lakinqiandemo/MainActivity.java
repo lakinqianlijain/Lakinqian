@@ -6,7 +6,6 @@ import android.widget.Button;
 
 import com.qlj.lakinqiandemo.animation.LoadingActivity;
 import com.qlj.lakinqiandemo.contralayout.FirstActivity;
-import com.qlj.lakinqiandemo.contralayout.ToolBarSampleSnar;
 import com.qlj.lakinqiandemo.hook.HookActivity;
 import com.qlj.lakinqiandemo.mvp.login.view.LoginActivity;
 import com.qlj.lakinqiandemo.reflection.ReflectionActivity;
