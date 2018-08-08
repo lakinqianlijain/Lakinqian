@@ -28,6 +28,7 @@ public class SwipeRefreshRecycler extends FrameLayout {
 
 
     private boolean mIsRefreshing = false;
+    private boolean mRefreshable = true;
     private float mTouchY;
     private float mCurrentY;
 
@@ -63,6 +64,7 @@ public class SwipeRefreshRecycler extends FrameLayout {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if (!mRefreshable) return super.onInterceptTouchEvent(ev);
         if (mIsRefreshing) return true;
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -86,7 +88,7 @@ public class SwipeRefreshRecycler extends FrameLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
-        if (mIsRefreshing) {
+        if (mIsRefreshing || !mRefreshable) {
             return super.onTouchEvent(e);
         }
         switch (e.getAction()) {
@@ -192,6 +194,10 @@ public class SwipeRefreshRecycler extends FrameLayout {
 
     public void addOnScrollListener(RecyclerView.OnScrollListener onScrollListener) {
         mRecycler.addOnScrollListener(onScrollListener);
+    }
+
+    public void setRefreshable(boolean refreshable){
+        mRefreshable = refreshable;
     }
 
     public interface OnRefreshListener {

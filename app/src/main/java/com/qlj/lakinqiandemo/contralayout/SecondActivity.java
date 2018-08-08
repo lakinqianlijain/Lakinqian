@@ -4,35 +4,38 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.qlj.lakinqiandemo.BaseActivity;
 import com.qlj.lakinqiandemo.R;
 
 /**
- * Created by Administrator on 2018/8/4.
+ * Created by Administrator on 2018/8/9.
  */
 
-public class FirstActivity extends BaseActivity {
-    private RelativeLayout mTitlePanel;
-    private LinearLayout mSearchView;
+public class SecondActivity extends AppCompatActivity {
     private LinearLayoutManager mLayoutManager;
     private BaseAdapter mAdapter;
     private SwipeRefreshRecycler mSwipeRefreshLayout;
     private Handler mHandler = new Handler();
     private AppBarLayout mAppBarLayout;
+    private Toolbar mToolbar;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contralayout_first);
+        setContentView(R.layout.activity_contralayout_second);
+        mToolbar= findViewById(R.id.toolbar);
+        mToolbar.setTitle("林俊杰");
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initView();
     }
 
     private void initView() {
-        mTitlePanel = findViewById(R.id.title_panel);
-        mSearchView = findViewById(R.id.ll_search_view);
         mAppBarLayout = findViewById(R.id.app_bar_layout);
         mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
@@ -62,11 +65,6 @@ public class FirstActivity extends BaseActivity {
         mAdapter = new BaseAdapter(this);
         mSwipeRefreshLayout.setAdapter(mAdapter);
         mAdapter.setData(30);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
     @Override

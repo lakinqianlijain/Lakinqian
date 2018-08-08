@@ -6,6 +6,7 @@ import android.widget.Button;
 
 import com.qlj.lakinqiandemo.animation.LoadingActivity;
 import com.qlj.lakinqiandemo.contralayout.FirstActivity;
+import com.qlj.lakinqiandemo.contralayout.SecondActivity;
 import com.qlj.lakinqiandemo.hook.HookActivity;
 import com.qlj.lakinqiandemo.mvp.login.view.LoginActivity;
 import com.qlj.lakinqiandemo.reflection.ReflectionActivity;
@@ -50,7 +51,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 JumpActivityUtil.JumpSelfActivity(this, LoadingActivity.class);
                 break;
             case R.id.contralayout:
-                JumpActivityUtil.JumpSelfActivity(this, FirstActivity.class);
+                JumpActivityUtil.JumpSelfActivity(this, SecondActivity.class);
                 break;
         }
     }
