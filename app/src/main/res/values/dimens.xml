@@ -2,4 +2,5 @@
 <resources>
     <dimen name="activity_vertical_margin">200dp</dimen>
     <dimen name="activity_horizontal_margin">200dp</dimen>
+    <dimen name="pinNumberSize">28dp</dimen>
 </resources>

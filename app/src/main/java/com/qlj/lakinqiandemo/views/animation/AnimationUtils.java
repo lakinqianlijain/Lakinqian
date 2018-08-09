@@ -1,5 +1,5 @@
 
-package com.qlj.lakinqiandemo.animation;
+package com.qlj.lakinqiandemo.views.animation;
 
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;

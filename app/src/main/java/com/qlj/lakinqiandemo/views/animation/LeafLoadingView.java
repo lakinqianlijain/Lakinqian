@@ -1,4 +1,4 @@
-package com.qlj.lakinqiandemo.animation;
+package com.qlj.lakinqiandemo.views.animation;
 
 import android.content.Context;
 import android.content.res.Resources;

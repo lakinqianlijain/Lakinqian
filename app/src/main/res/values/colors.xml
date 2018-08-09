@@ -3,4 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorBlack">#000000</color>
+    <color name="ic_pin_default">#E8EAED</color>
+    <color name="ic_pin_on">#02C0FE</color>
+    <color name="ic_pin_error">#fe0a02</color>
 </resources>

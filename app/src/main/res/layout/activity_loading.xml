@@ -21,7 +21,7 @@
         android:layout_below="@+id/tv_loading"
         android:layout_marginTop="20dp">
 
-        <com.qlj.lakinqiandemo.animation.LeafLoadingView
+        <com.qlj.lakinqiandemo.views.animation.LeafLoadingView
             android:id="@+id/leaf_loading"
             android:layout_width="302dp"
             android:layout_height="61dp"

@@ -2,4 +2,13 @@
     <string name="app_name">LakinqianDemo</string>
 
     <string name="text_search_view">Search</string>
+    <string name="text_enter_current_pin">Enter current PIN</string>
+    <string name="text_enter_new_pin">Enter new PIN</string>
+    <string name="text_confirm_new_pin">Confirm new PIN</string>
+    <string name="text_enter_pin">Enter your PIN</string>
+    <string name="text_set_pin_password">Set your PIN</string>
+    <string name="text_find_pin">Forget PIN</string>
+    <string name="text_pin_need_4_digits">PIN must be 4 digits</string>
+    <string name="text_pin_not_match">PIN not match</string>
+    <string name="text_pin_error">Wrong PIN,please try again.</string>
 </resources>
