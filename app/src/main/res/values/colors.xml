@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="transparent">#00000000</color>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
@@ -7,4 +8,8 @@
     <color name="ic_pin_default">#E8EAED</color>
     <color name="ic_pin_on">#02C0FE</color>
     <color name="ic_pin_error">#fe0a02</color>
+
+    <color name="edit_line_normal_color">#2eaaaaaa</color>
+    <color name="edit_line_error_color">#2eff4d2a</color>
+    <color name="text_back_70">#B2000000</color>
 </resources>
