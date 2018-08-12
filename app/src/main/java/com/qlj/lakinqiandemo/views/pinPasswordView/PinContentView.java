@@ -101,30 +101,4 @@ public class PinContentView extends BaseContentView {
             v.layout(leftX, topY, rightX, bottomY);
         }
     }
-
-
-    @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        layoutChildren();
-    }
-
-    public void clearDrawlineState(long delayTime) {
-        drawView.clearDrawViewState(delayTime);
-    }
-
-    public boolean isDrawEnable() {
-        return drawView.isDrawEnable();
-    }
-
-    public void setDrawEnable(boolean drawEnable) {
-        drawView.setDrawEnable(drawEnable);
-    }
-
-    public String getPasswordSb() {
-        return drawView.getPassWordSb();
-    }
-
-    public void setPasswordSb(String str) {
-        drawView.setPassWordSb(new StringBuilder(str));
-    }
 }

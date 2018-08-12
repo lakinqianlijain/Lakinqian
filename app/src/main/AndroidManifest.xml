@@ -27,6 +27,7 @@
         <activity android:name=".views.animation.LoadingActivity" />
         <activity android:name="com.qlj.lakinqiandemo.contralayout.FirstActivity" />
         <activity android:name="com.qlj.lakinqiandemo.contralayout.SecondActivity" />
+        <activity android:name="com.qlj.lakinqiandemo.contralayout.ContralayoutActivity" />
         <activity android:name="com.qlj.lakinqiandemo.views.pinPasswordView.LockActivity" />
         <activity android:name="com.qlj.lakinqiandemo.views.pinPasswordView.PinEditActivity" />
         <activity android:name="com.qlj.lakinqiandemo.views.pinPasswordView.GestureEditActivity" />

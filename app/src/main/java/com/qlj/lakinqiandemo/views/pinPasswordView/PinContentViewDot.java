@@ -79,7 +79,7 @@ public class PinContentViewDot extends BaseDotView {
                         mTvTip.setText(getResources().getString(R.string.text_pin_need_4_digits));
                         return;
                     } else {
-                        mPinContentView.clearDrawlineState(RETENTION_TIME * 2);
+                        mPinContentView.clearDrawViewState(RETENTION_TIME * 2);
                     }
                 }
 
@@ -102,7 +102,7 @@ public class PinContentViewDot extends BaseDotView {
                 public void checkPinFail() {
                     inputErrorPin();
                     mTvTip.setText(R.string.text_pin_error);
-                    mPinContentView.clearDrawlineState(RETENTION_TIME * 2);
+                    mPinContentView.clearDrawViewState(RETENTION_TIME * 2);
                     mHandler.postDelayed(pinAgain, RETENTION_TIME * 2);
                     mPasswordCallback.onCheckFail();
                 }
@@ -124,7 +124,7 @@ public class PinContentViewDot extends BaseDotView {
                     } else {
                         mTvTip.setText(R.string.text_pin_not_match);
                         inputErrorPin();
-                        mPinContentView.clearDrawlineState(RETENTION_TIME * 2);
+                        mPinContentView.clearDrawViewState(RETENTION_TIME * 2);
                         mHandler.postDelayed(pinAgain, RETENTION_TIME * 2);
                     }
                 }
@@ -235,7 +235,7 @@ public class PinContentViewDot extends BaseDotView {
     public void clearCache() {
         clearPinTextView();
         if (mPinContentView != null) {
-            mPinContentView.clearDrawlineState(0);
+            mPinContentView.clearDrawViewState(0);
         }
     }
 }

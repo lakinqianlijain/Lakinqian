@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.os.Handler;
-import android.util.Log;
 import android.util.Pair;
 import android.view.MotionEvent;
 
@@ -102,7 +101,6 @@ public class GestureDrawView extends BaseDrawView {
                 invalidate();
                 break;
             case MotionEvent.ACTION_MOVE:
-                Log.e("6666", "onTouchEvent: move" );
                 //清楚痕迹
                 clearScreenAndDrawList(false);
                 //移动回调
@@ -131,19 +129,12 @@ public class GestureDrawView extends BaseDrawView {
                             currentPoint.getCenterY(), event.getX(), event.getY(),
                             paint));
                 } else {
-                    //最后一点标记为选中状态
-                    if (pointAt.equals(list.get(list.size() - 1))) {
-                        pointAt.setPointState(POINT_STATE_SELECTED, 0, 0);
-                        currentPoint.setSelected();
-                    }
-
                     //处理中间点情况
                     BasePoint betweenPoint = getBetweenCheckPoint(currentPoint,
                             pointAt);
                     if (betweenPoint != null
                             && POINT_STATE_SELECTED != betweenPoint
                             .getPointState()) {
-
                         // 存在中间点并且没有被选中
                         Pair<BasePoint, BasePoint> pair1 = new Pair<BasePoint, BasePoint>(
                                 currentPoint, betweenPoint);
@@ -173,20 +164,27 @@ public class GestureDrawView extends BaseDrawView {
                 setDrawEnable(false);
                 if (passWordSb.length() < DIGITAL_PASSWORD_LEN) {
                     callBack.onGestureCodeInput(passWordSb.toString());
+                    clearScreenAndDrawList(false);
+                    invalidate();
                     return true;
                 }
-                switch (type){
+                switch (type) {
                     case SET_PASSWORD:
                         callBack.setPinSuccess(passWordSb.toString());
                         break;
                     case ENTER_PASSWORD:
-                        if (passWord.equals(passWordSb.toString())){
+                        if (passWord.equals(passWordSb.toString())) {
                             callBack.checkPinSuccess();
                         } else {
                             callBack.checkPinFail();
                         }
                         break;
                 }
+                clearScreenAndDrawList(false);
+                if (currentPoint != null) {
+                    currentPoint.setPointState(POINT_STATE_NORMAL, 0, 0);
+                }
+                invalidate();
                 break;
 
             default:
@@ -249,68 +247,24 @@ public class GestureDrawView extends BaseDrawView {
         //清空画布内容
         drawLineInfoBeanArrayList.clear();
         for (int i = 0; i < lineList.size(); i++) {
-            int r = 0, x, y;
-            float d = 0;
-            x = lineList.get(i).second.getCenterX() - lineList.get(i).first.getCenterX();
-            y = lineList.get(i).second.getCenterY() - lineList.get(i).first.getCenterY();
-
-
-            if (y == 0 && x > 0) {
-                drawLineInfoBeanArrayList.add(new DrawLineInfoBean(lineList.get(i).first.getCenterX() + r,
-                        lineList.get(i).first.getCenterY(), lineList.get(i).second.getCenterX() - r,
-                        lineList.get(i).second.getCenterY(), paint));// 画线
-            } else if (y == 0 && x < 0) {
-                drawLineInfoBeanArrayList.add(new DrawLineInfoBean(lineList.get(i).first.getCenterX() - r,
-                        lineList.get(i).first.getCenterY(), lineList.get(i).second.getCenterX() + r,
-                        lineList.get(i).second.getCenterY(), paint));// 画线
-            } else if (x == 0 && y > 0) {
-                drawLineInfoBeanArrayList.add(new DrawLineInfoBean(lineList.get(i).first.getCenterX(),
-                        lineList.get(i).first.getCenterY() + r, lineList.get(i).second.getCenterX(),
-                        lineList.get(i).second.getCenterY() - r, paint));// 画线
-
-            } else if (x == 0 && y < 0) {
-                drawLineInfoBeanArrayList.add(new DrawLineInfoBean(lineList.get(i).first.getCenterX(),
-                        lineList.get(i).first.getCenterY() - r, lineList.get(i).second.getCenterX(),
-                        lineList.get(i).second.getCenterY() + r, paint));// 画线
-            } else if (x > 0 && y > 0) {
-
-                drawLineInfoBeanArrayList.add(new DrawLineInfoBean(lineList.get(i).first.getCenterX() + d,
-                        lineList.get(i).first.getCenterY() + d, lineList.get(i).second.getCenterX() - d,
-                        lineList.get(i).second.getCenterY() - d, paint));// 画线
-            } else if (x > 0 && y < 0) {
-
-                drawLineInfoBeanArrayList.add(new DrawLineInfoBean(lineList.get(i).first.getCenterX() + d,
-                        lineList.get(i).first.getCenterY() - d, lineList.get(i).second.getCenterX() - d,
-                        lineList.get(i).second.getCenterY() + d, paint));// 画线
-            } else if (x < 0 && y > 0) {
-
-                drawLineInfoBeanArrayList.add(new DrawLineInfoBean(lineList.get(i).first.getCenterX() - d,
-                        lineList.get(i).first.getCenterY() + d, lineList.get(i).second.getCenterX() + d,
-                        lineList.get(i).second.getCenterY() - d, paint));// 画线
-            } else if (x < 0 && y < 0) {
-
-                drawLineInfoBeanArrayList.add(new DrawLineInfoBean(lineList.get(i).first.getCenterX() - d,
-                        lineList.get(i).first.getCenterY() - d, lineList.get(i).second.getCenterX() + d,
-                        lineList.get(i).second.getCenterY() + d, paint));// 画线
-            }
+            drawLineInfoBeanArrayList.add(new DrawLineInfoBean(lineList.get(i).first.getCenterX(),
+                    lineList.get(i).first.getCenterY(), lineList.get(i).second.getCenterX(),
+                    lineList.get(i).second.getCenterY(), paint));// 画线
         }
-
         if (invalidate) {
             invalidate();
         }
     }
 
-    private void  drawErrorPathTip() {
+    private void drawErrorPathTip() {
         paint.setColor(getResources().getColor(R.color.edit_line_error_color));// 设置默认线路颜色
         if (lineList.size() == 0 && currentPoint != null) {
             currentPoint.setPointState(POINT_STATE_WRONG, 0, 0);
         }
         for (int i = 0; i < lineList.size(); i++) {
-            int r = 0, x, y;
-            float d = 0;
+            int x, y;
             x = lineList.get(i).second.getCenterX() - lineList.get(i).first.getCenterX();
             y = lineList.get(i).second.getCenterY() - lineList.get(i).first.getCenterY();
-
 
             if (i == lineList.size() - 1) {
                 lineList.get(i).second.setPointState(POINT_STATE_WRONG, 0, 0);
@@ -320,40 +274,9 @@ public class GestureDrawView extends BaseDrawView {
                 lineList.get(i).second.setPointState(POINT_STATE_WRONG, x, y);
             }
 
-            if (y == 0 && x > 0) {
-                drawLineInfoBeanArrayList.add(new DrawLineInfoBean(lineList.get(i).first.getCenterX() + r,
-                        lineList.get(i).first.getCenterY(), lineList.get(i).second.getCenterX() - r,
-                        lineList.get(i).second.getCenterY(), paint));// 画线
-            } else if (y == 0 && x < 0) {
-                drawLineInfoBeanArrayList.add(new DrawLineInfoBean(lineList.get(i).first.getCenterX() - r,
-                        lineList.get(i).first.getCenterY(), lineList.get(i).second.getCenterX() + r,
-                        lineList.get(i).second.getCenterY(), paint));// 画线
-            } else if (x == 0 && y > 0) {
-                drawLineInfoBeanArrayList.add(new DrawLineInfoBean(lineList.get(i).first.getCenterX(),
-                        lineList.get(i).first.getCenterY() + r, lineList.get(i).second.getCenterX(),
-                        lineList.get(i).second.getCenterY() - r, paint));// 画线
-
-            } else if (x == 0 && y < 0) {
-                drawLineInfoBeanArrayList.add(new DrawLineInfoBean(lineList.get(i).first.getCenterX(),
-                        lineList.get(i).first.getCenterY() - r, lineList.get(i).second.getCenterX(),
-                        lineList.get(i).second.getCenterY() + r, paint));// 画线
-            } else if (x > 0 && y > 0) {
-                drawLineInfoBeanArrayList.add(new DrawLineInfoBean(lineList.get(i).first.getCenterX() + d,
-                        lineList.get(i).first.getCenterY() + d, lineList.get(i).second.getCenterX() - d,
-                        lineList.get(i).second.getCenterY() - d, paint));// 画线
-            } else if (x > 0 && y < 0) {
-                drawLineInfoBeanArrayList.add(new DrawLineInfoBean(lineList.get(i).first.getCenterX() + d,
-                        lineList.get(i).first.getCenterY() - d, lineList.get(i).second.getCenterX() - d,
-                        lineList.get(i).second.getCenterY() + d, paint));// 画线
-            } else if (x < 0 && y > 0) {
-                drawLineInfoBeanArrayList.add(new DrawLineInfoBean(lineList.get(i).first.getCenterX() - d,
-                        lineList.get(i).first.getCenterY() + d, lineList.get(i).second.getCenterX() + d,
-                        lineList.get(i).second.getCenterY() - d, paint));// 画线
-            } else if (x < 0 && y < 0) {
-                drawLineInfoBeanArrayList.add(new DrawLineInfoBean(lineList.get(i).first.getCenterX() - d,
-                        lineList.get(i).first.getCenterY() - d, lineList.get(i).second.getCenterX() + d,
-                        lineList.get(i).second.getCenterY() + d, paint));// 画线
-            }
+            drawLineInfoBeanArrayList.add(new DrawLineInfoBean(lineList.get(i).first.getCenterX(),
+                    lineList.get(i).first.getCenterY(), lineList.get(i).second.getCenterX(),
+                    lineList.get(i).second.getCenterY(), paint));// 画线
         }
         invalidate();
     }

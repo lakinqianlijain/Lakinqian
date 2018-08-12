@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.qlj.lakinqiandemo.contralayout.ContralayoutActivity;
 import com.qlj.lakinqiandemo.views.animation.LoadingActivity;
 import com.qlj.lakinqiandemo.contralayout.SecondActivity;
 import com.qlj.lakinqiandemo.hook.HookActivity;
@@ -53,7 +54,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 JumpActivityUtil.JumpSelfActivity(this, LoadingActivity.class);
                 break;
             case R.id.contralayout:
-                JumpActivityUtil.JumpSelfActivity(this, SecondActivity.class);
+                JumpActivityUtil.JumpSelfActivity(this, ContralayoutActivity.class);
                 break;
             case R.id.lock_page:
                 JumpActivityUtil.JumpSelfActivity(this, LockActivity.class);

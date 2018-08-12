@@ -63,9 +63,9 @@ public class GestureContentViewDot extends BaseDotView {
                     public void onGestureCodeInput(String inputCode) {
                         if (!isInputPassValidate(inputCode)) {
                             // 至少连接4个点
-                            mTvTip.setText(getResources().getString(
-                                    R.string.draw_gesture_warning));
+                            mTvTip.setText(getResources().getString(R.string.draw_gesture_warning));
                             // 2秒后还原提示
+                            mHandler.postDelayed(clearGreenLine, RETENTION_TIME * 2);
                             mHandler.postDelayed(connect4Dot, RETENTION_TIME * 2);
                             return;
                         }
@@ -141,13 +141,6 @@ public class GestureContentViewDot extends BaseDotView {
     Runnable clearGreenLine = new Runnable() {
         public void run() {
             mGestureContentView.clearDrawViewState(10, false);
-        }
-    };
-
-    Runnable drawagain = new Runnable() {
-        public void run() {
-            mTvTip.setText(getResources().getString(
-                    R.string.drawguestureagain));
         }
     };
 
