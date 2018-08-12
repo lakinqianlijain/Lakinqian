@@ -6,10 +6,10 @@ import android.content.SharedPreferences.Editor;
 
 
 public class SharedPreferenceUtil {
-    public static final String VIDEO_CONFIG = "demo_config";
+    public static final String DEMO_CONFIG = "demo_config";
 
     public static final String PIN_PASSWORD = "pin_password";
-    public static final String PIN_EMAIL = "pin_email";
+    public static final String GESTURE_PASSWORD = "GESTURE_PASSWORD";
 
     public static boolean saveString(Context context, String fileName, String key, String value) {
         Editor editor = context.getSharedPreferences(fileName, Context.MODE_PRIVATE).edit();

@@ -4,6 +4,7 @@
     <string name="text_search_view">Search</string>
     <string name="text_enter_current_pin">Enter current PIN</string>
     <string name="text_enter_new_pin">Enter new PIN</string>
+    <string name="text_enter_pin_again">Enter PIN again</string>
     <string name="text_confirm_new_pin">Confirm new PIN</string>
     <string name="text_enter_pin">Enter your PIN</string>
     <string name="text_set_pin_password">Set your PIN</string>
@@ -18,4 +19,5 @@
     <string name="release_hande_when_finish">Release finger when done</string>
     <string name="set_gesture_pattern">Draw an unlock pattern</string>
     <string name="drawguestureagain">Draw pattern again to confirm</string>
+    <string name="text_title_lock">lock page</string>
 </resources>

@@ -13,7 +13,7 @@ import com.qlj.lakinqiandemo.R;
  * Created by lakinqian on 2018/8/10.
  */
 
-public class GestureEditViewDot extends BasePasswordView {
+public class GestureContentViewDot extends BaseDotView {
 
     private BaseContentView mGestureContentView;
 
@@ -24,15 +24,15 @@ public class GestureEditViewDot extends BasePasswordView {
 
     Handler mHandler = new Handler();
 
-    public GestureEditViewDot(Context context) {
+    public GestureContentViewDot(Context context) {
         super(context);
     }
 
-    public GestureEditViewDot(Context context, AttributeSet attrs) {
+    public GestureContentViewDot(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public GestureEditViewDot(Context context, AttributeSet attrs, int defStyleAttr) {
+    public GestureContentViewDot(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -41,13 +41,13 @@ public class GestureEditViewDot extends BasePasswordView {
         inflate(getContext(), R.layout.gesture_container_view,this);
         findViews();
         initDatas();
-        mGestureContentView = new GestureEditContentView(getContext(), false, "",
-                new BaseDrawline.DrawlineCallBack() {
+        mGestureContentView = new GestureContentView(getContext(), false, "",
+                new BaseDrawView.DrawlineCallBack() {
 
                     @Override
                     public void onGestureCodeInput(String inputCode) {
 
-                        if (mIsFirstInput) { // 第一次输入手势密码
+                        if (mIsFirstInput) {
                             if (!isInputPassValidate(inputCode)) {
                                 // 至少连接4个点
                                 mTvTip.setText(getResources().getString(
@@ -138,8 +138,8 @@ public class GestureEditViewDot extends BasePasswordView {
     }
 
     private void findViews() {
-        mTvTip = (TextView) findViewById(R.id.tv_edit_texttip);
-        mContainerView = (RelativeLayout) findViewById(R.id.rl_container_view);
+        mTvTip = findViewById(R.id.tv_edit_texttip);
+        mContainerView = findViewById(R.id.rl_container_view);
     }
 
     private void initDatas() {

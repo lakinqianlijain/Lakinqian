@@ -11,23 +11,26 @@ import android.widget.TextView;
  * Created by lakinqian on 2018/8/10.
  */
 
-public abstract class BasePasswordView extends FrameLayout {
+public abstract class BaseDotView extends FrameLayout {
 
     public static final long RETENTION_TIME = 500;//轨迹线的驻留时间
+    private String mType;
 
-    public BasePasswordView(Context context) {
+    public BaseDotView(Context context) {
         super(context);
-        initView(context);
     }
 
-    public BasePasswordView(Context context, AttributeSet attrs) {
+    public BaseDotView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initView(context);
     }
 
-    public BasePasswordView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public BaseDotView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+
+    public void init(Context context, String type){
         initView(context);
+        mType = type;
     }
 
     public abstract void initView(Context context);

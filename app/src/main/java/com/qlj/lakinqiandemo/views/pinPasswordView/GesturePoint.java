@@ -15,12 +15,12 @@ import java.util.List;
  * Created by lakinqian on 2018/8/10.
  */
 
-public class GesturePointEdit extends BasePoint {
+public class GesturePoint extends BasePoint {
 
 	public List<Integer> selectedPoint=new ArrayList<>();
 	private Animation mAnimation;
 
-	public GesturePointEdit(Context context, int leftX, int rightX, int topY, int bottomY, ImageView image, int num) {
+	public GesturePoint(Context context, int leftX, int rightX, int topY, int bottomY, ImageView image, int num) {
 		super(context, leftX, rightX, topY, bottomY, image, num);
 	}
 

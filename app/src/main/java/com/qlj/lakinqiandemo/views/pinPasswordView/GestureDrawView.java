@@ -28,20 +28,17 @@ import static com.qlj.lakinqiandemo.views.pinPasswordView.PinPoint.POINT_STATE_W
  * 手势密码路径绘制
  * 
  */
-public class GestureDrawlineEdit extends BaseDrawline {
+public class GestureDrawView extends BaseDrawView {
 
 	private Paint paint;// 声明画笔
 	private List<Pair<BasePoint, BasePoint>> lineList;// 记录画过的线
 	private Map<String, BasePoint> autoCheckPointMap;// 自动选中的情况点
 	private List<Integer> selectedPoint=new ArrayList<>();
 
-	public GestureDrawlineEdit(Context context, List<BasePoint> list,
-                               boolean isVerify, String passWord, DrawlineCallBack callBack) {
+	public GestureDrawView(Context context, List<BasePoint> list,
+						   boolean isVerify, String passWord, DrawlineCallBack callBack) {
 		super(context,list,isVerify,passWord,callBack);
-		//设置画笔参数
 		initPaint();
-
-		//画过的线集合
 		this.lineList = new ArrayList<Pair<BasePoint, BasePoint>>();
 		initAutoCheckPointMap();
 	}
@@ -80,16 +77,13 @@ public class GestureDrawlineEdit extends BaseDrawline {
 	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-//		Log.d(TAG, "onTouchEvent: isDrawEnable="+isDrawEnable);
 		if (isDrawEnable() == false) {
-//			return true;
 			return false;
 		}
 		// 设置默认连线颜色
 		paint.setColor(getResources().getColor(R.color.edit_line_normal_color));
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
-//			Log.d(TAG, "onTouchEvent: MotionEvent.ACTION_DOWN");
 			mov_x = (int) event.getX();
 			mov_y = (int) event.getY();
 			/**获取按下的点位*/

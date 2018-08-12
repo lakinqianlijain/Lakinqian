@@ -10,9 +10,10 @@ import com.qlj.lakinqiandemo.hook.HookActivity;
 import com.qlj.lakinqiandemo.mvp.login.view.LoginActivity;
 import com.qlj.lakinqiandemo.reflection.ReflectionActivity;
 import com.qlj.lakinqiandemo.utils.JumpActivityUtil;
+import com.qlj.lakinqiandemo.views.pinPasswordView.LockActivity;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
-    Button mReflection, mHOOK, mMVP, mAnimation, mContralayout;
+    Button mReflection, mHOOK, mMVP, mAnimation, mContralayout, mLockPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mAnimation.setOnClickListener(this);
         mContralayout = findViewById(R.id.contralayout);
         mContralayout.setOnClickListener(this);
+        mLockPage = findViewById(R.id.lock_page);
+        mLockPage.setOnClickListener(this);
     }
 
     @Override
@@ -52,6 +55,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.contralayout:
                 JumpActivityUtil.JumpSelfActivity(this, SecondActivity.class);
                 break;
+            case R.id.lock_page:
+                JumpActivityUtil.JumpSelfActivity(this, LockActivity.class);
         }
     }
 }

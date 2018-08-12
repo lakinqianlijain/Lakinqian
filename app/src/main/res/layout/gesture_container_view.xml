@@ -8,18 +8,19 @@
         android:id="@+id/tv_edit_texttip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:gravity="center_horizontal"
         android:text="@string/set_gesture_pattern"
         android:textColor="#ffffff"
-        android:gravity="center_horizontal"
-        android:textSize="16sp"
-        android:layout_marginTop="60dp"/>
+        android:textSize="16sp" />
 
     <RelativeLayout
         android:id="@+id/rl_container_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="60dp">
+        android:layout_marginTop="60dp"
+        android:gravity="center_horizontal">
+
     </RelativeLayout>
 
 </LinearLayout>

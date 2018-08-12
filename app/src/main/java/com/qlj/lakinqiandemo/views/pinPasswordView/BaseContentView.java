@@ -26,11 +26,11 @@ public abstract class BaseContentView extends ViewGroup {
 	 */
 	public List<BasePoint> listBackGround,listDigital;
 	public Context context;
-	public BaseDrawline drawline;
+	public BaseDrawView drawline;
 	public int dx,dy;//内容图片相对于背景图片的偏移量
 	public boolean isVerify;
 	public String passWord;
-	public BaseDrawline.DrawlineCallBack callback;
+	public BaseDrawView.DrawlineCallBack callback;
 
 	/**
 	 * ImageView的容器，初始化
@@ -39,7 +39,7 @@ public abstract class BaseContentView extends ViewGroup {
 	 * @param passWord 用户传入的密码
 	 * @param callBack 密码输入完毕的回调
 	 */
-	public BaseContentView(Context context, boolean isVerify, String passWord, BaseDrawline.DrawlineCallBack callBack) {
+	public BaseContentView(Context context, boolean isVerify, String passWord, BaseDrawView.DrawlineCallBack callBack) {
 		super(context);
 		initData(context,isVerify,passWord,callBack);
 		//初始化背景
@@ -51,7 +51,7 @@ public abstract class BaseContentView extends ViewGroup {
 //		setBackgroundColor(context.getResources().getColor(R.color.white));
 	}
 
-	private void initData(Context context, boolean isVerify, String passWord, BaseDrawline.DrawlineCallBack callBack) {
+	private void initData(Context context, boolean isVerify, String passWord, BaseDrawView.DrawlineCallBack callBack) {
 		this.context = context;
 		this.isVerify=isVerify;
 		this.passWord=passWord;
@@ -111,7 +111,7 @@ public abstract class BaseContentView extends ViewGroup {
 		drawline.setPassWord(pinPassword);
 	}
 
-	public abstract BaseDrawline createDrawlineView();
+	public abstract BaseDrawView createDrawlineView();
 
 	public abstract void initSize();
 

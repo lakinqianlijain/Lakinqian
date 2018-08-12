@@ -1,7 +1,6 @@
 package com.qlj.lakinqiandemo.views.pinPasswordView;
 
 import android.content.Context;
-import android.graphics.Paint;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -18,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.qlj.lakinqiandemo.utils.SharedPreferenceUtil.PIN_PASSWORD;
-import static com.qlj.lakinqiandemo.utils.SharedPreferenceUtil.VIDEO_CONFIG;
+import static com.qlj.lakinqiandemo.utils.SharedPreferenceUtil.DEMO_CONFIG;
 
 
 /**
@@ -35,7 +34,7 @@ public class PinContentViewDot extends FrameLayout {
     private Context mContext;
     private String mType;
     private ImageView mPin_1, mPin_2, mPin_3, mPin_4;
-    public TextView mTvTip, mFindPin;
+    public TextView mTvTip;
     public RelativeLayout mContainerView;
 
     // 第一次输入的密码
@@ -90,7 +89,7 @@ public class PinContentViewDot extends FrameLayout {
     }
 
     public void initData() {
-        mPassword = SharedPreferenceUtil.readString(mContext, VIDEO_CONFIG, PIN_PASSWORD, "");
+        mPassword = SharedPreferenceUtil.readString(mContext, DEMO_CONFIG, PIN_PASSWORD, "");
         if (mType.equals(SET_PIN)) {
             mTvTip.setText(getResources().getString(R.string.text_set_pin_password));
         } else if (mType.equals(MODIFY_PIN)) {
@@ -127,13 +126,6 @@ public class PinContentViewDot extends FrameLayout {
                     mPinContentView.clearDrawlineState(RETENTION_TIME * 2);
                     mHandler.postDelayed(pinAgain, RETENTION_TIME * 2);
                     mPasswordCallback.onCheckFail();
-                    if (!mCheckPinFailTwice) {
-                        mCheckPinFailTwice = true;
-                    } else {
-                        mFindPin.setVisibility(VISIBLE);
-                        mFindPin.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-                        mFindPin.getPaint().setAntiAlias(true);
-                    }
                 }
 
                 @Override
@@ -160,7 +152,19 @@ public class PinContentViewDot extends FrameLayout {
 
                 @Override
                 public void setPinSuccess(String password) {
-                    mPasswordCallback.setPinSuccess(password);
+                    if (mIsFirstInput && mType.equals(SET_PIN)) {
+                        mFirstPassword = password;
+                        mIsFirstInput = false;
+                        clearCache();
+                        mTvTip.setText(getResources().getString(R.string.text_enter_pin_again));
+                    } else {
+                        if (!mFirstPassword.equals(password)) {
+                            mTvTip.setText(getResources().getString(R.string.text_pin_not_match));
+                            clearCache();
+                        } else {
+                            mPasswordCallback.setPinSuccess(password);
+                        }
+                    }
                 }
 
                 @Override
@@ -214,15 +218,6 @@ public class PinContentViewDot extends FrameLayout {
 
     private void findView() {
         mTvTip = findViewById(R.id.tv_edit_tip);
-        mFindPin = findViewById(R.id.tv_find_pin);
-        mFindPin.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mPasswordCallback != null) {
-                    mPasswordCallback.findPassword();
-                }
-            }
-        });
         mPin_1 = findViewById(R.id.pin_1);
         mPin_2 = findViewById(R.id.pin_2);
         mPin_3 = findViewById(R.id.pin_3);

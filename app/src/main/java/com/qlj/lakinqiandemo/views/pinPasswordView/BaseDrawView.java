@@ -18,7 +18,7 @@ import java.util.List;
  * 密码路径绘制
  * 
  */
-public class BaseDrawline extends View {
+public class BaseDrawView extends View {
 
 	public int mov_x;// 声明起点坐标
 	public int mov_y;
@@ -32,7 +32,7 @@ public class BaseDrawline extends View {
 	private int[] screenDispaly;
 
 	public BasePoint currentPoint;
-	public BaseDrawline.DrawlineCallBack callBack;
+	public BaseDrawView.DrawlineCallBack callBack;
 	public StringBuilder passWordSb;
 	public boolean isVerify;
 	public String passWord;
@@ -40,8 +40,8 @@ public class BaseDrawline extends View {
 	protected ArrayList<DrawLineInfoBean> drawLineInfoBeanArrayList;
 	Canvas canvas = new Canvas();
 
-	public BaseDrawline(Context context, List<BasePoint> list,
-                        boolean isVerify, String passWord, BaseDrawline.DrawlineCallBack callBack) {
+	public BaseDrawView(Context context, List<BasePoint> list,
+						boolean isVerify, String passWord, BaseDrawView.DrawlineCallBack callBack) {
 		super(context);
 		//屏幕参数
 		screenDispaly = DensityUtil.getScreenDispaly(context);

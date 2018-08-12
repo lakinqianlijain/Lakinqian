@@ -14,26 +14,28 @@
             android:id="@+id/reflection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="反射"
-            />
+            android:text="反射" />
+
         <Button
             android:id="@+id/hook"
-            android:layout_toRightOf="@+id/reflection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="HOOK"/>
+            android:layout_toRightOf="@+id/reflection"
+            android:text="HOOK" />
+
         <Button
             android:id="@+id/mvp"
-            android:layout_toRightOf="@+id/hook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="MVP"/>
+            android:layout_toRightOf="@+id/hook"
+            android:text="MVP" />
+
         <Button
             android:id="@+id/animation"
-            android:layout_toRightOf="@+id/mvp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ANIMATION"/>
+            android:layout_toRightOf="@+id/mvp"
+            android:text="ANIMATION" />
 
 
     </RelativeLayout>
@@ -48,8 +50,14 @@
             android:id="@+id/contralayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="contralayout"
-            />
+            android:text="contralayout" />
+
+        <Button
+            android:id="@+id/lock_page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LockPage"
+            android:layout_toRightOf="@+id/contralayout"/>
     </RelativeLayout>
 
 </RelativeLayout>

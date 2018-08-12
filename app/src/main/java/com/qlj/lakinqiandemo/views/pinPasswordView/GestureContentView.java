@@ -16,19 +16,19 @@ import com.qlj.lakinqiandemo.utils.DensityUtil;
  * 手势密码容器类
  *
  */
-public class GestureEditContentView extends BaseContentView {
+public class GestureContentView extends BaseContentView {
 
 	private final int blockWidthDP=60;//圆圈的直径dp值
 	private final int spacingDPHorizontal=40;//圆圈之间的水平距离dp值
 	private final int spacingDPVertical=40;//圆圈之间的竖直距离dp值
 
-	public GestureEditContentView(Context context, boolean isVerify, String passWord, BaseDrawline.DrawlineCallBack callBack) {
+	public GestureContentView(Context context, boolean isVerify, String passWord, BaseDrawView.DrawlineCallBack callBack) {
 		super(context, isVerify, passWord, callBack);
 	}
 
 	@Override
-	public BaseDrawline createDrawlineView() {
-		return new GestureDrawlineEdit(context, listDigital, isVerify,passWord, callback);
+	public BaseDrawView createDrawlineView() {
+		return new GestureDrawView(context, listDigital, isVerify,passWord, callback);
 	}
 
 	@Override
@@ -61,7 +61,7 @@ public class GestureEditContentView extends BaseContentView {
 			int bottomY = topY + blockWidth;
 
 			//圆圈之间线的位置
-			BasePoint p = new GesturePointEdit(context,leftX, rightX, topY, bottomY, image,i+1);
+			BasePoint p = new GesturePoint(context,leftX, rightX, topY, bottomY, image,i+1);
 			this.listDigital.add(p);
 		}
 	}
