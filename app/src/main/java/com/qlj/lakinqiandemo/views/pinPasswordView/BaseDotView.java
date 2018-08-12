@@ -12,9 +12,23 @@ import android.widget.TextView;
  */
 
 public abstract class BaseDotView extends FrameLayout {
+    public static final String SET_PASSWORD = "set_password";
+    public static final String MODIFY_PASSWORD = "modify_password";
+    public static final String ENTER_PASSWORD = "enter_password";
 
     public static final long RETENTION_TIME = 500;//轨迹线的驻留时间
-    private String mType;
+    protected Context mContext;
+    protected String mType;
+    public TextView mTvTip;
+    public RelativeLayout mContainerView;
+    protected String mPassword;
+
+    // 第一次输入的密码
+    protected String mFirstPassword = null;
+    // 是不是第一次输入
+    protected boolean mIsFirstInput = true;
+
+    public PasswordCallback mPasswordCallback;
 
     public BaseDotView(Context context) {
         super(context);
@@ -28,24 +42,19 @@ public abstract class BaseDotView extends FrameLayout {
         super(context, attrs, defStyleAttr);
     }
 
-    public void init(Context context, String type){
-        initView(context);
+    public void init(Context context, String type) {
+        mContext = context;
         mType = type;
+        initView(context);
     }
 
     public abstract void initView(Context context);
 
-    public TextView mTvTip;
-    public RelativeLayout mContainerView;
-    public SQLiteDatabase database;
-
-    //输入结果的回调
-    public PasswordCallback mPasswordCallback;
-    public void setPasswordCallback(PasswordCallback mPasswordCallback){
-        this.mPasswordCallback=mPasswordCallback;
+    public void setPasswordCallback(PasswordCallback mPasswordCallback) {
+        this.mPasswordCallback = mPasswordCallback;
     }
 
-    public void clearTip(){
+    public void clearTip() {
         mTvTip.setText("");
     }
 }

@@ -13,6 +13,9 @@
     <string name="text_pin_not_match">PIN not match</string>
     <string name="text_pin_error">Wrong PIN,please try again.</string>
     <string name="draw_gesture_warning">Connect at least 4 dots</string>
+    <string name="text_set_gesture_password">Set your gesture</string>
+    <string name="text_enter_gesture">Enter your gesture</string>
+    <string name="text_gesture_not_match">Gesture not match</string>
     <string name="gesture_record">Pattern recorded</string>
     <string name="your_gesture_code">Your new pattern is set</string>
     <string name="draw_again">&quot;Doesn't match&quot;</string>

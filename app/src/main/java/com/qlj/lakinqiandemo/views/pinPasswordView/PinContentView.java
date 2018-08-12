@@ -10,51 +10,30 @@ import android.widget.TextView;
 import com.qlj.lakinqiandemo.R;
 import com.qlj.lakinqiandemo.utils.DensityUtil;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by lakinqian on 2018/7/25.
  */
 
-public class PinContentView extends ViewGroup {
+public class PinContentView extends BaseContentView {
 
-    /**
-     * 声明一个集合用来封装坐标集合
-     */
-    public List<PinPoint> listDigital;
-    public Context context;
-    public PinDrawView drawView;
-    public String passWord;
-    private String mType;
-    public PinDrawView.IPassWordCallBack callback;
-
-    private int blockWidth;
-    private int blockHigh;
-
-    public PinContentView(Context context, String type, String passWord, PinDrawView.IPassWordCallBack callBack) {
-        super(context);
-        initData(context, type, passWord, callBack);
-        addChild();
-        // 初始化一个点击的view
-        drawView = createDrawLineView();
+    public PinContentView(Context context, String type, String passWord, BaseDrawView.IPassWordCallBack callBack) {
+        super(context, type, passWord, callBack);
     }
 
-    private void initData(Context context, String type, String passWord, PinDrawView.IPassWordCallBack callBack) {
-        this.context = context;
-        this.mType = type;
-        this.passWord = passWord;
-        this.callback = callBack;
-        this.listDigital = new ArrayList<>();
-        initSize();
-    }
-
-    private void initSize() {
+    @Override
+    public void initSize() {
         blockWidth = DensityUtil.getScreenDispaly(context)[0] / 3;
         blockHigh = DensityUtil.dip2px(context, 70);
     }
 
-    private void addChild() {
+
+    @Override
+    public void initBackGround() {
+
+    }
+
+    @Override
+    public void addChild() {
         TextView text = null;
         ImageView image = null;
         for (int i = 0; i < 12; i++) {
@@ -98,7 +77,8 @@ public class PinContentView extends ViewGroup {
         }
     }
 
-    public PinDrawView createDrawLineView() {
+    @Override
+    public BaseDrawView createDrawView() {
         return new PinDrawView(context, listDigital, mType, passWord, callback);
     }
 
@@ -113,7 +93,7 @@ public class PinContentView extends ViewGroup {
         int k = 0;
         for (int i = 0; i < listDigital.size(); i++) {
             View v = getChildAt(k++);
-            PinPoint pinPoint = listDigital.get(i);
+            BasePoint pinPoint = listDigital.get(i);
             int leftX = pinPoint.getLeftX();
             int topY = pinPoint.getTopY();
             int rightX = pinPoint.getRightX();
@@ -129,7 +109,7 @@ public class PinContentView extends ViewGroup {
     }
 
     public void clearDrawlineState(long delayTime) {
-        drawView.clearDrawlineState(delayTime);
+        drawView.clearDrawViewState(delayTime);
     }
 
     public boolean isDrawEnable() {

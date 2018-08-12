@@ -5,10 +5,7 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.qlj.lakinqiandemo.R;
 import com.qlj.lakinqiandemo.utils.SharedPreferenceUtil;
@@ -16,43 +13,25 @@ import com.qlj.lakinqiandemo.utils.SharedPreferenceUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.qlj.lakinqiandemo.utils.SharedPreferenceUtil.PIN_PASSWORD;
 import static com.qlj.lakinqiandemo.utils.SharedPreferenceUtil.DEMO_CONFIG;
+import static com.qlj.lakinqiandemo.utils.SharedPreferenceUtil.PIN_PASSWORD;
 
 
 /**
  * Created by lakinqian on 2018/7/25.
  */
 
-public class PinContentViewDot extends FrameLayout {
-    public static final long RETENTION_TIME = 500;//轨迹线的驻留时间
-
-    public static final String SET_PIN = "set_pin";
-    public static final String MODIFY_PIN = "modify_pin";
-    public static final String ENTER_PIN = "enter_pin";
-
-    private Context mContext;
-    private String mType;
+public class PinContentViewDot extends BaseDotView {
     private ImageView mPin_1, mPin_2, mPin_3, mPin_4;
-    public TextView mTvTip;
-    public RelativeLayout mContainerView;
-
-    // 第一次输入的密码
-    private String mFirstPassword = null;
-    // 是不是第一次输入
-    private boolean mIsFirstInput = true;
-
     //四个数字密码
     List<ImageView> ivList = new ArrayList<>();
     private PinContentView mPinContentView;
     public PasswordCallback mPasswordCallback;
-    private String mPassword;
-    private boolean mCheckPinFailTwice = false;
     Handler mHandler = new Handler();
 
     Runnable pinAgain = new Runnable() {
         public void run() {
-            if (mType.equals(MODIFY_PIN)) {
+            if (mType.equals(MODIFY_PASSWORD)) {
                 mTvTip.setText(R.string.text_enter_current_pin);
                 clearPinTextView();
             } else {
@@ -76,13 +55,8 @@ public class PinContentViewDot extends FrameLayout {
         super(context, attrs, defStyleAttr);
     }
 
-    public void init(Context context, String type) {
-        this.mContext = context;
-        this.mType = type;
-        initView();
-    }
-
-    private void initView() {
+    @Override
+    public void initView(Context context) {
         inflate(mContext, R.layout.pin_content_view_dot, this);
         findView();
         initData();
@@ -90,15 +64,15 @@ public class PinContentViewDot extends FrameLayout {
 
     public void initData() {
         mPassword = SharedPreferenceUtil.readString(mContext, DEMO_CONFIG, PIN_PASSWORD, "");
-        if (mType.equals(SET_PIN)) {
+        if (mType.equals(SET_PASSWORD)) {
             mTvTip.setText(getResources().getString(R.string.text_set_pin_password));
-        } else if (mType.equals(MODIFY_PIN)) {
+        } else if (mType.equals(MODIFY_PASSWORD)) {
             mTvTip.setText(getResources().getString(R.string.text_enter_current_pin));
         } else {
             mTvTip.setText(getResources().getString(R.string.text_enter_pin));
         }
         if (mPinContentView == null) {
-            mPinContentView = new PinContentView(mContext, mType, mPassword, new PinDrawView.IPassWordCallBack() {
+            mPinContentView = new PinContentView(mContext, mType, mPassword, new BaseDrawView.IPassWordCallBack() {
                 @Override
                 public void onGestureCodeInput(String inputCode) {
                     if (!isInputPassValidate(inputCode)) {
@@ -110,8 +84,13 @@ public class PinContentViewDot extends FrameLayout {
                 }
 
                 @Override
+                public void onGestureLineMove() {
+
+                }
+
+                @Override
                 public void checkPinSuccess() {
-                    if (mType.equals(MODIFY_PIN)) {
+                    if (mType.equals(MODIFY_PASSWORD)) {
                         mTvTip.setText(R.string.text_enter_new_pin);
                         clearCache();
                     } else {
@@ -152,7 +131,7 @@ public class PinContentViewDot extends FrameLayout {
 
                 @Override
                 public void setPinSuccess(String password) {
-                    if (mIsFirstInput && mType.equals(SET_PIN)) {
+                    if (mIsFirstInput && mType.equals(SET_PASSWORD)) {
                         mFirstPassword = password;
                         mIsFirstInput = false;
                         clearCache();

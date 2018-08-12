@@ -12,118 +12,110 @@ import java.util.List;
 
 /**
  * 密码容器类
- *
  */
 public abstract class BaseContentView extends ViewGroup {
 
-	public int blockWidth;
-	public int spacingHorizontal,spacingVertical;
-	public int backgroudWidth;
-	public int backgroudSpaceHorizontal,backgroudSpaceVertical;
+    /**
+     * 声明一个集合用来封装坐标集合
+     */
+    public List<BasePoint> listDigital, listBackGround;
+    public Context context;
+    public BaseDrawView drawView;
+    public String passWord;
+    public String mType;
+    public BaseDrawView.IPassWordCallBack callback;
+    public int blockWidth;
+    public int blockHigh;
 
-	/**
-	 * 声明一个集合用来封装坐标集合
-	 */
-	public List<BasePoint> listBackGround,listDigital;
-	public Context context;
-	public BaseDrawView drawline;
-	public int dx,dy;//内容图片相对于背景图片的偏移量
-	public boolean isVerify;
-	public String passWord;
-	public BaseDrawView.DrawlineCallBack callback;
+    public int spacingHorizontal, spacingVertical;
+    public int backgroudWidth;
+    public int backgroudSpaceHorizontal, backgroudSpaceVertical;
 
-	/**
-	 * ImageView的容器，初始化
-	 * @param context
-	 * @param isVerify 是否为校验密码
-	 * @param passWord 用户传入的密码
-	 * @param callBack 密码输入完毕的回调
-	 */
-	public BaseContentView(Context context, boolean isVerify, String passWord, BaseDrawView.DrawlineCallBack callBack) {
-		super(context);
-		initData(context,isVerify,passWord,callBack);
-		//初始化背景
-		initBackGround();
-		// 添加内容图标
-		addChild();
-		// 初始化一个可以画线的view
-		drawline = createDrawlineView();
-//		setBackgroundColor(context.getResources().getColor(R.color.white));
-	}
 
-	private void initData(Context context, boolean isVerify, String passWord, BaseDrawView.DrawlineCallBack callBack) {
-		this.context = context;
-		this.isVerify=isVerify;
-		this.passWord=passWord;
-		this.callback=callBack;
-		this.listBackGround = new ArrayList<>();
-		this.listDigital =new ArrayList<>();
-		initSize();
-	}
+    /**
+     * ImageView的容器，初始化
+     *
+     * @param context
+     * @param type 进入页面类型 设置密码或者验证密码
+     * @param passWord 用户传入的密码
+     * @param callBack 密码输入完毕的回调
+     */
+    public BaseContentView(Context context, String type, String passWord, BaseDrawView.IPassWordCallBack callBack) {
+        super(context);
+        initData(context, type, passWord, callBack);
+        //初始化背景
+        initBackGround();
+        // 添加内容图标
+        addChild();
+        // 初始化一个可以画线的view
+        drawView = createDrawView();
+    }
 
-	public void setParentView(ViewGroup parent, int width, int height){
-		 //得到屏幕的宽度
-		LayoutParams layoutParams = new LayoutParams(width, height);
-//		parent.addView(this);
-		parent.addView(drawline,layoutParams);
-		parent.addView(this,layoutParams);
-	}
+    private void initData(Context context, String type, String passWord, BaseDrawView.IPassWordCallBack callBack) {
+        this.context = context;
+        this.mType = type;
+        this.passWord = passWord;
+        this.callback = callBack;
+        this.listBackGround = new ArrayList<>();
+        this.listDigital = new ArrayList<>();
+        initSize();
+    }
 
-	@Override
-	protected void onLayout(boolean changed, int l, int t, int r, int b) {
-		layoutChildren();
-	}
+    public void setParentView(ViewGroup parent, int width, int height) {
+        //得到屏幕的宽度
+        LayoutParams layoutParams = new LayoutParams(width, height);
+        parent.addView(drawView, layoutParams);
+        parent.addView(this, layoutParams);
+    }
 
-	@Override
-	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-	}
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        layoutChildren();
+    }
 
-	/**
-	 * 保留路径delayTime时间长
-	 * @param delayTime
-	 */
-	public void clearDrawlineState(long delayTime) {
-		drawline.clearDrawlineState(delayTime);
-	}
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
 
-	public void clearDrawlineState(long delayTime,boolean drawErrorPath) {
-		drawline.clearDrawlineState(delayTime,drawErrorPath);
-	}
+    /**
+     * 保留路径delayTime时间长
+     *
+     * @param delayTime
+     */
+    public void clearDrawViewState(long delayTime) {
+        drawView.clearDrawViewState(delayTime);
+    }
 
-	public String getPasswordSb(){
-		return drawline.getPassWordSb();
-	}
+    public void clearDrawViewState(long delayTime, boolean drawErrorPath) {
+        drawView.clearDrawViewState(delayTime, drawErrorPath);
+    }
 
-	public void setPasswordSb(String str){
-		drawline.setPassWordSb(new StringBuilder(str));
-	}
+    public String getPasswordSb() {
+        return drawView.getPassWordSb();
+    }
 
-	public boolean isDrawEnable() {
-		return drawline.isDrawEnable();
-	}
+    public void setPasswordSb(String str) {
+        drawView.setPassWordSb(new StringBuilder(str));
+    }
 
-	public void setDrawEnable(boolean drawEnable) {
-		drawline.setDrawEnable(drawEnable);
-	}
+    public boolean isDrawEnable() {
+        return drawView.isDrawEnable();
+    }
 
-	public void updatePassword(String pinPassword) {
-		drawline.setPassWord(pinPassword);
-	}
+    public void setDrawEnable(boolean drawEnable) {
+        drawView.setDrawEnable(drawEnable);
+    }
 
-	public abstract BaseDrawView createDrawlineView();
+    public abstract BaseDrawView createDrawView();
 
-	public abstract void initSize();
+    public abstract void initSize();
 
-	public abstract void initBackGround();
+    public abstract void initBackGround();
 
-	public abstract void addChild();
+    public abstract void addChild();
 
-	public abstract void setParentView(ViewGroup parent);
+    public abstract void setParentView(ViewGroup parent);
 
-	public abstract void layoutChildren();
-
-	public abstract void setDisableImageView();
-
-	public abstract void setAvailableImageView();
+    public abstract void layoutChildren();
 }

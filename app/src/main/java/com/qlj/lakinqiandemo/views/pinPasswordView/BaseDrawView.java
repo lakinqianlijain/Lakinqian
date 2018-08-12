@@ -3,6 +3,7 @@ package com.qlj.lakinqiandemo.views.pinPasswordView;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 
 import com.qlj.lakinqiandemo.utils.DensityUtil;
@@ -22,38 +23,24 @@ public class BaseDrawView extends View {
 
 	public int mov_x;// 声明起点坐标
 	public int mov_y;
-
 	public List<BasePoint> list;
-
-	private boolean isDrawEnable = true; // 是否允许绘制
-	/**
-	 * 屏幕的宽度和高度
-	 */
-	private int[] screenDispaly;
-
+	public boolean isDrawEnable = true; // 是否允许绘制
 	public BasePoint currentPoint;
-	public BaseDrawView.DrawlineCallBack callBack;
+	public BaseDrawView.IPassWordCallBack callBack;
 	public StringBuilder passWordSb;
-	public boolean isVerify;
+	public String type;
 	public String passWord;
 	public final int DIGITAL_PASSWORD_LEN=4;
 	protected ArrayList<DrawLineInfoBean> drawLineInfoBeanArrayList;
 	Canvas canvas = new Canvas();
 
 	public BaseDrawView(Context context, List<BasePoint> list,
-						boolean isVerify, String passWord, BaseDrawView.DrawlineCallBack callBack) {
+						String type, String passWord, BaseDrawView.IPassWordCallBack callBack) {
 		super(context);
-		//屏幕参数
-		screenDispaly = DensityUtil.getScreenDispaly(context);
-
-		//点的集合
 		this.list = list;
-
 		this.callBack = callBack;
-		
-		this.isVerify = isVerify;
+		this.type = type;
 		this.passWord = passWord;
-		//密码集
 		this.passWordSb = new StringBuilder();
 		drawLineInfoBeanArrayList = new ArrayList<>();
 	}
@@ -61,12 +48,10 @@ public class BaseDrawView extends View {
 	/**将位图绘制到画布上*/
 	@Override
 	protected void onDraw(Canvas canvas) {
-//		canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-
 		for(DrawLineInfoBean bean:drawLineInfoBeanArrayList){
 			canvas.drawLine(bean.startX,bean.startY,bean.endX,bean.endY,bean.mPaint);
 		}
-		//super.onDraw(canvas);
+		super.onDraw(canvas);
 	}
 
 	/**
@@ -74,7 +59,7 @@ public class BaseDrawView extends View {
 	 * @param delayTime
 	 * 延迟执行时间
 	 */
-	public void clearDrawlineState(long delayTime) {
+	public void clearDrawViewState(long delayTime) {
 		if (delayTime > 0) {
 			isDrawEnable = false;
 		}
@@ -116,7 +101,6 @@ public class BaseDrawView extends View {
 				continue;
 			}
 
-			// 如果执行到这，那么说明当前点击的点的位置在point
 			return point;
 		}
 
@@ -143,32 +127,33 @@ public class BaseDrawView extends View {
 		this.passWord = passWord;
 	}
 
-	public interface DrawlineCallBack {
-
-		void onGestureCodeInput(String inputCode);
-
-		void checkedSuccess();
-
-		void checkedFail();
-
-		void onGestureLineMove();
-
-		void onPointDown();
-
-		void showNum(int num, int pos);
-	}
-
-	//hook方法，子类可选择实现
 	public void addNum(int num) {
 	}
 
 	public void clearSelectedState(){
 		for(BasePoint point:list){
-//			point.setPointState(Constants.POINT_STATE_NORMAL,0,0);
 			point.setUnSelected();
 		}
 	}
 
-	public void clearDrawlineState(long delayTime,boolean drawErrorPath){}
+	public void clearDrawViewState(long delayTime, boolean drawErrorPath){}
+
+	public interface IPassWordCallBack {
+		void onGestureCodeInput(String inputCode);
+
+		void onGestureLineMove();
+
+		void checkPinSuccess();
+
+		void checkPinFail();
+
+		void setPinSuccess(String password);
+
+		void setPinFailed();
+
+		void changePin(String password);
+
+		void showNum(int num, int pos);
+	}
 
 }

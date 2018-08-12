@@ -26,23 +26,23 @@ public class GesturePoint extends BasePoint {
 
 	@Override
 	void setStateWrong() {
-		getImage().setImageResource(R.drawable.ic_settings_pattern_point_wrong);
-		getImage().setBackgroundResource(R.color.transparent);
+		((ImageView)getView()).setImageResource(R.drawable.ic_settings_pattern_point_wrong);
+		getView().setBackgroundResource(R.color.transparent);
 	}
 
 	@Override
 	void setStateSelected() {
 //		getImage().setImageResource(R.drawable.ic_settings_pattern_point_pressed);
-		getImage().setBackgroundResource(R.color.transparent);
+		getView().setBackgroundResource(R.color.transparent);
 
 		mAnimation = AnimationUtils.loadAnimation(context, R.anim.anim_gesture_press);
-		getImage().startAnimation(mAnimation);
+		getView().startAnimation(mAnimation);
 	}
 
 	@Override
 	void setStateNormal() {
-		getImage().setImageResource(R.drawable.ic_settings_pattern_point);
-		getImage().setBackgroundResource(R.color.transparent);
+		((ImageView)getView()).setImageResource(R.drawable.ic_settings_pattern_point);
+		getView().setBackgroundResource(R.color.transparent);
 	}
 
 }

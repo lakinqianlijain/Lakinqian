@@ -1,6 +1,5 @@
 package com.qlj.lakinqiandemo.views.pinPasswordView;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -15,8 +14,8 @@ import com.qlj.lakinqiandemo.utils.SharedPreferenceUtil;
 import static com.qlj.lakinqiandemo.utils.SharedPreferenceUtil.DEMO_CONFIG;
 import static com.qlj.lakinqiandemo.utils.SharedPreferenceUtil.GESTURE_PASSWORD;
 import static com.qlj.lakinqiandemo.utils.SharedPreferenceUtil.PIN_PASSWORD;
-import static com.qlj.lakinqiandemo.views.pinPasswordView.PinContentViewDot.ENTER_PIN;
-import static com.qlj.lakinqiandemo.views.pinPasswordView.PinContentViewDot.SET_PIN;
+import static com.qlj.lakinqiandemo.views.pinPasswordView.PinContentViewDot.ENTER_PASSWORD;
+import static com.qlj.lakinqiandemo.views.pinPasswordView.PinContentViewDot.SET_PASSWORD;
 
 /**
  * Created by Administrator on 2018/8/12.
@@ -44,17 +43,17 @@ public class LockActivity extends BaseActivity implements View.OnClickListener{
             case R.id.set_pin:
                 String pin = SharedPreferenceUtil.readString(this, DEMO_CONFIG, PIN_PASSWORD, "");
                 if (TextUtils.isEmpty(pin)){
-                    JumpActivityUtil.JumpLockActivity(this, PinEditActivity.class, SET_PIN);
+                    JumpActivityUtil.JumpLockActivity(this, PinEditActivity.class, SET_PASSWORD);
                 } else {
-                    JumpActivityUtil.JumpLockActivity(this, PinEditActivity.class, ENTER_PIN);
+                    JumpActivityUtil.JumpLockActivity(this, PinEditActivity.class, ENTER_PASSWORD);
                 }
                 break;
             case R.id.set_gesture:
                 String gesture = SharedPreferenceUtil.readString(this, DEMO_CONFIG, GESTURE_PASSWORD, "");
                 if (TextUtils.isEmpty(gesture)){
-                    JumpActivityUtil.JumpLockActivity(this, GestureEditActivity.class, SET_PIN);
+                    JumpActivityUtil.JumpLockActivity(this, GestureEditActivity.class, SET_PASSWORD);
                 } else {
-                    JumpActivityUtil.JumpLockActivity(this, GestureEditActivity.class, ENTER_PIN);
+                    JumpActivityUtil.JumpLockActivity(this, GestureEditActivity.class, ENTER_PASSWORD);
                 }
                 break;
         }

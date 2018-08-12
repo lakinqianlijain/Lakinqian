@@ -22,13 +22,13 @@ public class GestureContentView extends BaseContentView {
 	private final int spacingDPHorizontal=40;//圆圈之间的水平距离dp值
 	private final int spacingDPVertical=40;//圆圈之间的竖直距离dp值
 
-	public GestureContentView(Context context, boolean isVerify, String passWord, BaseDrawView.DrawlineCallBack callBack) {
-		super(context, isVerify, passWord, callBack);
+	public GestureContentView(Context context, String type, String passWord, BaseDrawView.IPassWordCallBack callBack) {
+		super(context, type, passWord, callBack);
 	}
 
 	@Override
-	public BaseDrawView createDrawlineView() {
-		return new GestureDrawView(context, listDigital, isVerify,passWord, callback);
+	public BaseDrawView createDrawView() {
+		return new GestureDrawView(context, listDigital, mType, passWord, callback);
 	}
 
 	@Override
@@ -82,16 +82,6 @@ public class GestureContentView extends BaseContentView {
 
 			v.layout(leftX, topY, rightX, bottomY)  ;
 		}
-	}
-
-	@Override
-	public void setDisableImageView() {
-
-	}
-
-	@Override
-	public void setAvailableImageView() {
-
 	}
 
 	@Override
