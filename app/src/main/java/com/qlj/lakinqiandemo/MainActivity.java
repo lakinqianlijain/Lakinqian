@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.qlj.lakinqiandemo.contralayout.ContralayoutActivity;
+import com.qlj.lakinqiandemo.video.VideoPlayActivity;
 import com.qlj.lakinqiandemo.views.animation.LoadingActivity;
 import com.qlj.lakinqiandemo.contralayout.SecondActivity;
 import com.qlj.lakinqiandemo.hook.HookActivity;
@@ -14,7 +15,7 @@ import com.qlj.lakinqiandemo.utils.JumpActivityUtil;
 import com.qlj.lakinqiandemo.views.pinPasswordView.LockActivity;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
-    Button mReflection, mHOOK, mMVP, mAnimation, mContralayout, mLockPage;
+    Button mReflection, mHOOK, mMVP, mAnimation, mContralayout, mLockPage, mVideoPlayPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mContralayout.setOnClickListener(this);
         mLockPage = findViewById(R.id.lock_page);
         mLockPage.setOnClickListener(this);
+        mVideoPlayPage = findViewById(R.id.video_play);
+        mVideoPlayPage.setOnClickListener(this);
     }
 
     @Override
@@ -58,6 +61,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.lock_page:
                 JumpActivityUtil.JumpSelfActivity(this, LockActivity.class);
+            case R.id.video_play:
+                JumpActivityUtil.JumpSelfActivity(this, VideoPlayActivity.class);
+                break;
         }
     }
 }

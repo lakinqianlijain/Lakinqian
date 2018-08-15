@@ -3,6 +3,7 @@
     package="com.qlj.lakinqiandemo">
 
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES" />
 
     <application
@@ -31,6 +32,8 @@
         <activity android:name="com.qlj.lakinqiandemo.views.pinPasswordView.LockActivity" />
         <activity android:name="com.qlj.lakinqiandemo.views.pinPasswordView.PinEditActivity" />
         <activity android:name="com.qlj.lakinqiandemo.views.pinPasswordView.GestureEditActivity" />
+        <activity android:name="com.qlj.lakinqiandemo.video.VideoPlayActivity" />
+
 
     </application>
 

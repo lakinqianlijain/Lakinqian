@@ -58,6 +58,14 @@
             android:layout_height="wrap_content"
             android:text="LockPage"
             android:layout_toRightOf="@+id/contralayout"/>
+
+        <Button
+            android:id="@+id/video_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/lock_page"
+            android:text="Video"
+            android:layout_toRightOf="@+id/lock_page" />
     </RelativeLayout>
 
 </RelativeLayout>

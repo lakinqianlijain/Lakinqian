@@ -23,4 +23,5 @@
     <string name="set_gesture_pattern">Draw an unlock pattern</string>
     <string name="drawguestureagain">Draw pattern again to confirm</string>
     <string name="text_title_lock">lock page</string>
+    <string name="text_unsupported_format">Unsupported format!</string>
 </resources>
