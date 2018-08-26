@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="false">
+
+        <LinearLayout
+            android:id="@+id/bottomControls"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/player_controls_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="2dp"
+            android:paddingEnd="40dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="40dp"
+            android:paddingStart="16dp">
+
+            <TextView
+                android:id="@+id/exo_position"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="-:--:--"
+                android:textColor="@android:color/white"
+                android:textSize="10dp"
+                tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,SpUsage"
+                tools:text="1:06:29" />
+
+            <com.google.android.exoplayer2.ui.DefaultTimeBar
+                android:id="@+id/exo_progress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                app:bar_height="2dp"
+                app:buffered_color="#9AF3F3F3"
+                app:played_color="#DE573F"
+                app:unplayed_color="#66F3F3F3" />
+
+            <TextView
+                android:id="@+id/exo_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="-:--:--"
+                android:textColor="@android:color/white"
+                android:textSize="10dp"
+                tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,SpUsage"
+                tools:text="1:23:49" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/exo_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@null"
+            android:src="@drawable/ic_play_arrow_white"
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/exo_pause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@null"
+            android:src="@drawable/ic_pause_white"
+            tools:visibility="visible" />
+    </RelativeLayout>
+</FrameLayout>
