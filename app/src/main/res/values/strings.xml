@@ -24,4 +24,13 @@
     <string name="drawguestureagain">Draw pattern again to confirm</string>
     <string name="text_title_lock">lock page</string>
     <string name="text_unsupported_format">Unsupported format!</string>
+    <string name="video_playback_speed">Playback Speed</string>
+    <string name="video_brightness">Brightness</string>
+    <string name="video_volume">Sound Volume</string>
+    <string name="video_seek">Seek</string>
+    <string name="video_ratio_fit">Fit it to screen</string>
+    <string name="video_ratio_fill">Fill</string>
+    <string name="video_ratio_center">Center</string>
+    <string name="video_ratio_sixteen">16:9</string>
+    <string name="video_ratio_four">4:3</string>
 </resources>

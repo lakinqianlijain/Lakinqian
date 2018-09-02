@@ -6,6 +6,7 @@ import android.widget.Button;
 
 import com.qlj.lakinqiandemo.contralayout.ContralayoutActivity;
 import com.qlj.lakinqiandemo.video.ListVideoPlay.ListVideoPlayActivity;
+import com.qlj.lakinqiandemo.video.VideoActivity;
 import com.qlj.lakinqiandemo.video.VideoPlayActivity;
 import com.qlj.lakinqiandemo.views.animation.LoadingActivity;
 import com.qlj.lakinqiandemo.contralayout.SecondActivity;
@@ -44,7 +45,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.reflection:
                 JumpActivityUtil.JumpSelfActivity(this, ReflectionActivity.class);
                 break;
@@ -63,7 +64,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.lock_page:
                 JumpActivityUtil.JumpSelfActivity(this, LockActivity.class);
             case R.id.video_play:
-                JumpActivityUtil.JumpSelfActivity(this, ListVideoPlayActivity.class);
+                JumpActivityUtil.JumpSelfActivity(this, VideoActivity.class);
                 break;
         }
     }

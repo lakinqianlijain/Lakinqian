@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:id="@+id/iv_left"
+        android:layout_width="68dp"
+        android:layout_height="210dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="47.7dp"
+        android:src="@drawable/ic_video_guide_left" />
+
+    <TextView
+        android:id="@+id/tv_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="166dp"
+        android:layout_toEndOf="@id/iv_left"
+        android:text="@string/video_brightness"
+        android:textColor="#35ECE2"
+        android:textSize="18dp" />
+
+    <ImageView
+        android:id="@+id/iv_right"
+        android:layout_width="68dp"
+        android:layout_height="210dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="47.7dp"
+        android:src="@drawable/ic_video_guide_right" />
+
+    <TextView
+        android:id="@+id/tv_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:layout_marginTop="166dp"
+        android:layout_toStartOf="@id/iv_right"
+        android:text="@string/video_volume"
+        android:textColor="#35ECE2"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/tv_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="11dp"
+        android:text="@string/video_seek"
+        android:textColor="#35ECE2"
+        android:textSize="18dp" />
+
+    <ImageView
+        android:id="@+id/iv_bottom"
+        android:layout_width="210dp"
+        android:layout_height="74dp"
+        android:layout_above="@id/tv_bottom"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="6dp"
+        android:src="@drawable/ic_video_guide_bottom" />
+</merge>

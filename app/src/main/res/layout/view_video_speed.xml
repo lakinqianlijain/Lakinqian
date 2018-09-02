@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/tv_speed_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:drawablePadding="12dp"
+        android:drawableStart="@drawable/ic_video_speed_l"
+        android:gravity="center_vertical"
+        android:text="@string/video_playback_speed"
+        android:textColor="#C0000000"
+        android:textSize="14dp" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@id/tv_speed_title"
+        android:layout_marginBottom="39dp"
+        android:layout_marginTop="23dp"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="38" />
+
+        <ImageView
+            android:id="@+id/iv_minus"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="78"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_video_minus" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="22" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="372">
+
+            <android.support.v7.widget.AppCompatSeekBar
+                android:id="@+id/sb_speed"
+                style="@style/Style.VideoSpeedSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="15dp"
+                android:background="@null"
+                android:thumb="@null" />
+
+            <TextView
+                android:id="@+id/tv_speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/sb_speed"
+                android:layout_centerHorizontal="true"
+                android:text="0.10x"
+                android:textColor="#00BEFF"
+                android:textSize="22dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/tv_speed"
+                android:layout_alignStart="@id/sb_speed"
+                android:layout_marginStart="16dp"
+                android:text="0.25"
+                android:textColor="#80000000"
+                android:textSize="11dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/tv_speed"
+                android:layout_alignEnd="@id/sb_speed"
+                android:layout_marginEnd="16dp"
+                android:text="2.00"
+                android:textColor="#80000000"
+                android:textSize="11dp" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="22" />
+
+        <ImageView
+            android:id="@+id/iv_plus"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="78"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_video_plus" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="38" />
+    </LinearLayout>
+</merge>

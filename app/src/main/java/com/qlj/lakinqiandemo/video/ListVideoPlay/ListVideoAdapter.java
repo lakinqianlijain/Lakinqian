@@ -11,7 +11,6 @@ import android.widget.RelativeLayout;
 
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.qlj.lakinqiandemo.R;
-import com.qlj.lakinqiandemo.video.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;

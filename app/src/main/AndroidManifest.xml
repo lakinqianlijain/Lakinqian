@@ -32,6 +32,7 @@
         <activity android:name="com.qlj.lakinqiandemo.views.pinPasswordView.LockActivity" />
         <activity android:name="com.qlj.lakinqiandemo.views.pinPasswordView.PinEditActivity" />
         <activity android:name="com.qlj.lakinqiandemo.views.pinPasswordView.GestureEditActivity" />
+        <activity android:name="com.qlj.lakinqiandemo.video.VideoActivity" />
         <activity android:name="com.qlj.lakinqiandemo.video.VideoPlayActivity" />
         <activity android:name="com.qlj.lakinqiandemo.video.ListVideoPlay.ListVideoPlayActivity" />
 

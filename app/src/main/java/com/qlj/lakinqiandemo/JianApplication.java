@@ -10,6 +10,8 @@ import static com.qlj.lakinqiandemo.hook.StartActivityHookHelper.hookStartActivi
  */
 
 public class JianApplication extends Application {
+    private static JianApplication sInstance;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -19,6 +21,11 @@ public class JianApplication extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
 //        StartActivityHookHelper.hookStartActivity();
+        sInstance = this;
         hookStartActivity();
+    }
+
+    public static JianApplication get() {
+        return sInstance;
     }
 }
