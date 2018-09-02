@@ -28,4 +28,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     compile "com.android.support:design:26.1.0"
     compile 'com.google.android.exoplayer:exoplayer:2.6.0'
+    compile 'com.google.code.gson:gson:2.8.2'
+    compile 'com.alibaba:fastjson:1.2.8'
 }
