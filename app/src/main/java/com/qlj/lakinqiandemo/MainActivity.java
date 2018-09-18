@@ -1,10 +1,13 @@
 package com.qlj.lakinqiandemo;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.qlj.lakinqiandemo.contralayout.ContralayoutActivity;
+import com.qlj.lakinqiandemo.eventbus.EventbusActivity;
 import com.qlj.lakinqiandemo.json.JsonAnalysisActivity;
 import com.qlj.lakinqiandemo.video.ListVideoPlay.ListVideoPlayActivity;
 import com.qlj.lakinqiandemo.video.VideoActivity;
@@ -15,11 +18,15 @@ import com.qlj.lakinqiandemo.hook.HookActivity;
 import com.qlj.lakinqiandemo.mvp.login.view.LoginActivity;
 import com.qlj.lakinqiandemo.reflection.ReflectionActivity;
 import com.qlj.lakinqiandemo.utils.JumpActivityUtil;
+import com.qlj.lakinqiandemo.views.lottie.LottieActivity;
 import com.qlj.lakinqiandemo.views.pinPasswordView.LockActivity;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     Button mReflection, mHOOK, mMVP, mAnimation, mContralayout,
-            mLockPage, mVideoPlayPage, mJson;
+            mLockPage, mVideoPlayPage, mJson, mLottieAnim, mEventBus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +52,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mVideoPlayPage.setOnClickListener(this);
         mJson = findViewById(R.id.json_analysis);
         mJson.setOnClickListener(this);
+        mLottieAnim = findViewById(R.id.bt_lottie);
+        mLottieAnim.setOnClickListener(this);
+        mEventBus = findViewById(R.id.bt_event_bus);
+        mEventBus.setOnClickListener(this);
     }
 
     @Override
@@ -73,7 +84,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.json_analysis:
                 JumpActivityUtil.JumpSelfActivity(this, JsonAnalysisActivity.class);
                 break;
+            case R.id.bt_lottie:
+                JumpActivityUtil.JumpSelfActivity(this, LottieActivity.class);
+                break;
+            case R.id.bt_event_bus:
+                JumpActivityUtil.JumpSelfActivity(this, EventbusActivity.class);
+                break;
 
         }
     }
+
+
 }

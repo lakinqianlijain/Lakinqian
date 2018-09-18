@@ -4,4 +4,15 @@
         <attr name="waveHeight" format="dimension" />
         <attr name="headHeight" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="GADownloadingView">
+        <attr name="arrow_color" format="color" />
+        <attr name="loading_circle_back_color" format="color" />
+        <attr name="loading_line_color" format="color" />
+        <attr name="progress_line_color" format="color" />
+        <attr name="progress_text_color" format="color" />
+        <attr name="done_text_color" format="color" />
+    </declare-styleable>
+
+    <attr name="downloading_def_style" format="reference"/>
 </resources>

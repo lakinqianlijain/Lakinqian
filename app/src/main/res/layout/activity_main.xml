@@ -56,8 +56,8 @@
             android:id="@+id/lock_page"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="LockPage"
-            android:layout_toEndOf="@+id/contralayout"/>
+            android:layout_toEndOf="@+id/contralayout"
+            android:text="LockPage" />
 
         <Button
             android:id="@+id/video_play"
@@ -72,6 +72,26 @@
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/video_play"
             android:text="json" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/third"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/two">
+
+        <Button
+            android:id="@+id/bt_lottie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="lottieAnim" />
+
+        <Button
+            android:id="@+id/bt_event_bus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/bt_lottie"
+            android:text="eventBus" />
     </RelativeLayout>
 
 </RelativeLayout>

@@ -12,4 +12,11 @@
     <color name="edit_line_normal_color">#2eaaaaaa</color>
     <color name="edit_line_error_color">#2eff4d2a</color>
     <color name="text_back_70">#B2000000</color>
+
+    <color name="arrow_color">#FFFFFFFF</color>
+    <color name="loading_circle_back_color">#FF491C14</color>
+    <color name="loading_line_color">#FF491c14</color>
+    <color name="progress_line_color">#FFFFFFFF</color>
+    <color name="progress_text_color">#FF000000</color>
+    <color name="done_text_color">#FF5F9C62</color>
 </resources>

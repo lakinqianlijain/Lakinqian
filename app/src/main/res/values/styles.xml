@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textAllCaps">false</item>
+        <item name="downloading_def_style">@style/DownloadingDefStyleAttrImpl</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -26,5 +27,14 @@
     <style name="Style.VideoSpeedSeekBar" parent="Widget.AppCompat.SeekBar">
         <item name="android:maxHeight">7dp</item>
         <item name="android:progressDrawable">@drawable/bg_progress_blue</item>
+    </style>
+
+    <style name="DownloadingDefStyleAttrImpl">
+        <item name="arrow_color">@color/arrow_color</item>
+        <item name="loading_circle_back_color">@color/loading_circle_back_color</item>
+        <item name="loading_line_color">@color/loading_line_color</item>
+        <item name="progress_line_color">@color/progress_line_color</item>
+        <item name="progress_text_color">@color/progress_text_color</item>
+        <item name="done_text_color">@color/done_text_color</item>
     </style>
 </resources>

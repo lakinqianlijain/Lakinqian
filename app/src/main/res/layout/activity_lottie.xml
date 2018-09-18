@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_first"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/bt_android_wave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AndroidWave" />
+
+        <Button
+            android:id="@+id/bt_fail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/bt_android_wave"
+            android:text="Fail" />
+
+        <Button
+            android:id="@+id/bt_hamburger_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/bt_fail"
+            android:text="Hamburger" />
+
+        <Button
+            android:id="@+id/bt_hired"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/bt_hamburger_arrow"
+            android:text="Hired" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_first">
+
+        <Button
+            android:id="@+id/bt_lottie_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Logo" />
+
+        <Button
+            android:id="@+id/bt_lottie_logo1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/bt_lottie_logo"
+            android:text="Logo1" />
+
+        <Button
+            android:id="@+id/bt_lottie_logo2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/bt_lottie_logo1"
+            android:text="Logo2" />
+
+        <Button
+            android:id="@+id/bt_material_wave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/bt_lottie_logo2"
+            android:text="WaveLoading" />
+
+    </RelativeLayout>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_two"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true" />
+
+</RelativeLayout>

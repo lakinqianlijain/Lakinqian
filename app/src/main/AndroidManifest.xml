@@ -36,6 +36,9 @@
         <activity android:name="com.qlj.lakinqiandemo.video.VideoPlayActivity" />
         <activity android:name="com.qlj.lakinqiandemo.video.ListVideoPlay.ListVideoPlayActivity" />
         <activity android:name="com.qlj.lakinqiandemo.json.JsonAnalysisActivity" />
+        <activity android:name="com.qlj.lakinqiandemo.views.lottie.LottieActivity" />
+        <activity android:name="com.qlj.lakinqiandemo.eventbus.EventbusActivity" />
+        <activity android:name="com.qlj.lakinqiandemo.eventbus.EventActivity2" />
 
 
     </application>
