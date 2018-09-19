@@ -66,7 +66,8 @@ public class LottieActivity extends BaseActivity implements View.OnClickListener
                 mLottieAnimationView.playAnimation();
                 break;
             case R.id.bt_fail:
-                mLottieAnimationView.setAnimation("fail.json");
+                mLottieAnimationView.setAnimation("image.json");
+                mLottieAnimationView.setImageAssetsFolder("image/");
                 mLottieAnimationView.playAnimation();
                 break;
             case R.id.bt_hamburger_arrow:
