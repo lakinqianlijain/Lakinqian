@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <LinearLayout
+        android:id="@+id/lock_pin"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="PIN" />
+
+        <ImageView
+            android:id="@+id/set_pin"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_password_normal" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lock_gesture"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/lock_pin"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Gesture" />
+
+        <ImageView
+            android:id="@+id/set_gesture"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_password_normal" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_my_toast"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/lock_gesture"
+        android:gravity="center"
+        android:text="自定义toast" />
+
+    <LinearLayout
+        android:id="@+id/ll_notice_panel"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/tv_my_toast"
+        android:background="#FEF6E9">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="24dp"
+            android:src="@drawable/ic_notice_news" />
+
+        <com.qlj.lakinqiandemo.views.ScrollingHintView
+            android:id="@+id/shv_notice_tips"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="15dp"
+            android:layout_weight="1"
+            android:flipInterval="5000"
+            app:shvGravity="center"
+            app:shvTextColor="#f11818"
+            app:shvTextSize="14dp">
+
+        </com.qlj.lakinqiandemo.views.ScrollingHintView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="20dp"
+            android:text="now"
+            android:textColor="#80000000"
+            android:textSize="14dp" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

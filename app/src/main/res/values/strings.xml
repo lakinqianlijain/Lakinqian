@@ -33,4 +33,6 @@
     <string name="video_ratio_center">Center</string>
     <string name="video_ratio_sixteen">16:9</string>
     <string name="video_ratio_four">4:3</string>
+
+    <string name="video_novice_reward">Novice reward</string>
 </resources>

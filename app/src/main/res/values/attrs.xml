@@ -14,5 +14,16 @@
         <attr name="done_text_color" format="color" />
     </declare-styleable>
 
-    <attr name="downloading_def_style" format="reference"/>
+    <declare-styleable name="ScrollingHintViewStyle">
+        <attr name="shvTextSize" format="dimension|reference" />
+        <attr name="shvTextColor" format="color|reference" />
+        <attr name="shvSingleLine" format="boolean" />
+        <attr name="shvGravity">
+            <enum name="left" value="0" />
+            <enum name="center" value="1" />
+            <enum name="right" value="2" />
+        </attr>
+    </declare-styleable>
+
+    <attr name="downloading_def_style" format="reference" />
 </resources>

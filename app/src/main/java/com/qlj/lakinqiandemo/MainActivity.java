@@ -1,28 +1,20 @@
 package com.qlj.lakinqiandemo;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.qlj.lakinqiandemo.contralayout.ContralayoutActivity;
 import com.qlj.lakinqiandemo.eventbus.EventbusActivity;
 import com.qlj.lakinqiandemo.json.JsonAnalysisActivity;
-import com.qlj.lakinqiandemo.video.ListVideoPlay.ListVideoPlayActivity;
 import com.qlj.lakinqiandemo.video.VideoActivity;
-import com.qlj.lakinqiandemo.video.VideoPlayActivity;
 import com.qlj.lakinqiandemo.views.animation.LoadingActivity;
-import com.qlj.lakinqiandemo.contralayout.SecondActivity;
 import com.qlj.lakinqiandemo.hook.HookActivity;
 import com.qlj.lakinqiandemo.mvp.login.view.LoginActivity;
 import com.qlj.lakinqiandemo.reflection.ReflectionActivity;
 import com.qlj.lakinqiandemo.utils.JumpActivityUtil;
 import com.qlj.lakinqiandemo.views.lottie.LottieActivity;
-import com.qlj.lakinqiandemo.views.pinPasswordView.LockActivity;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
+import com.qlj.lakinqiandemo.views.pinPasswordView.CustomizeViewActivity;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     Button mReflection, mHOOK, mMVP, mAnimation, mContralayout,
@@ -77,7 +69,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 JumpActivityUtil.JumpSelfActivity(this, ContralayoutActivity.class);
                 break;
             case R.id.lock_page:
-                JumpActivityUtil.JumpSelfActivity(this, LockActivity.class);
+                JumpActivityUtil.JumpSelfActivity(this, CustomizeViewActivity.class);
+                break;
             case R.id.video_play:
                 JumpActivityUtil.JumpSelfActivity(this, VideoActivity.class);
                 break;
