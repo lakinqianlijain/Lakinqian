@@ -1,8 +1,11 @@
 package com.qlj.lakinqiandemo.views.pinPasswordView;
 
+import android.animation.ValueAnimator;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -17,6 +20,7 @@ import com.qlj.lakinqiandemo.BaseActivity;
 import com.qlj.lakinqiandemo.R;
 import com.qlj.lakinqiandemo.utils.JumpActivityUtil;
 import com.qlj.lakinqiandemo.utils.SharedPreferenceUtil;
+import com.qlj.lakinqiandemo.views.CircleProgressBar;
 import com.qlj.lakinqiandemo.views.MyToast;
 import com.qlj.lakinqiandemo.views.ScrollingHintView;
 
@@ -35,8 +39,10 @@ import static com.qlj.lakinqiandemo.views.pinPasswordView.PinContentViewDot.SET_
 
 public class CustomizeViewActivity extends BaseActivity implements View.OnClickListener {
     private ImageView mPin, mGesture;
-    private TextView mToast;
+    private TextView mToast, mStopCircleProgress;
     private ScrollingHintView mScrollingView;
+    private CircleProgressBar mCircleProgress;
+    private ValueAnimator mAnimator;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,6 +60,10 @@ public class CustomizeViewActivity extends BaseActivity implements View.OnClickL
         mToast = findViewById(R.id.tv_my_toast);
         mToast.setOnClickListener(this);
         mScrollingView = findViewById(R.id.shv_notice_tips);
+        findViewById(R.id.tv_start_circle_progress).setOnClickListener(this);
+        mStopCircleProgress = findViewById(R.id.tv_stop_circle_progress);
+        mStopCircleProgress.setOnClickListener(this);
+        mCircleProgress = findViewById(R.id.cpb_circle_progress);
     }
 
     private void initData() {
@@ -75,6 +85,7 @@ public class CustomizeViewActivity extends BaseActivity implements View.OnClickL
         return list;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -98,6 +109,33 @@ public class CustomizeViewActivity extends BaseActivity implements View.OnClickL
                 MyToast myToast = new MyToast(R.layout.toast_layout, this, Toast.LENGTH_SHORT);
                 myToast.show();
                 break;
+            case R.id.tv_start_circle_progress:
+                simulateProgress();
+                break;
+            case R.id.tv_stop_circle_progress:
+                if (mAnimator == null) return;
+                if (!mAnimator.isPaused()){
+                    mAnimator.pause();
+                    mStopCircleProgress.setText("Restart");
+                } else {
+                    mAnimator.resume();
+                    mStopCircleProgress.setText("Stop");
+                }
+                break;
         }
+    }
+
+    private void simulateProgress() {
+        mAnimator = ValueAnimator.ofInt(0, 100);
+        mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int progress = (int) animation.getAnimatedValue();
+                mCircleProgress.setProgress(progress);
+            }
+        });
+        mAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        mAnimator.setDuration(30000);
+        mAnimator.start();
     }
 }

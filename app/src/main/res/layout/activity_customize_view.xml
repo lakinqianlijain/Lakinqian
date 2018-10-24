@@ -91,5 +91,46 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/fl_circle_progress"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_below="@+id/ll_notice_panel">
+
+        <TextView
+            android:id="@+id/tv_start_circle_progress"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:text="Start"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/ic_pin_on"/>
+
+
+        <com.qlj.lakinqiandemo.views.CircleProgressBar
+            android:id="@+id/cpb_circle_progress"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            app:cpb_progress_background_color="#ffe3e3e5"
+            app:cpb_progress_color="#e80a2b"
+            app:cpb_progress_stroke_width="8dp"
+            app:cpb_progress_text_color="#ff33b5e5" />
+
+        <TextView
+            android:id="@+id/tv_stop_circle_progress"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:text="Stop"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:background="@color/colorAccent"/>
+
+    </LinearLayout>
 
 </RelativeLayout>

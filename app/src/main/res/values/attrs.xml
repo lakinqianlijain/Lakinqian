@@ -25,5 +25,13 @@
         </attr>
     </declare-styleable>
 
+    <declare-styleable name="CircleProgressBar">
+        <attr name="cpb_progress_color" format="color|reference" />
+        <attr name="cpb_progress_text_color" format="color|reference" />
+        <attr name="cpb_progress_text_size" format="dimension|reference" />
+        <attr name="cpb_progress_stroke_width" format="dimension|reference" />
+        <attr name="cpb_progress_background_color" format="color|reference" />
+    </declare-styleable>
+
     <attr name="downloading_def_style" format="reference" />
 </resources>

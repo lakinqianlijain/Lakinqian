@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.AnimRes;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
@@ -43,17 +44,14 @@ public class ScrollingHintView extends ViewFlipper {
 
     public ScrollingHintView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context, attrs, 0);
+        initAttributes(context, attrs, 0);
     }
 
-    private void init(Context context, AttributeSet attrs, int defStyleAttr) {
+    private void initAttributes(Context context, AttributeSet attrs, int defStyleAttr) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ScrollingHintViewStyle, defStyleAttr, 0);
 
         mSingleLine = typedArray.getBoolean(R.styleable.ScrollingHintViewStyle_shvSingleLine, false);
-        if (typedArray.hasValue(R.styleable.ScrollingHintViewStyle_shvTextSize)) {
-            mTextSize = (int) typedArray.getDimension(R.styleable.ScrollingHintViewStyle_shvTextSize, mTextSize);
-            mTextSize = DensityUtil.px2sp(context, mTextSize);
-        }
+        mTextSize = typedArray.getDimensionPixelSize(R.styleable.ScrollingHintViewStyle_shvTextSize, DensityUtil.dip2px(getContext(), mTextSize));
         mTextColor = typedArray.getColor(R.styleable.ScrollingHintViewStyle_shvTextColor, mTextColor);
 
         int gravityType = typedArray.getInt(R.styleable.ScrollingHintViewStyle_shvGravity, GRAVITY_LEFT);
@@ -84,9 +82,10 @@ public class ScrollingHintView extends ViewFlipper {
 
     /**
      * 根据字符串列表, 和动画效果，启动翻页公告
-     * @param notices 字符串列表
+     *
+     * @param notices      字符串列表
      * @param inAnimResId  进入动画
-     * @param outAnimResID  离开动画
+     * @param outAnimResID 离开动画
      */
     public void startWithList(List<? extends CharSequence> notices, @AnimRes int inAnimResId, @AnimRes int outAnimResID) {
         if (notices == null || notices.size() == 0) return;
@@ -151,7 +150,7 @@ public class ScrollingHintView extends ViewFlipper {
             textView = new TextView(getContext());
             textView.setGravity(mGravity);
             textView.setTextColor(mTextColor);
-            textView.setTextSize(mTextSize);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize);
             textView.setSingleLine(mSingleLine);
         }
         textView.setText(text);
