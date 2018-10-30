@@ -92,6 +92,13 @@
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/bt_lottie"
             android:text="eventBus" />
+
+        <Button
+            android:id="@+id/bt_h5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/bt_event_bus"
+            android:text="H5" />
     </RelativeLayout>
 
 </RelativeLayout>

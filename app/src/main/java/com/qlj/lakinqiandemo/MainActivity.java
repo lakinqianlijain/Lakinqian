@@ -6,6 +6,7 @@ import android.widget.Button;
 
 import com.qlj.lakinqiandemo.contralayout.ContralayoutActivity;
 import com.qlj.lakinqiandemo.eventbus.EventbusActivity;
+import com.qlj.lakinqiandemo.h5.H5Activity;
 import com.qlj.lakinqiandemo.json.JsonAnalysisActivity;
 import com.qlj.lakinqiandemo.video.VideoActivity;
 import com.qlj.lakinqiandemo.views.animation.LoadingActivity;
@@ -18,7 +19,7 @@ import com.qlj.lakinqiandemo.views.pinPasswordView.CustomizeViewActivity;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     Button mReflection, mHOOK, mMVP, mAnimation, mContralayout,
-            mLockPage, mVideoPlayPage, mJson, mLottieAnim, mEventBus;
+            mLockPage, mVideoPlayPage, mJson, mLottieAnim, mEventBus, mH5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mLottieAnim.setOnClickListener(this);
         mEventBus = findViewById(R.id.bt_event_bus);
         mEventBus.setOnClickListener(this);
+        mH5 = findViewById(R.id.bt_h5);
+        mH5.setOnClickListener(this);
     }
 
     @Override
@@ -82,6 +85,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.bt_event_bus:
                 JumpActivityUtil.JumpSelfActivity(this, EventbusActivity.class);
+                break;
+            case R.id.bt_h5:
+                JumpActivityUtil.JumpSelfActivity(this, H5Activity.class);
                 break;
 
         }

@@ -39,6 +39,7 @@
         <activity android:name="com.qlj.lakinqiandemo.views.lottie.LottieActivity" />
         <activity android:name="com.qlj.lakinqiandemo.eventbus.EventbusActivity" />
         <activity android:name="com.qlj.lakinqiandemo.eventbus.EventActivity2" />
+        <activity android:name="com.qlj.lakinqiandemo.h5.H5Activity" />
 
 
     </application>
