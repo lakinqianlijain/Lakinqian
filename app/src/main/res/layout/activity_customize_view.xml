@@ -1,136 +1,171 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/tools"
+    xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/lock_pin"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center">
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/lock_pin"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="PIN" />
+
+            <ImageView
+                android:id="@+id/set_pin"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_password_normal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lock_gesture"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/lock_pin"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Gesture" />
+
+            <ImageView
+                android:id="@+id/set_gesture"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_password_normal" />
+        </LinearLayout>
 
         <TextView
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
+            android:id="@+id/tv_my_toast"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/lock_gesture"
             android:gravity="center"
-            android:text="PIN" />
+            android:text="自定义toast" />
 
-        <ImageView
-            android:id="@+id/set_pin"
-            android:layout_width="30dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_password_normal" />
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_notice_panel"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/tv_my_toast"
+            android:background="#FEF6E9">
 
-    <LinearLayout
-        android:id="@+id/lock_gesture"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@+id/lock_pin"
-        android:gravity="center">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="24dp"
+                android:src="@drawable/ic_notice_news" />
 
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="Gesture" />
+            <com.qlj.lakinqiandemo.views.ScrollingHintView
+                android:id="@+id/shv_notice_tips"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="15dp"
+                android:layout_weight="1"
+                android:flipInterval="5000"
+                app:shvGravity="center"
+                app:shvTextColor="#f11818"
+                app:shvTextSize="14dp">
 
-        <ImageView
-            android:id="@+id/set_gesture"
-            android:layout_width="30dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_password_normal" />
-    </LinearLayout>
+            </com.qlj.lakinqiandemo.views.ScrollingHintView>
 
-    <TextView
-        android:id="@+id/tv_my_toast"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@+id/lock_gesture"
-        android:gravity="center"
-        android:text="自定义toast" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="24dp"
+                android:layout_marginStart="20dp"
+                android:text="now"
+                android:textColor="#80000000"
+                android:textSize="14dp" />
 
-    <LinearLayout
-        android:id="@+id/ll_notice_panel"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@+id/tv_my_toast"
-        android:background="#FEF6E9">
+        </LinearLayout>
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="24dp"
-            android:src="@drawable/ic_notice_news" />
-
-        <com.qlj.lakinqiandemo.views.ScrollingHintView
-            android:id="@+id/shv_notice_tips"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="15dp"
-            android:layout_weight="1"
-            android:flipInterval="5000"
-            app:shvGravity="center"
-            app:shvTextColor="#f11818"
-            app:shvTextSize="14dp">
-
-        </com.qlj.lakinqiandemo.views.ScrollingHintView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="24dp"
-            android:layout_marginStart="20dp"
-            android:text="now"
-            android:textColor="#80000000"
-            android:textSize="14dp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/fl_circle_progress"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_below="@+id/ll_notice_panel">
-
-        <TextView
-            android:id="@+id/tv_start_circle_progress"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
-            android:text="Start"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:background="@color/ic_pin_on"/>
-
-
-        <com.qlj.lakinqiandemo.views.CircleProgressBar
-            android:id="@+id/cpb_circle_progress"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+        <LinearLayout
+            android:id="@+id/fl_circle_progress"
+            android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:layout_gravity="center"
-            app:cpb_progress_background_color="#ffe3e3e5"
-            app:cpb_progress_color="#e80a2b"
-            app:cpb_progress_stroke_width="8dp"
-            app:cpb_progress_text_color="#ff33b5e5" />
+            android:layout_below="@+id/ll_notice_panel">
 
-        <TextView
-            android:id="@+id/tv_stop_circle_progress"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
-            android:text="Stop"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:background="@color/colorAccent"/>
+            <TextView
+                android:id="@+id/tv_start_circle_progress"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:background="@color/ic_pin_on"
+                android:gravity="center"
+                android:text="Start" />
 
-    </LinearLayout>
 
-</RelativeLayout>
+            <com.qlj.lakinqiandemo.views.CircleProgressBar
+                android:id="@+id/cpb_circle_progress"
+                android:layout_width="0dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                app:cpb_progress_background_color="#ffe3e3e5"
+                app:cpb_progress_color="#e80a2b"
+                app:cpb_progress_stroke_width="8dp"
+                app:cpb_progress_text_color="#ff33b5e5" />
+
+            <TextView
+                android:id="@+id/tv_stop_circle_progress"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:background="@color/colorAccent"
+                android:gravity="center"
+                android:text="Stop" />
+
+        </LinearLayout>
+
+        <com.qlj.lakinqiandemo.views.ExpandableTextView
+            android:id="@+id/etv_expandable_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fl_circle_progress"
+            expandableTextView:collapseIndicator="@drawable/ic_expand_more_up"
+            expandableTextView:expandIndicator="@drawable/ic_expand_more_down"
+            expandableTextView:maxCollapsedLines="3">
+
+            <TextView
+                android:id="@id/expandable_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:padding="20dp"
+                android:text="qqqqqqqqqqqqqqqqqqqaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaq"
+                android:textColor="#BF000000"
+                android:textSize="16dp" />
+
+            <ImageButton
+                android:id="@id/expand_collapse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|bottom"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/transparent" />
+
+        </com.qlj.lakinqiandemo.views.ExpandableTextView>
+
+    </RelativeLayout>
+
+</ScrollView>

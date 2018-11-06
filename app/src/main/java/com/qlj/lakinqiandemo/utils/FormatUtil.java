@@ -19,4 +19,10 @@ public class FormatUtil {
                 ? formatter.format("%d:%02d:%02d", hours, minutes, seconds).toString()
                 : formatter.format("%02d:%02d", minutes, seconds).toString();
     }
+
+    public static String[] setSpannableString(String text, String format) {
+        text = String.format(text, format);
+        return text.split(format, 2);
+    }
+
 }

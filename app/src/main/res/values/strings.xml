@@ -35,4 +35,8 @@
     <string name="video_ratio_four">4:3</string>
 
     <string name="video_novice_reward">Novice reward</string>
+    <string name="text_income_guide_1">1. User who watches the video for 30 seconds can get 68 gold coins, repeated play cannot get gold coins</string>
+    <string name="text_income_guide_2">2. Earn extra gold coins for every-5-minute viewing, and the upper limit is twice a day.</string>
+    <string name="text_income_guide_3">3. Gold coins can be used to purchase goods in the %1$s.</string>
+    <string name="text_gold_coin_mall">Gold Coin Mall</string>
 </resources>

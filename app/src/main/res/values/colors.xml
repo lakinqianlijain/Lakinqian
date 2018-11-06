@@ -19,4 +19,5 @@
     <color name="progress_line_color">#FFFFFFFF</color>
     <color name="progress_text_color">#FF000000</color>
     <color name="done_text_color">#FF5F9C62</color>
+    <color name="color_policy_text">#FF5302</color>
 </resources>
