@@ -9,13 +9,14 @@ import com.qlj.lakinqiandemo.eventbus.EventbusActivity;
 import com.qlj.lakinqiandemo.h5.H5Activity;
 import com.qlj.lakinqiandemo.json.JsonAnalysisActivity;
 import com.qlj.lakinqiandemo.video.VideoActivity;
+import com.qlj.lakinqiandemo.views.SlideViewActivity;
 import com.qlj.lakinqiandemo.views.animation.LoadingActivity;
 import com.qlj.lakinqiandemo.hook.HookActivity;
 import com.qlj.lakinqiandemo.mvp.login.view.LoginActivity;
 import com.qlj.lakinqiandemo.reflection.ReflectionActivity;
 import com.qlj.lakinqiandemo.utils.JumpActivityUtil;
 import com.qlj.lakinqiandemo.views.lottie.LottieActivity;
-import com.qlj.lakinqiandemo.views.pinPasswordView.CustomizeViewActivity;
+import com.qlj.lakinqiandemo.views.CustomizeViewActivity;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     Button mReflection, mHOOK, mMVP, mAnimation, mContralayout,
@@ -51,6 +52,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mEventBus.setOnClickListener(this);
         mH5 = findViewById(R.id.bt_h5);
         mH5.setOnClickListener(this);
+        findViewById(R.id.bt_slide_view).setOnClickListener(this);
     }
 
     @Override
@@ -88,6 +90,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.bt_h5:
                 JumpActivityUtil.JumpSelfActivity(this, H5Activity.class);
+                break;
+            case R.id.bt_slide_view:
+                JumpActivityUtil.JumpSelfActivity(this, SlideViewActivity.class);
                 break;
 
         }

@@ -1,5 +1,8 @@
 package com.qlj.lakinqiandemo.views;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -10,8 +13,12 @@ import android.support.annotation.Nullable;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.TranslateAnimation;
 
+import com.qlj.lakinqiandemo.JianApplication;
 import com.qlj.lakinqiandemo.R;
 import com.qlj.lakinqiandemo.utils.DensityUtil;
 
@@ -42,11 +49,20 @@ public class CircleProgressBar extends View {
 
     private int mProgress;
     private int mMax = DEFAULT_MAX;
+    private boolean isDrag;
+    private float downX;
+    private float downY;
+    private int width;
+    private int height;
+    private int screenWidth;
+    private int screenHeight;
+
+    int l, r, t, b;
 
     private ProgressFormatter mProgressFormatter = new DefaultProgressFormatter();
 
     public CircleProgressBar(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public CircleProgressBar(Context context, @Nullable AttributeSet attrs) {
@@ -97,6 +113,20 @@ public class CircleProgressBar extends View {
     }
 
     @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        width = getMeasuredWidth();
+        height = getMeasuredHeight();
+        screenWidth = DensityUtil.getScreenWidth(JianApplication.get());
+        screenHeight = DensityUtil.getScreenHeight(JianApplication.get()) - getStatusBarHeight();
+    }
+
+    public int getStatusBarHeight() {
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        return getResources().getDimensionPixelSize(resourceId);
+    }
+
+    @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
@@ -105,6 +135,109 @@ public class CircleProgressBar extends View {
         canvas.restore();
         drawProgressText(canvas);
 
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        super.onTouchEvent(event);
+        if (this.isEnabled()) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    isDrag = false;
+                    downX = event.getX();
+                    downY = event.getY();
+                    Log.e("6666", "getLeft: " + getLeft() + "getX: " + getX());
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    final float xDistance = event.getX() - downX;
+                    final float yDistance = event.getY() - downY;
+//                    Log.e("6666", "onTouchEvent: " + xDistance + "---" + yDistance);
+
+                    //当水平或者垂直滑动距离大于10,才算拖动事件
+                    if (Math.abs(xDistance) > 10 || Math.abs(yDistance) > 10) {
+                        isDrag = true;
+                        Log.e("6666", "getLeft1111: " + getLeft());
+                        l = (int) (getLeft() + xDistance);
+                        r = l + width;
+                        t = (int) (getTop() + yDistance);
+                        b = t + height;
+                        //不划出边界判断,此处应按照项目实际情况,因为本项目需求移动的位置是手机全屏,
+                        // 所以才能这么写,如果是固定区域,要得到父控件的宽高位置后再做处理
+                        if (l < 0) {
+                            l = 0;
+                            r = l + width;
+                        } else if (r > screenWidth) {
+                            r = screenWidth;
+                            l = r - width;
+                        }
+                        if (t < 0) {
+                            t = 0;
+                            b = t + height;
+                        } else if (b > screenHeight) {
+                            b = screenHeight;
+                            t = b - height;
+                        }
+
+                        this.layout(l, t, r, b);
+                    }
+                    break;
+                case MotionEvent.ACTION_UP:
+//                    setPressed(false);
+//                    int left = (int) (2 * getLeft() + width) / 2;
+//                    Log.e("6666", "onTouchEvent: " + "getLeft:" + getLeft() + "getRight:" + getRight() + "screenWidth:" + screenWidth);
+                    moveToSides(l, t, r, b);
+                    break;
+                case MotionEvent.ACTION_CANCEL:
+                    setPressed(false);
+                    break;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private void moveToSides(final int left, final int top, final int right, final int bottom) {
+//        int fromXDelta = 0;
+        final int toXDelta;
+//        if (left < screenWidth / 2) {
+//            toXDelta = -(left - width / 2);
+////            marginRight = screenWidth - width;
+//        } else {
+//            toXDelta = screenWidth - left - width / 2;
+////            mMarginRight = 0;
+//        }
+//        TranslateAnimation translate = new TranslateAnimation(fromXDelta, toXDelta, height, height);
+//        translate.setDuration(1000);
+//        translate.setFillAfter(true);
+//        startAnimation(translate);
+//        mMarginBottom = mScreenHeight - bottom;
+//        ObjectAnimator.ofFloat(this, "translationX", fromXDelta, toXDelta).setDuration(1000).start();
+        Log.e("6666", "moveToSides: " + left + "----" + screenWidth / 2);
+        int left1 = left + width / 2;
+        if (left1 < screenWidth / 2) {
+            toXDelta = -(left1 - width / 2);
+        } else {
+            toXDelta = screenWidth - left1 - width / 2;
+        }
+
+        ValueAnimator mAnimator = ValueAnimator.ofInt(0, 100);
+        mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int progress = (int) animation.getAnimatedValue();
+                CircleProgressBar.this.layout((int) (left + toXDelta * progress / 100), top, (int) (left + toXDelta * progress / 100 + width), bottom);
+            }
+        });
+//        mAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        mAnimator.setDuration(500);
+        mAnimator.start();
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        Log.e("6666", "onLayout: " + changed + "  left:" + left + "  top:" + top + "  right:" + right + "  bottom:" + bottom);
     }
 
     private void drawProgressText(Canvas canvas) {

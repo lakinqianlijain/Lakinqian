@@ -29,7 +29,7 @@
         <activity android:name="com.qlj.lakinqiandemo.contralayout.FirstActivity" />
         <activity android:name="com.qlj.lakinqiandemo.contralayout.SecondActivity" />
         <activity android:name="com.qlj.lakinqiandemo.contralayout.ContralayoutActivity" />
-        <activity android:name="com.qlj.lakinqiandemo.views.pinPasswordView.CustomizeViewActivity" />
+        <activity android:name="com.qlj.lakinqiandemo.views.CustomizeViewActivity" />
         <activity android:name="com.qlj.lakinqiandemo.views.pinPasswordView.PinEditActivity" />
         <activity android:name="com.qlj.lakinqiandemo.views.pinPasswordView.GestureEditActivity" />
         <activity android:name="com.qlj.lakinqiandemo.video.VideoActivity" />
@@ -40,6 +40,7 @@
         <activity android:name="com.qlj.lakinqiandemo.eventbus.EventbusActivity" />
         <activity android:name="com.qlj.lakinqiandemo.eventbus.EventActivity2" />
         <activity android:name="com.qlj.lakinqiandemo.h5.H5Activity" />
+        <activity android:name="com.qlj.lakinqiandemo.views.SlideViewActivity" />
 
 
     </application>

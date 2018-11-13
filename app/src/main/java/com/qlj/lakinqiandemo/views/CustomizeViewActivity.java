@@ -1,4 +1,4 @@
-package com.qlj.lakinqiandemo.views.pinPasswordView;
+package com.qlj.lakinqiandemo.views;
 
 import android.animation.ValueAnimator;
 import android.content.res.Resources;
@@ -28,10 +28,8 @@ import com.qlj.lakinqiandemo.R;
 import com.qlj.lakinqiandemo.utils.FormatUtil;
 import com.qlj.lakinqiandemo.utils.JumpActivityUtil;
 import com.qlj.lakinqiandemo.utils.SharedPreferenceUtil;
-import com.qlj.lakinqiandemo.views.CircleProgressBar;
-import com.qlj.lakinqiandemo.views.ExpandableTextView;
-import com.qlj.lakinqiandemo.views.MyToast;
-import com.qlj.lakinqiandemo.views.ScrollingHintView;
+import com.qlj.lakinqiandemo.views.pinPasswordView.GestureEditActivity;
+import com.qlj.lakinqiandemo.views.pinPasswordView.PinEditActivity;
 
 import java.util.ArrayList;
 import java.util.List;
