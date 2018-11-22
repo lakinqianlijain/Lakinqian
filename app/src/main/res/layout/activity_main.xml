@@ -108,4 +108,18 @@
             android:text="slide" />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/four"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/third">
+
+        <Button
+            android:id="@+id/bt_memory_optimization"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="内存优化" />
+
+    </RelativeLayout>
+
 </RelativeLayout>

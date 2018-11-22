@@ -8,6 +8,7 @@ import com.qlj.lakinqiandemo.contralayout.ContralayoutActivity;
 import com.qlj.lakinqiandemo.eventbus.EventbusActivity;
 import com.qlj.lakinqiandemo.h5.H5Activity;
 import com.qlj.lakinqiandemo.json.JsonAnalysisActivity;
+import com.qlj.lakinqiandemo.optimize.MemoryOptimizeActivity;
 import com.qlj.lakinqiandemo.video.VideoActivity;
 import com.qlj.lakinqiandemo.views.SlideViewActivity;
 import com.qlj.lakinqiandemo.views.animation.LoadingActivity;
@@ -53,6 +54,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mH5 = findViewById(R.id.bt_h5);
         mH5.setOnClickListener(this);
         findViewById(R.id.bt_slide_view).setOnClickListener(this);
+        findViewById(R.id.bt_memory_optimization).setOnClickListener(this);
     }
 
     @Override
@@ -93,6 +95,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.bt_slide_view:
                 JumpActivityUtil.JumpSelfActivity(this, SlideViewActivity.class);
+                break;
+            case R.id.bt_memory_optimization:
+                JumpActivityUtil.JumpSelfActivity(this, MemoryOptimizeActivity.class);
                 break;
 
         }
