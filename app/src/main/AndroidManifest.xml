@@ -41,7 +41,8 @@
         <activity android:name="com.qlj.lakinqiandemo.eventbus.EventActivity2" />
         <activity android:name="com.qlj.lakinqiandemo.h5.H5Activity" />
         <activity android:name="com.qlj.lakinqiandemo.views.SlideViewActivity" />
-
+        <activity android:name="com.qlj.lakinqiandemo.optimize.MemoryOptimizeActivity" />
+        <activity android:name="com.qlj.lakinqiandemo.optimize.ImageLoadActivity" />
 
     </application>
 
