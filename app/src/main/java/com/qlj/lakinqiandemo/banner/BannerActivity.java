@@ -4,11 +4,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.qlj.lakinqiandemo.BaseActivity;
 import com.qlj.lakinqiandemo.R;
+import com.qlj.lakinqiandemo.banner.BGABanner.BGABanner;
+import com.qlj.lakinqiandemo.banner.BGABanner.BGALocalImageSize;
 import com.qlj.lakinqiandemo.banner.BannerViewPager;
 import com.qlj.lakinqiandemo.utils.DensityUtil;
 
@@ -28,6 +32,7 @@ public class BannerActivity extends BaseActivity {
     private LinearLayout topPagerLayout;
     private LinearLayout dots_ll;
     private TextView mTvdesc;
+    private BGABanner mBanner;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -103,6 +108,12 @@ public class BannerActivity extends BaseActivity {
         topPagerLayout = findViewById(R.id.ll__view_pager);
         dots_ll = (LinearLayout) findViewById(R.id.dots_ll);
         mTvdesc = (TextView) findViewById(R.id.tv_titledesc);
+        mBanner = findViewById(R.id.banner_guide);
+        BGALocalImageSize localImageSize = new BGALocalImageSize(720, 1280, 320, 640);
+        mBanner.setData(localImageSize, ImageView.ScaleType.CENTER_CROP,
+                R.drawable.guide_image_one,
+                R.drawable.guide_image_two);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     @Override
