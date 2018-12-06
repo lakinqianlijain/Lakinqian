@@ -43,6 +43,9 @@
         <activity android:name="com.qlj.lakinqiandemo.views.SlideViewActivity" />
         <activity android:name="com.qlj.lakinqiandemo.optimize.MemoryOptimizeActivity" />
         <activity android:name="com.qlj.lakinqiandemo.optimize.ImageLoadActivity" />
+        <activity android:name="com.qlj.lakinqiandemo.file.FileActivity" />
+
+>>>>>>> Stashed changes
 
     </application>
 

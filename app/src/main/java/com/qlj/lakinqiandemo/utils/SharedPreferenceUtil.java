@@ -11,6 +11,7 @@ public class SharedPreferenceUtil {
     public static final String PIN_PASSWORD = "pin_password";
     public static final String GESTURE_PASSWORD = "GESTURE_PASSWORD";
     public static final String VIDEO_GUIDE_CONTROL = "video_guide_control";
+    public static final String ACTION_OPEN_DOCUMENT_TREE_URL = "ACTION_OPEN_DOCUMENT_TREE_URL";
 
     public static boolean saveString(Context context, String fileName, String key, String value) {
         Editor editor = context.getSharedPreferences(fileName, Context.MODE_PRIVATE).edit();

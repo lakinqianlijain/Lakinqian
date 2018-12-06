@@ -1,11 +1,14 @@
 package com.qlj.lakinqiandemo;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import com.qlj.lakinqiandemo.contralayout.ContralayoutActivity;
 import com.qlj.lakinqiandemo.eventbus.EventbusActivity;
+import com.qlj.lakinqiandemo.file.FileActivity;
 import com.qlj.lakinqiandemo.h5.H5Activity;
 import com.qlj.lakinqiandemo.json.JsonAnalysisActivity;
 import com.qlj.lakinqiandemo.optimize.MemoryOptimizeActivity;
@@ -18,6 +21,8 @@ import com.qlj.lakinqiandemo.reflection.ReflectionActivity;
 import com.qlj.lakinqiandemo.utils.JumpActivityUtil;
 import com.qlj.lakinqiandemo.views.lottie.LottieActivity;
 import com.qlj.lakinqiandemo.views.CustomizeViewActivity;
+
+import java.io.File;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     Button mReflection, mHOOK, mMVP, mAnimation, mContralayout,
@@ -55,6 +60,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mH5.setOnClickListener(this);
         findViewById(R.id.bt_slide_view).setOnClickListener(this);
         findViewById(R.id.bt_memory_optimization).setOnClickListener(this);
+        findViewById(R.id.bt_file_related).setOnClickListener(this);
     }
 
     @Override
@@ -98,6 +104,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.bt_memory_optimization:
                 JumpActivityUtil.JumpSelfActivity(this, MemoryOptimizeActivity.class);
+                break;
+            case R.id.bt_file_related:
+                JumpActivityUtil.JumpSelfActivity(this, FileActivity.class);
                 break;
 
         }

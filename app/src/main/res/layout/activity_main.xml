@@ -120,6 +120,13 @@
             android:layout_height="wrap_content"
             android:text="内存优化" />
 
+        <Button
+            android:id="@+id/bt_file_related"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/bt_memory_optimization"
+            android:text="文件夹相关" />
+
     </RelativeLayout>
 
 </RelativeLayout>
