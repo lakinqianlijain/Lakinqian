@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.qlj.lakinqiandemo.banner.BannerActivity;
 import com.qlj.lakinqiandemo.contralayout.ContralayoutActivity;
 import com.qlj.lakinqiandemo.eventbus.EventbusActivity;
 import com.qlj.lakinqiandemo.file.FileActivity;
@@ -61,6 +62,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.bt_slide_view).setOnClickListener(this);
         findViewById(R.id.bt_memory_optimization).setOnClickListener(this);
         findViewById(R.id.bt_file_related).setOnClickListener(this);
+        findViewById(R.id.bt_banner).setOnClickListener(this);
     }
 
     @Override
@@ -107,6 +109,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.bt_file_related:
                 JumpActivityUtil.JumpSelfActivity(this, FileActivity.class);
+                break;
+            case R.id.bt_banner:
+                JumpActivityUtil.JumpSelfActivity(this, BannerActivity.class);
                 break;
 
         }

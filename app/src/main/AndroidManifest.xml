@@ -44,8 +44,7 @@
         <activity android:name="com.qlj.lakinqiandemo.optimize.MemoryOptimizeActivity" />
         <activity android:name="com.qlj.lakinqiandemo.optimize.ImageLoadActivity" />
         <activity android:name="com.qlj.lakinqiandemo.file.FileActivity" />
-
->>>>>>> Stashed changes
+        <activity android:name="com.qlj.lakinqiandemo.banner.BannerActivity" />
 
     </application>
 
