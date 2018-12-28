@@ -11,9 +11,8 @@ import android.widget.TextView;
 
 import com.qlj.lakinqiandemo.BaseActivity;
 import com.qlj.lakinqiandemo.R;
-import com.qlj.lakinqiandemo.banner.BGABanner.BGABanner;
-import com.qlj.lakinqiandemo.banner.BGABanner.BGALocalImageSize;
-import com.qlj.lakinqiandemo.banner.BannerViewPager;
+import com.qlj.lakinqiandemo.banner.lightBanner.LightBanner;
+import com.qlj.lakinqiandemo.banner.lightBanner.LocalImageSize;
 import com.qlj.lakinqiandemo.utils.DensityUtil;
 
 import java.util.ArrayList;
@@ -32,7 +31,7 @@ public class BannerActivity extends BaseActivity {
     private LinearLayout topPagerLayout;
     private LinearLayout dots_ll;
     private TextView mTvdesc;
-    private BGABanner mBanner;
+    private LightBanner mBanner;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -109,10 +108,10 @@ public class BannerActivity extends BaseActivity {
         dots_ll = (LinearLayout) findViewById(R.id.dots_ll);
         mTvdesc = (TextView) findViewById(R.id.tv_titledesc);
         mBanner = findViewById(R.id.banner_guide);
-        BGALocalImageSize localImageSize = new BGALocalImageSize(720, 1280, 320, 640);
+        LocalImageSize localImageSize = new LocalImageSize(720, 1280, 320, 640);
         mBanner.setData(localImageSize, ImageView.ScaleType.CENTER_CROP,
-                R.drawable.guide_image_one,
-                R.drawable.guide_image_two);
+                R.drawable.guide_image_three,
+                R.drawable.guide_image_four,R.drawable.guide_image_five);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 

@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center"
     android:gravity="center">
 
@@ -41,10 +42,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/fl_banner" />
 
-    <com.qlj.lakinqiandemo.banner.BGABanner.BGABanner
+    <com.qlj.lakinqiandemo.banner.lightBanner.LightBanner
         android:id="@+id/banner_guide"
-        android:layout_width="300dp"
-        android:layout_height="300dp" />
+        android:layout_width="210dp"
+        android:layout_height="132dp"
+        app:banner_pointAutoPlayAble="false"
+        app:banner_pointDrawable="@drawable/bga_banner_selector_point_hollow"/>
 
 
 </RelativeLayout>
