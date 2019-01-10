@@ -1,7 +1,5 @@
 package com.qlj.lakinqiandemo;
 
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,23 +9,23 @@ import com.qlj.lakinqiandemo.contralayout.ContralayoutActivity;
 import com.qlj.lakinqiandemo.eventbus.EventbusActivity;
 import com.qlj.lakinqiandemo.file.FileActivity;
 import com.qlj.lakinqiandemo.h5.H5Activity;
-import com.qlj.lakinqiandemo.json.JsonAnalysisActivity;
-import com.qlj.lakinqiandemo.optimize.MemoryOptimizeActivity;
-import com.qlj.lakinqiandemo.video.VideoActivity;
-import com.qlj.lakinqiandemo.views.SlideViewActivity;
-import com.qlj.lakinqiandemo.views.animation.LoadingActivity;
 import com.qlj.lakinqiandemo.hook.HookActivity;
+import com.qlj.lakinqiandemo.json.JsonAnalysisActivity;
 import com.qlj.lakinqiandemo.mvp.login.view.LoginActivity;
+import com.qlj.lakinqiandemo.optimize.MemoryOptimizeActivity;
 import com.qlj.lakinqiandemo.reflection.ReflectionActivity;
 import com.qlj.lakinqiandemo.utils.JumpActivityUtil;
-import com.qlj.lakinqiandemo.views.lottie.LottieActivity;
+import com.qlj.lakinqiandemo.video.VideoActivity;
 import com.qlj.lakinqiandemo.views.CustomizeViewActivity;
-
-import java.io.File;
+import com.qlj.lakinqiandemo.views.SlideViewActivity;
+import com.qlj.lakinqiandemo.views.animation.LoadingActivity;
+import com.qlj.lakinqiandemo.views.lottie.LottieActivity;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     Button mReflection, mHOOK, mMVP, mAnimation, mContralayout,
             mLockPage, mVideoPlayPage, mJson, mLottieAnim, mEventBus, mH5;
+
+    // todo 沉浸状态栏总结  https://blog.csdn.net/u014418171/article/details/81223681
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

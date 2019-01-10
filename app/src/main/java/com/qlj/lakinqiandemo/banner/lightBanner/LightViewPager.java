@@ -1,4 +1,4 @@
-package com.qlj.lakinqiandemo.banner.BGABanner;
+package com.qlj.lakinqiandemo.banner.lightBanner;
 
 import android.content.Context;
 import android.support.v4.view.VelocityTrackerCompat;
@@ -15,15 +15,15 @@ import java.lang.reflect.Method;
  * Created by lakinqian on 2018/12/6.
  */
 
-public class BGAViewPager extends ViewPager {
+public class LightViewPager extends ViewPager {
     private boolean mAllowUserScrollable = true;
     private AutoPlayDelegate mAutoPlayDelegate;
 
-    public BGAViewPager(Context context) {
+    public LightViewPager(Context context) {
         super(context);
     }
 
-    public BGAViewPager(Context context, AttributeSet attrs) {
+    public LightViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -80,7 +80,7 @@ public class BGAViewPager extends ViewPager {
         try {
             Field scrollerField = ViewPager.class.getDeclaredField("mScroller");
             scrollerField.setAccessible(true);
-            scrollerField.set(this, new BGABannerScroller(getContext(), duration));
+            scrollerField.set(this, new LightBannerScroller(getContext(), duration));
         } catch (Exception e) {
             e.printStackTrace();
         }

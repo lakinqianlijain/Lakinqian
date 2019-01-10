@@ -1,12 +1,12 @@
-package com.qlj.lakinqiandemo.banner.BGABanner;
+package com.qlj.lakinqiandemo.banner.lightBanner;
 
-public class BGALocalImageSize {
+public class LocalImageSize {
     private int maxWidth;
     private int maxHeight;
     private float minWidth;
     private float minHeight;
 
-    public BGALocalImageSize(int maxWidth, int maxHeight, float minWidth, float minHeight) {
+    public LocalImageSize(int maxWidth, int maxHeight, float minWidth, float minHeight) {
         this.maxWidth = maxWidth;
         this.maxHeight = maxHeight;
         this.minWidth = minWidth;

@@ -1,4 +1,4 @@
-package com.qlj.lakinqiandemo.banner.BGABanner;
+package com.qlj.lakinqiandemo.banner.lightBanner;
 
 import android.content.Context;
 import android.widget.Scroller;
@@ -7,10 +7,10 @@ import android.widget.Scroller;
  * Created by lakinqian on 2018/12/6.
  */
 
-public class BGABannerScroller extends Scroller {
+public class LightBannerScroller extends Scroller {
     private int mDuration = 1000;
 
-    public BGABannerScroller(Context context, int duration) {
+    public LightBannerScroller(Context context, int duration) {
         super(context);
         mDuration = duration;
     }

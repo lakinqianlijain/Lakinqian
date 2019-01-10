@@ -21,6 +21,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 public class EventbusActivity extends BaseActivity implements View.OnClickListener {
     private TextView mEventBus;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +44,7 @@ public class EventbusActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tv_eventbus:
                 JumpActivityUtil.JumpSelfActivity(this, EventActivity2.class);
                 break;
@@ -55,8 +56,8 @@ public class EventbusActivity extends BaseActivity implements View.OnClickListen
     public void getEventBus(Integer num) {
         if (num != null) {
             //这里拿到事件之后吐司一下
-            mEventBus.setText("6666");
-            Toast.makeText(this, "num" + num, Toast.LENGTH_SHORT).show();
+            mEventBus.setText("我也收到了"+num);
+            Toast.makeText(this, "我也收到了" + num, Toast.LENGTH_SHORT).show();
         }
     }
 }

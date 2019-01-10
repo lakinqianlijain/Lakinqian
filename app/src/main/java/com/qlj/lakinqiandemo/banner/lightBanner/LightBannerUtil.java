@@ -1,4 +1,4 @@
-package com.qlj.lakinqiandemo.banner.BGABanner;
+package com.qlj.lakinqiandemo.banner.lightBanner;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -17,7 +17,7 @@ import java.util.Collection;
  * Created by Administrator on 2018/12/6.
  */
 
-public class BGABannerUtil {
+public class LightBannerUtil {
     public static boolean isCollectionEmpty(Collection collection, Collection... args) {
         if (collection == null || collection.isEmpty()) {
             return true;
@@ -30,7 +30,7 @@ public class BGABannerUtil {
         return false;
     }
 
-    public static ImageView getItemImageView(Context context, @DrawableRes int resId, BGALocalImageSize localImageSize, ImageView.ScaleType scaleType) {
+    public static ImageView getItemImageView(Context context, @DrawableRes int resId, LocalImageSize localImageSize, ImageView.ScaleType scaleType) {
         ImageView imageView = new ImageView(context);
         imageView.setImageBitmap(getScaledImageFromResource(context, resId, localImageSize.getMaxWidth(), localImageSize.getMaxHeight(), localImageSize.getMinWidth(), localImageSize.getMinHeight()));
         imageView.setClickable(true);
