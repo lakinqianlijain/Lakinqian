@@ -1,13 +1,13 @@
 package com.qlj.lakinqiandemo;
 
+import android.app.NotificationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.qlj.lakinqiandemo.banner.BannerActivity;
+import com.qlj.lakinqiandemo.common.notification.NotificationHelper;
 import com.qlj.lakinqiandemo.contralayout.ContralayoutActivity;
 import com.qlj.lakinqiandemo.eventbus.EventbusActivity;
-import com.qlj.lakinqiandemo.file.FileActivity;
 import com.qlj.lakinqiandemo.h5.H5Activity;
 import com.qlj.lakinqiandemo.hook.HookActivity;
 import com.qlj.lakinqiandemo.json.JsonAnalysisActivity;
@@ -24,6 +24,8 @@ import com.qlj.lakinqiandemo.views.lottie.LottieActivity;
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     Button mReflection, mHOOK, mMVP, mAnimation, mContralayout,
             mLockPage, mVideoPlayPage, mJson, mLottieAnim, mEventBus, mH5;
+
+    private NotificationHelper helper;
 
     // todo 沉浸状态栏总结  https://blog.csdn.net/u014418171/article/details/81223681
 
@@ -106,10 +108,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 JumpActivityUtil.JumpSelfActivity(this, MemoryOptimizeActivity.class);
                 break;
             case R.id.bt_file_related:
-                JumpActivityUtil.JumpSelfActivity(this, FileActivity.class);
+//                JumpActivityUtil.JumpSelfActivity(this, FileActivity.class);
+                NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                //移除标记为id的通知 (只是针对当前Context下的所有Notification)
+                notificationManager.cancel(10000);
+                //移除所有通知
                 break;
             case R.id.bt_banner:
-                JumpActivityUtil.JumpSelfActivity(this, BannerActivity.class);
+//                JumpActivityUtil.JumpSelfActivity(this, BannerActivity.class);
+                if (helper == null) {
+                    helper = new NotificationHelper(this);
+                }
+                helper.showNotification();
                 break;
 
         }

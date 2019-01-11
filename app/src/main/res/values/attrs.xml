@@ -55,4 +55,12 @@
         <!-- 占位图和资源图片缩放模式 -->
         <attr name="android:scaleType" />
     </declare-styleable>
+
+    <declare-styleable name="CountdownView">
+        <attr name="cv_progress_background_color" format="color|reference" />
+        <attr name="cv_progress_start_color" format="color|reference" />
+        <attr name="cv_progress_end_color" format="color|reference" />
+        <attr name="cv_progress_text_color" format="color|reference" />
+        <attr name="cv_progress_text_size" format="dimension|reference" />
+    </declare-styleable>
 </resources>
