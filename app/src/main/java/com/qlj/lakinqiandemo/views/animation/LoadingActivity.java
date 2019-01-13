@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import com.qlj.lakinqiandemo.BaseActivity;
 import com.qlj.lakinqiandemo.R;
+import com.qlj.lakinqiandemo.views.CountdownView;
 
 import java.util.Random;
 
@@ -22,20 +23,22 @@ public class LoadingActivity extends BaseActivity implements View.OnClickListene
     private static final int REFRESH_PROGRESS = 0x10;
 
     private LeafLoadingView mLeafLoadingView;
+    private CountdownView mCountdownView;
     private View mFanView;
     private int mProgress = 0;
     private Button mLoadBtn, mClearBtn;
 
-    Handler mHandler = new Handler(){
+    Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case REFRESH_PROGRESS:
                     mProgress++;
                     mLeafLoadingView.setProgress(mProgress);
+                    mCountdownView.setProgress(mProgress);
                     // 随机800ms以内刷新一次
-                    mHandler.sendEmptyMessageDelayed(REFRESH_PROGRESS, new Random().nextInt(2000));
+                    mHandler.sendEmptyMessageDelayed(REFRESH_PROGRESS, 1000);
                     break;
 
                 default:
@@ -61,6 +64,7 @@ public class LoadingActivity extends BaseActivity implements View.OnClickListene
         mLoadBtn = findViewById(R.id.btn_load);
         mLoadBtn.setOnClickListener(this);
         mLeafLoadingView = findViewById(R.id.leaf_loading);
+        mCountdownView = findViewById(R.id.cv_countdown_view);
 
     }
 
@@ -69,10 +73,12 @@ public class LoadingActivity extends BaseActivity implements View.OnClickListene
         if (v == mClearBtn) {
             mProgress = 0;
             mLeafLoadingView.setProgress(0);
-            mHandler.sendEmptyMessageDelayed(REFRESH_PROGRESS, 1000);
+            mCountdownView.setProgress(0);
+            mHandler.removeMessages(REFRESH_PROGRESS);
         } else if (v == mLoadBtn) {
             mProgress = 0;
             mLeafLoadingView.setProgress(0);
+            mCountdownView.setProgress(0);
             mHandler.sendEmptyMessageDelayed(REFRESH_PROGRESS, 1000);
         }
     }

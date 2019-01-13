@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#fed255">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/tv_loading"
@@ -29,18 +28,26 @@
 
         <ImageView
             android:id="@+id/fan_pic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="35dp"
             android:src="@drawable/fengshan" />
     </RelativeLayout>
 
+    <com.qlj.lakinqiandemo.views.CountdownView
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/rl_leaf_content"
+        android:id="@+id/cv_countdown_view"
+        android:layout_width="80dp"
+        android:layout_height="22dp"
+        android:layout_centerHorizontal="true" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_leaf_content"
+        android:layout_below="@+id/cv_countdown_view"
         android:layout_marginTop="20dp">
 
         <Button
@@ -49,10 +56,10 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
             android:layout_marginStart="50dp"
+            android:background="#8e8d88"
             android:text="Load"
-            android:textSize="25sp"
             android:textColor="#ffffa800"
-            android:background="#8e8d88"/>
+            android:textSize="25sp" />
 
         <Button
             android:id="@+id/btn_clear"
@@ -60,10 +67,10 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="80dp"
             android:layout_marginStart="80dp"
+            android:background="#8e8d88"
             android:text="Clear"
-            android:textSize="25sp"
             android:textColor="#ffffa800"
-            android:background="#8e8d88"/>
+            android:textSize="25sp" />
 
     </LinearLayout>
 

@@ -7,16 +7,21 @@ import android.graphics.Canvas;
 import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.Nullable;
+import android.text.TextPaint;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
 import com.qlj.lakinqiandemo.R;
 import com.qlj.lakinqiandemo.utils.DensityUtil;
+
+import java.util.Locale;
 
 import static com.qlj.lakinqiandemo.utils.CommonUtil.TAG;
 
@@ -25,22 +30,31 @@ import static com.qlj.lakinqiandemo.utils.CommonUtil.TAG;
  */
 
 public class CountdownView extends View {
+    public final static int SECONDS_PER_HOUR = 3600;
+    public final static int SECONDS_PER_MINUTE = 60;
+    public final static long SECONDS_MAX = 60 * 60;
     //  总进度
     private static final int TOTAL_PROGRESS = 100;
+    private static final float HEIGHT_FACTOR = 0.85f;
+    private static final float MARGIN_FACTOR = 1 - HEIGHT_FACTOR;
 
     private int mProgressTextColor = 0xff33b5e5;
-    private int mProgressTextSize = 14;
-    private int mProgressBackgroundColor = 0x33000000;
+    private int mProgressTextSize = 12;
+    private int mProgressBackgroundColor = 0xFF000000;
     private int mProgressStartColor = 0xffFFF024;
     private int mProgressEndColor = 0xffFFA100;
 
     private Context mContext;
 
     private Paint mBitmapPaint, mBackgroundPaint, mProgressPaint;
+    private final Paint mProgressTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
     private Bitmap mClockBitmap;
     private float mTotalWidth, mTotalHeight;
+    // 左边弧的长度
     private float mLeftArcLength;
-    // 弧形的半径
+    // 左边劣弧角度
+    private float mLeftArcAngle;
+    // 圆的半径
     private float mLeftArcRadius, mRightArcRadius;
     // 当前进度
     private int mProgress;
@@ -50,6 +64,8 @@ public class CountdownView extends View {
     private float mCurrentProgressPosition;
 
     private RectF mArcLeftRectF, mArcRightRectF, mGrayRectF, mProgressRectF;
+    private CountDownFormatter mCountDownFormatter = new DefaultCountDownFormatter();
+    private final Rect mCountdownTextRect = new Rect();
 
     public CountdownView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -75,6 +91,9 @@ public class CountdownView extends View {
     }
 
     private void initPaint() {
+        mProgressTextPaint.setTextAlign(Paint.Align.CENTER);
+        mProgressTextPaint.setTextSize(mProgressTextSize);
+
         mBitmapPaint = new Paint();
         mBitmapPaint.setAntiAlias(true);
         mBitmapPaint.setDither(true);
@@ -97,20 +116,21 @@ public class CountdownView extends View {
         mTotalHeight = h;
         mTotalWidth = w;
         mLeftArcRadius = mTotalHeight / 2;
-        mRightArcRadius = (float) (mLeftArcRadius * 0.85);
+        mRightArcRadius = mLeftArcRadius * HEIGHT_FACTOR;
         mProgressWidth = mTotalWidth;
 
-        mLeftArcLength = (float) ((Math.cos(Math.asin(0.85)) + 1) * mLeftArcRadius);
+        mLeftArcLength = (float) (Math.cos(Math.asin(HEIGHT_FACTOR)) + 1) * mLeftArcRadius - 0.5f;
+        mLeftArcAngle = (float) Math.toDegrees(Math.asin(0.85));
 
         // 左侧圆形
         mArcLeftRectF = new RectF(0, 0, mLeftArcRadius * 2, mTotalHeight);
         // 进度条矩形区域
-        mProgressRectF = new RectF(mLeftArcLength, (float) (mLeftArcRadius * 0.15), mCurrentProgressPosition, (float) (mTotalHeight - (mLeftArcRadius * 0.15)));
+        mProgressRectF = new RectF(mLeftArcLength, mLeftArcRadius * MARGIN_FACTOR, mCurrentProgressPosition, mTotalHeight - mLeftArcRadius * MARGIN_FACTOR);
         // 背景矩形区域
-        mGrayRectF = new RectF(mCurrentProgressPosition, (float) (mLeftArcRadius * 0.15),
-                mTotalWidth - mRightArcRadius, (float) (mTotalHeight - (mLeftArcRadius * 0.15)));
+        mGrayRectF = new RectF(mCurrentProgressPosition, mLeftArcRadius * MARGIN_FACTOR,
+                mTotalWidth - mRightArcRadius, mTotalHeight - (mLeftArcRadius * MARGIN_FACTOR));
         // 右侧圆形
-        mArcRightRectF = new RectF(mTotalWidth - 2 * mRightArcRadius, (float) (0.15 * mLeftArcRadius), mTotalWidth, (float) (mTotalHeight - mRightArcRadius * 0.15));
+        mArcRightRectF = new RectF(mTotalWidth - 2 * mRightArcRadius - MARGIN_FACTOR, mLeftArcRadius * MARGIN_FACTOR, mTotalWidth, mLeftArcRadius * MARGIN_FACTOR + mRightArcRadius * 2);
 
         updateProgressShader();
 
@@ -137,23 +157,22 @@ public class CountdownView extends View {
         super.onDraw(canvas);
         drawProgress(canvas);
         canvas.drawBitmap(mClockBitmap, (float) (mTotalHeight * 0.15), (float) (mTotalHeight * 0.15), mBitmapPaint);
-//        postInvalidate();
+        drawCountdownText(canvas);
     }
 
     private void drawProgress(Canvas canvas) {
-        if (mProgress >= TOTAL_PROGRESS) {
-            mProgress = 0;
-        }
+//        if (mProgress >= TOTAL_PROGRESS) {
+//            mProgress = 0;
+//        }
         // 此处没有按标准的面积来算，而是按长度来计算进度
         mCurrentProgressPosition = mProgressWidth * mProgress / TOTAL_PROGRESS;
         Log.i(TAG, "mProgress = " + mProgress + "---mCurrentProgressPosition = "
                 + mCurrentProgressPosition);
         if (mCurrentProgressPosition <= mLeftArcLength) {
-            // 这个时候需要绘制灰色ARC,在绘制进度ARC,在绘制灰色矩形
-            // 左侧白色ARC
-            float leftArcAngle = (float) Math.toDegrees(Math.asin(0.85));
-            canvas.drawArc(mArcLeftRectF, leftArcAngle, 360 - 2 * leftArcAngle, false, mBackgroundPaint);
-            // 绘制白色矩形，这时半圆还没填满，所以白色矩形的X坐标不能用mCurrentProgressPosition表示
+            // 这个时候需要先绘制背景ARC,再绘制背景矩形，最后绘制进度ARC,
+            // 背景ARC
+            canvas.drawArc(mArcLeftRectF, mLeftArcAngle, 360 - 2 * mLeftArcAngle, false, mBackgroundPaint);
+            // 绘制背景矩形，这时半圆还没填满，所以背景矩形的X坐标不能用mCurrentProgressPosition表示
             mGrayRectF.left = mLeftArcLength;
             canvas.drawRect(mGrayRectF, mBackgroundPaint);
             // 绘制右侧ARC
@@ -172,8 +191,7 @@ public class CountdownView extends View {
         } else if (mCurrentProgressPosition <= (mTotalWidth - mRightArcRadius)) {
             // 这个时候，左边圆已经填满，先绘制进度条圆和进度矩形，再绘制灰色背景矩形，
             // 左侧ARC
-            float leftArcAngle = (float) Math.toDegrees(Math.asin(0.85));
-            canvas.drawArc(mArcLeftRectF, leftArcAngle, 360 - 2 * leftArcAngle, false, mProgressPaint);
+            canvas.drawArc(mArcLeftRectF, mLeftArcAngle, 360 - 2 * mLeftArcAngle, false, mProgressPaint);
             // 绘制进度矩形
             mProgressRectF.left = mLeftArcLength;
             mProgressRectF.right = mCurrentProgressPosition;
@@ -186,20 +204,53 @@ public class CountdownView extends View {
         } else {
             // 这个时候，左边圆已经填满，矩形区域也填满，只剩右边半圆，先绘制左边进度条圆和进度矩形，再绘制右边进度圆，最后绘制剩下的一点点灰色半圆
             // 左侧ARC
-            float leftArcAngle = (float) Math.toDegrees(Math.asin(0.85));
-            canvas.drawArc(mArcLeftRectF, leftArcAngle, 360 - 2 * leftArcAngle, false, mProgressPaint);
+            canvas.drawArc(mArcLeftRectF, mLeftArcAngle, 360 - 2 * mLeftArcAngle, false, mProgressPaint);
             // 绘制白色矩形，这时矩形已被完全填满，所以背景矩形的X坐标不能用mCurrentProgressPosition表示
-            mGrayRectF.left = (float) (mLeftArcRadius * 1.6);
+            mGrayRectF.left = (mLeftArcLength);
             canvas.drawRect(mGrayRectF, mProgressPaint);
             // 右侧ARC进度绘制 -> 现将右侧半圆绘制成进度ARC，再将进度条以后的绘制成背景色
             // 绘制右侧进度ARC
-            // 绘制右侧ARC
             canvas.drawArc(mArcRightRectF, -90, 180, false, mProgressPaint);
             // 绘制覆盖右侧背景ARC，有一部分进度ARC被覆盖
             // 单边角度
-            float angle = 180 - (float) Math.toDegrees(Math.acos((mRightArcRadius - (mTotalWidth - mCurrentProgressPosition))
+            float angle = (float) Math.toDegrees(Math.acos((mRightArcRadius - (mTotalWidth - mCurrentProgressPosition))
                     / mRightArcRadius));
-            canvas.drawArc(mArcLeftRectF, -angle, 2 * angle, false, mProgressPaint);
+            canvas.drawArc(mArcRightRectF, -angle, 2 * angle, false, mBackgroundPaint);
+        }
+    }
+
+    private void drawCountdownText(Canvas canvas) {
+        if (mCountDownFormatter == null) {
+            return;
+        }
+        CharSequence countDownText = mCountDownFormatter.format(TOTAL_PROGRESS - mProgress);
+        if (TextUtils.isEmpty(countDownText)) {
+            return;
+        }
+        mProgressTextPaint.setTextSize(mProgressTextSize);
+        mProgressTextPaint.setColor(mProgressTextColor);
+
+        mProgressTextPaint.getTextBounds(String.valueOf(countDownText), 0, countDownText.length(), mCountdownTextRect);
+        canvas.drawText(countDownText, 0, countDownText.length(), (mTotalWidth + mLeftArcLength) / 2, (mTotalHeight + mCountdownTextRect.height()) / 2, mProgressTextPaint);
+    }
+
+    public interface CountDownFormatter {
+        CharSequence format(long remain);
+    }
+
+    private static final class DefaultCountDownFormatter implements CountDownFormatter {
+        @Override
+        public CharSequence format(long secs) {
+            int hour = (int) (secs / SECONDS_PER_HOUR);
+            secs = secs % SECONDS_PER_HOUR;
+            int minute = (int) (secs / SECONDS_PER_MINUTE);
+            secs = secs % SECONDS_PER_MINUTE;
+
+            if (hour > 0) {
+                return String.format(Locale.US, "%02d:%02d:%02d", hour, minute, secs);
+            } else {
+                return String.format(Locale.US, "%02d:%02d", minute, secs);
+            }
         }
     }
 
@@ -209,7 +260,7 @@ public class CountdownView extends View {
      * @param progress
      */
     public void setProgress(int progress) {
-        this.mProgress = progress;
+        mProgress = progress < TOTAL_PROGRESS ? progress : TOTAL_PROGRESS;
         postInvalidate();
     }
 }
