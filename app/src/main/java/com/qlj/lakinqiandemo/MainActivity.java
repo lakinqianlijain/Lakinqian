@@ -1,5 +1,6 @@
 package com.qlj.lakinqiandemo;
 
+import android.app.Dialog;
 import android.app.NotificationManager;
 import android.os.Bundle;
 import android.view.View;
@@ -14,12 +15,19 @@ import com.qlj.lakinqiandemo.json.JsonAnalysisActivity;
 import com.qlj.lakinqiandemo.mvp.login.view.LoginActivity;
 import com.qlj.lakinqiandemo.optimize.MemoryOptimizeActivity;
 import com.qlj.lakinqiandemo.reflection.ReflectionActivity;
+import com.qlj.lakinqiandemo.service.JobServiceHelper;
+import com.qlj.lakinqiandemo.share.ShareBottomDialog;
+import com.qlj.lakinqiandemo.share.ShareUtils;
 import com.qlj.lakinqiandemo.utils.JumpActivityUtil;
 import com.qlj.lakinqiandemo.video.VideoActivity;
 import com.qlj.lakinqiandemo.views.CustomizeViewActivity;
 import com.qlj.lakinqiandemo.views.SlideViewActivity;
 import com.qlj.lakinqiandemo.views.animation.LoadingActivity;
 import com.qlj.lakinqiandemo.views.lottie.LottieActivity;
+
+import static com.qlj.lakinqiandemo.service.JobServiceHelper.SHOW_NOTIFICATION;
+import static com.qlj.lakinqiandemo.share.ShareBottomDialog.FACEBOOK;
+import static com.qlj.lakinqiandemo.share.ShareBottomDialog.WHATAPP;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     Button mReflection, mHOOK, mMVP, mAnimation, mContralayout,
@@ -63,7 +71,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.bt_memory_optimization).setOnClickListener(this);
         findViewById(R.id.bt_file_related).setOnClickListener(this);
         findViewById(R.id.bt_banner).setOnClickListener(this);
+        findViewById(R.id.bt_share).setOnClickListener(this);
     }
+
 
     @Override
     public void onClick(View v) {
@@ -116,10 +126,31 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.bt_banner:
 //                JumpActivityUtil.JumpSelfActivity(this, BannerActivity.class);
-                if (helper == null) {
-                    helper = new NotificationHelper(this);
-                }
-                helper.showNotification();
+//                if (helper == null) {
+//                    helper = new NotificationHelper(this);
+//                }
+//                helper.showNotification();
+//                TimeTaskUtil.startAlarmSchedule(this, TimeTaskUtil.TIME_TASK_ACTION, 10001, System.currentTimeMillis() + 10 * 1000, 10 * 1000);
+
+                JobServiceHelper.setJobScheduler(this, SHOW_NOTIFICATION, System.currentTimeMillis(), 20 * 1000, null);
+
+                break;
+            case R.id.bt_share:
+                ShareBottomDialog dialog = new ShareBottomDialog(this, R.style.dialog);
+                dialog.setItemClickListener(new ShareBottomDialog.OnItemClickListener() {
+                    @Override
+                    public void onClick(Dialog dialog, int position) {
+                        switch (position) {
+                            case FACEBOOK:
+                                ShareUtils.shareLinkFacebook(MainActivity.this);
+                                break;
+                            case WHATAPP:
+                                ShareUtils.shareLink(MainActivity.this, ShareUtils.WHATSAPP_PACKAGE_NAME);
+                                break;
+                        }
+                    }
+                });
+                dialog.show();
                 break;
 
         }

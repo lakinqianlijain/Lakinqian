@@ -47,6 +47,22 @@
         <activity android:name="com.qlj.lakinqiandemo.file.FileActivity" />
         <activity android:name="com.qlj.lakinqiandemo.banner.BannerActivity" />
 
+        <receiver android:name="com.qlj.lakinqiandemo.receiver.GlobalReceiver">
+            <intent-filter>
+                <action android:name="com.qlj.lakinqiandemo.TIMER_ACTION" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".service.GlobalJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <provider android:authorities="com.facebook.app.FacebookContentProvider1456065777826734"
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="true" />
+
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+
     </application>
 
 </manifest>

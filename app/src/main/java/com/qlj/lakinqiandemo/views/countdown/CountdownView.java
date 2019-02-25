@@ -1,4 +1,4 @@
-package com.qlj.lakinqiandemo.views;
+package com.qlj.lakinqiandemo.views.countdown;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -32,15 +32,16 @@ import static com.qlj.lakinqiandemo.utils.CommonUtil.TAG;
 public class CountdownView extends View {
     public final static int SECONDS_PER_HOUR = 3600;
     public final static int SECONDS_PER_MINUTE = 60;
-    public final static long SECONDS_MAX = 60 * 60;
     //  总进度
-    private static final int TOTAL_PROGRESS = 100;
+    private static final float TOTAL_PROGRESS = 100;
+    private long mRemainTime;
+
     private static final float HEIGHT_FACTOR = 0.85f;
     private static final float MARGIN_FACTOR = 1 - HEIGHT_FACTOR;
 
     private int mProgressTextColor = 0xff33b5e5;
     private int mProgressTextSize = 12;
-    private int mProgressBackgroundColor = 0xFF000000;
+    private int mProgressBackgroundColor = 0x33000000;
     private int mProgressStartColor = 0xffFFF024;
     private int mProgressEndColor = 0xffFFA100;
 
@@ -57,7 +58,7 @@ public class CountdownView extends View {
     // 圆的半径
     private float mLeftArcRadius, mRightArcRadius;
     // 当前进度
-    private int mProgress;
+    private float mProgress;
     // 所绘制的进度条部分的宽度
     private float mProgressWidth;
     // 当前所在的绘制的进度条的位置
@@ -119,8 +120,9 @@ public class CountdownView extends View {
         mRightArcRadius = mLeftArcRadius * HEIGHT_FACTOR;
         mProgressWidth = mTotalWidth;
 
-        mLeftArcLength = (float) (Math.cos(Math.asin(HEIGHT_FACTOR)) + 1) * mLeftArcRadius - 0.5f;
-        mLeftArcAngle = (float) Math.toDegrees(Math.asin(0.85));
+        mLeftArcLength = (float) (Math.cos(Math.asin(HEIGHT_FACTOR)) + 1) * mLeftArcRadius;
+        mLeftArcAngle = (float) Math.toDegrees(Math.asin(HEIGHT_FACTOR));
+        Log.e("6666", "onSizeChanged: " + mLeftArcLength + "----" + mTotalHeight);
 
         // 左侧圆形
         mArcLeftRectF = new RectF(0, 0, mLeftArcRadius * 2, mTotalHeight);
@@ -130,7 +132,7 @@ public class CountdownView extends View {
         mGrayRectF = new RectF(mCurrentProgressPosition, mLeftArcRadius * MARGIN_FACTOR,
                 mTotalWidth - mRightArcRadius, mTotalHeight - (mLeftArcRadius * MARGIN_FACTOR));
         // 右侧圆形
-        mArcRightRectF = new RectF(mTotalWidth - 2 * mRightArcRadius - MARGIN_FACTOR, mLeftArcRadius * MARGIN_FACTOR, mTotalWidth, mLeftArcRadius * MARGIN_FACTOR + mRightArcRadius * 2);
+        mArcRightRectF = new RectF(mTotalWidth - 2 * mRightArcRadius, mLeftArcRadius * MARGIN_FACTOR, mTotalWidth, mLeftArcRadius * MARGIN_FACTOR + mRightArcRadius * 2);
 
         updateProgressShader();
 
@@ -209,12 +211,11 @@ public class CountdownView extends View {
             mGrayRectF.left = (mLeftArcLength);
             canvas.drawRect(mGrayRectF, mProgressPaint);
             // 右侧ARC进度绘制 -> 现将右侧半圆绘制成进度ARC，再将进度条以后的绘制成背景色
-            // 绘制右侧进度ARC
-            canvas.drawArc(mArcRightRectF, -90, 180, false, mProgressPaint);
-            // 绘制覆盖右侧背景ARC，有一部分进度ARC被覆盖
             // 单边角度
             float angle = (float) Math.toDegrees(Math.acos((mRightArcRadius - (mTotalWidth - mCurrentProgressPosition))
                     / mRightArcRadius));
+            // 绘制右侧进度ARC
+            canvas.drawArc(mArcRightRectF, angle, 360 - 2 * angle, false, mProgressPaint);
             canvas.drawArc(mArcRightRectF, -angle, 2 * angle, false, mBackgroundPaint);
         }
     }
@@ -223,7 +224,10 @@ public class CountdownView extends View {
         if (mCountDownFormatter == null) {
             return;
         }
-        CharSequence countDownText = mCountDownFormatter.format(TOTAL_PROGRESS - mProgress);
+        if (mRemainTime < 0) {
+            mRemainTime = 0;
+        }
+        CharSequence countDownText = mCountDownFormatter.format(mRemainTime);
         if (TextUtils.isEmpty(countDownText)) {
             return;
         }
@@ -259,8 +263,14 @@ public class CountdownView extends View {
      *
      * @param progress
      */
-    public void setProgress(int progress) {
+    public void setProgress(float progress) {
         mProgress = progress < TOTAL_PROGRESS ? progress : TOTAL_PROGRESS;
         postInvalidate();
+    }
+
+    public void setProgress(long startTime, long total) {
+        if (startTime > total) return;
+        mRemainTime = total - startTime;
+        setProgress(startTime * TOTAL_PROGRESS / total);
     }
 }

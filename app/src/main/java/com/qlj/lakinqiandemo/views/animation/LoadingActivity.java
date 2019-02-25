@@ -11,9 +11,7 @@ import android.widget.Button;
 
 import com.qlj.lakinqiandemo.BaseActivity;
 import com.qlj.lakinqiandemo.R;
-import com.qlj.lakinqiandemo.views.CountdownView;
-
-import java.util.Random;
+import com.qlj.lakinqiandemo.views.countdown.CountdownView;
 
 /**
  * Created by Administrator on 2018/7/1.
@@ -27,6 +25,8 @@ public class LoadingActivity extends BaseActivity implements View.OnClickListene
     private View mFanView;
     private int mProgress = 0;
     private Button mLoadBtn, mClearBtn;
+    private long mStartTime = 0;
+    private long mTotalTime = 20;
 
     Handler mHandler = new Handler() {
         @Override
@@ -36,7 +36,8 @@ public class LoadingActivity extends BaseActivity implements View.OnClickListene
                 case REFRESH_PROGRESS:
                     mProgress++;
                     mLeafLoadingView.setProgress(mProgress);
-                    mCountdownView.setProgress(mProgress);
+                    mStartTime++;
+                    mCountdownView.setProgress(mStartTime, mTotalTime);
                     // 随机800ms以内刷新一次
                     mHandler.sendEmptyMessageDelayed(REFRESH_PROGRESS, 1000);
                     break;
@@ -73,12 +74,13 @@ public class LoadingActivity extends BaseActivity implements View.OnClickListene
         if (v == mClearBtn) {
             mProgress = 0;
             mLeafLoadingView.setProgress(0);
-            mCountdownView.setProgress(0);
+            mStartTime = 0;
+            mCountdownView.setProgress(mStartTime, mTotalTime);
             mHandler.removeMessages(REFRESH_PROGRESS);
         } else if (v == mLoadBtn) {
             mProgress = 0;
             mLeafLoadingView.setProgress(0);
-            mCountdownView.setProgress(0);
+            mCountdownView.setProgress(mStartTime, mTotalTime);
             mHandler.sendEmptyMessageDelayed(REFRESH_PROGRESS, 1000);
         }
     }

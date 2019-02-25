@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_root"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/ll_share_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bg_share_dialog"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_facebook"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="18dp"
+                android:drawableTop="@drawable/ic_facebook_share"
+                android:gravity="center"
+                android:text="Facebook"
+                android:textColor="#B30B0B0B"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/tv_Whatapp"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="18dp"
+                android:drawableTop="@drawable/ic_whatapp_share"
+                android:gravity="center"
+                android:text="Whatapp"
+                android:textColor="#B30B0B0B"
+                android:textSize="12dp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#1A000000" />
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:text="Cancel"
+            android:textColor="#CC000000"
+            android:textSize="16dp" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

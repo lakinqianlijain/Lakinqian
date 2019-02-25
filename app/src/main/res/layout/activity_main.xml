@@ -134,6 +134,13 @@
             android:layout_toRightOf="@+id/bt_file_related"
             android:text="Banner" />
 
+        <Button
+            android:id="@+id/bt_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/bt_banner"
+            android:text="Share" />
+
     </RelativeLayout>
 
 </RelativeLayout>
