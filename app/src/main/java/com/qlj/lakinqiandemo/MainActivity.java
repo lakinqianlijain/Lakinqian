@@ -18,6 +18,7 @@ import com.qlj.lakinqiandemo.reflection.ReflectionActivity;
 import com.qlj.lakinqiandemo.service.JobServiceHelper;
 import com.qlj.lakinqiandemo.share.ShareBottomDialog;
 import com.qlj.lakinqiandemo.share.ShareUtils;
+import com.qlj.lakinqiandemo.social.message.MessageActivity;
 import com.qlj.lakinqiandemo.utils.JumpActivityUtil;
 import com.qlj.lakinqiandemo.video.VideoActivity;
 import com.qlj.lakinqiandemo.views.CustomizeViewActivity;
@@ -72,6 +73,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.bt_file_related).setOnClickListener(this);
         findViewById(R.id.bt_banner).setOnClickListener(this);
         findViewById(R.id.bt_share).setOnClickListener(this);
+        findViewById(R.id.bt_social).setOnClickListener(this);
     }
 
 
@@ -151,6 +153,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     }
                 });
                 dialog.show();
+                break;
+            case R.id.bt_social:
+                 JumpActivityUtil.JumpSelfActivity(this, MessageActivity.class);
                 break;
 
         }

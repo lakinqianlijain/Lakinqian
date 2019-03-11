@@ -3,6 +3,7 @@ package com.qlj.lakinqiandemo.utils;
 import android.content.Context;
 import android.content.Intent;
 
+import static com.qlj.lakinqiandemo.social.message.DynamicMessageActivity.DYNAMIC_TYPE;
 import static com.qlj.lakinqiandemo.views.pinPasswordView.PinEditActivity.INPUT_TYPE;
 
 /**
@@ -25,6 +26,12 @@ public class JumpActivityUtil {
     public static void JumpOtherActivity(Context context, String packageName, String className){
         Intent intent = new Intent();
         intent.setClassName(packageName, className);
+        context.startActivity(intent);
+    }
+
+    public static void startDynamicMessageActivity(Context context, Class className, int type){
+        Intent intent = new Intent(context, className);
+        intent.putExtra(DYNAMIC_TYPE, type);
         context.startActivity(intent);
     }
 }

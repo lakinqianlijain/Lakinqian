@@ -46,6 +46,10 @@
         <activity android:name="com.qlj.lakinqiandemo.optimize.ImageLoadActivity" />
         <activity android:name="com.qlj.lakinqiandemo.file.FileActivity" />
         <activity android:name="com.qlj.lakinqiandemo.banner.BannerActivity" />
+        <activity android:name="com.qlj.lakinqiandemo.social.message.MessageActivity" />
+        <activity android:name="com.qlj.lakinqiandemo.social.message.DynamicMessageActivity" />
+        <activity android:name="com.qlj.lakinqiandemo.social.message.SessionActivity" />
+
 
         <receiver android:name="com.qlj.lakinqiandemo.receiver.GlobalReceiver">
             <intent-filter>
@@ -57,7 +61,7 @@
             android:name=".service.GlobalJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
-        <provider android:authorities="com.facebook.app.FacebookContentProvider1456065777826734"
+        <provider android:authorities="com.facebook.app.FacebookContentProvider1456065777826712"
             android:name="com.facebook.FacebookContentProvider"
             android:exported="true" />
 

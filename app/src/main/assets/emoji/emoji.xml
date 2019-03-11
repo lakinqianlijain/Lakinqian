@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PopoEmoticons>
+    <Catalog Title="default">
+        <Emoticon File="soc_emoji_01.png" ID="soc_emoticon_emoji_00" Tag="[angry]" />
+        <Emoticon File="soc_emoji_00.png" ID="soc_emoticon_emoji_01" Tag="[aweat]" />
+        <Emoticon File="soc_emoji_02.png" ID="soc_emoticon_emoji_02" Tag="[bye]" />
+        <Emoticon File="soc_emoji_03.png" ID="soc_emoticon_emoji_03" Tag="[cry]" />
+        <Emoticon File="soc_emoji_04.png" ID="soc_emoticon_emoji_04" Tag="[dizzy]" />
+        <Emoticon File="soc_emoji_05.png" ID="soc_emoticon_emoji_05" Tag="[heart]" />
+        <Emoticon File="soc_emoji_06.png" ID="soc_emoticon_emoji_06" Tag="[lacrimation]" />
+        <Emoticon File="soc_emoji_07.png" ID="soc_emoticon_emoji_07" Tag="[sad]" />
+        <Emoticon File="soc_emoji_08.png" ID="soc_emoticon_emoji_08" Tag="[stick]" />
+        <Emoticon File="soc_emoji_09.png" ID="soc_emoticon_emoji_09" Tag="[smile]" />
+    </Catalog>
+</PopoEmoticons>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PopoEmoticons>
+    <Catalog Title="gif">
+        <Emoticon File="soc_aweat.gif" ID="soc_emoticon_gif_00" Tag="[aweat]" />
+        <Emoticon File="soc_bye.gif" ID="soc_emoticon_gif_01" Tag="[bye]" />
+        <Emoticon File="soc_cry.gif" ID="soc_emoticon_gif_02" Tag="[cry]" />
+        <Emoticon File="soc_dizzy.gif" ID="soc_emoticon_gif_03" Tag="[dizzy]" />
+        <Emoticon File="soc_laugh.gif" ID="soc_emoticon_gif_04" Tag="[laugh]" />
+        <Emoticon File="soc_love.gif" ID="soc_emoticon_gif_05" Tag="[love]" />
+        <Emoticon File="soc_naughty.gif" ID="soc_emoticon_gif_06" Tag="[naughty]" />
+        <Emoticon File="soc_sad.gif" ID="soc_emoticon_gif_07" Tag="[sad]" />
+        <Emoticon File="soc_sick.gif" ID="soc_emoticon_gif_08" Tag="[stick]" />
+        <Emoticon File="soc_smile.gif" ID="soc_emoticon_gif_09" Tag="[smile]" />
+    </Catalog>
+</PopoEmoticons>

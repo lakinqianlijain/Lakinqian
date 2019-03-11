@@ -20,4 +20,11 @@
     <color name="progress_text_color">#FF000000</color>
     <color name="done_text_color">#FF5F9C62</color>
     <color name="color_policy_text">#FF5302</color>
+
+    <color name="line">#ccc</color>
+    <color name="white">#fff</color>
+    <color name="gray">#D9D9D9</color>
+
+    <color name="green1">#45C01A</color>
+    <color name="green2">#A3DEA3</color>
 </resources>
