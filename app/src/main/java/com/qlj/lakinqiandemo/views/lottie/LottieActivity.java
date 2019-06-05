@@ -43,6 +43,7 @@ public class LottieActivity extends BaseActivity implements View.OnClickListener
         mWaveLoading = findViewById(R.id.bt_material_wave);
         mWaveLoading.setOnClickListener(this);
         mLottieAnimationView = findViewById(R.id.lottie_view);
+        mLottieAnimationView.setOnClickListener(this);
     }
 
     @Override
@@ -57,9 +58,9 @@ public class LottieActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        if (mLottieAnimationView.isAnimating()){
+        if (mLottieAnimationView.isAnimating()) {
             mLottieAnimationView.cancelAnimation();
-    }
+        }
         switch (v.getId()) {
             case R.id.bt_android_wave:
                 mLottieAnimationView.setAnimation("android_wave.json");
@@ -94,6 +95,12 @@ public class LottieActivity extends BaseActivity implements View.OnClickListener
                 mLottieAnimationView.setAnimation("material_wave_loading.json");
                 mLottieAnimationView.playAnimation();
                 break;
+            case R.id.lottie_view:
+                mLottieAnimationView.setAnimation("android_wave.json");
+                mLottieAnimationView.playAnimation();
+                mLottieAnimationView.playAnimation();
+                break;
+
         }
     }
 }

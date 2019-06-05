@@ -5,6 +5,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".JianApplication"
@@ -49,6 +52,8 @@
         <activity android:name="com.qlj.lakinqiandemo.social.message.MessageActivity" />
         <activity android:name="com.qlj.lakinqiandemo.social.message.DynamicMessageActivity" />
         <activity android:name="com.qlj.lakinqiandemo.social.message.SessionActivity" />
+        <activity android:name=".social.code.ScanActivity"/>
+        <activity android:name=".social.code.QRCodeActivity"/>
 
 
         <receiver android:name="com.qlj.lakinqiandemo.receiver.GlobalReceiver">

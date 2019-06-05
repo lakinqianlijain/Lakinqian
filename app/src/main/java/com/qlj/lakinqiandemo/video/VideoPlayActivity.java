@@ -15,8 +15,8 @@ import java.util.List;
  */
 
 public class VideoPlayActivity extends BaseActivity {
-    private static final String url1 = "https://media.tenor.com/videos/4894b97cf21380b358f03396a17102b4/mp4";
-    private static final String url2 = "http://mp4.vjshi.com/2017-08-16/af83af63d018816474067b51a835f4a2.mp4";
+    private static final String url1 = "/tree/primary:/document/primary:Video/PrivateVideos/.VID_20190521_030820.mp4";
+    private static final String url2 = "/tree/primary:/document/primary:Video/PrivateVideos/.VID_20190521_030820.mp4";
     private static final String url3 = "http://mp4.vjshi.com/2017-10-19/53bfeb9eb92c1748596eaf2a1e649020.mp4";
     private static final String url4 = "http://mp4.vjshi.com/2016-10-23/a0511ea830bb0620f94a5340a1879800.mp4";
     private static final String url5 = "http://mp4.vjshi.com/2016-10-21/84bafe60ef0af95a5292f66b9f692504.mp4";

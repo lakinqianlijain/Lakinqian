@@ -19,6 +19,15 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
+
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java',
+                            '../QRCode/src/main/java']
+            res.srcDirs = ['src/main/res',
+                           '../QRCode/src/main/res']
+        }
+    }
 }
 
 dependencies {
@@ -35,4 +44,5 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:3.7.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.facebook.android:facebook-share:4.29.0'
+    implementation 'com.google.zxing:core:3.3.3'
 }

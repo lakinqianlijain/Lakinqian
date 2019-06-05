@@ -2,10 +2,14 @@ package com.qlj.lakinqiandemo;
 
 import android.app.Dialog;
 import android.app.NotificationManager;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.qlj.lakinqiandemo.bean.Student;
 import com.qlj.lakinqiandemo.common.notification.NotificationHelper;
 import com.qlj.lakinqiandemo.contralayout.ContralayoutActivity;
 import com.qlj.lakinqiandemo.eventbus.EventbusActivity;
@@ -18,13 +22,18 @@ import com.qlj.lakinqiandemo.reflection.ReflectionActivity;
 import com.qlj.lakinqiandemo.service.JobServiceHelper;
 import com.qlj.lakinqiandemo.share.ShareBottomDialog;
 import com.qlj.lakinqiandemo.share.ShareUtils;
-import com.qlj.lakinqiandemo.social.message.MessageActivity;
+import com.qlj.lakinqiandemo.social.code.QRCodeActivity;
+import com.qlj.lakinqiandemo.social.code.ScanActivity;
 import com.qlj.lakinqiandemo.utils.JumpActivityUtil;
 import com.qlj.lakinqiandemo.video.VideoActivity;
 import com.qlj.lakinqiandemo.views.CustomizeViewActivity;
 import com.qlj.lakinqiandemo.views.SlideViewActivity;
 import com.qlj.lakinqiandemo.views.animation.LoadingActivity;
 import com.qlj.lakinqiandemo.views.lottie.LottieActivity;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import static com.qlj.lakinqiandemo.service.JobServiceHelper.SHOW_NOTIFICATION;
 import static com.qlj.lakinqiandemo.share.ShareBottomDialog.FACEBOOK;
@@ -155,7 +164,48 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 dialog.show();
                 break;
             case R.id.bt_social:
-                 JumpActivityUtil.JumpSelfActivity(this, MessageActivity.class);
+                Intent intent = new Intent();
+                intent.setClassName("com.tct.video", "com.tct.video.View.activities.LocalVideoPlayActivity");
+                intent.putExtra("playPath", "/storage/emulated/0/DCIM/Camera/VID_20190514_131548.mp4");
+                this.startActivity(intent);
+
+                List<Student> students = new ArrayList<>();
+                Student student = new Student("lala", 12);
+                Student student1 = new Student("lalala", 13);
+                Student student2 = new Student("lalalala", 14);
+                Student student3 = new Student("lalalalala", 15);
+                Student student4 = new Student("lalalalalala", 16);
+                students.add(student);
+                students.add(student1);
+                students.add(student2);
+                students.add(student3);
+                students.add(student4);
+
+                Student qqq = null;
+                Iterator<Student> iterator = students.iterator();
+                while (iterator.hasNext()) {
+                    Student s = iterator.next();
+                    if (s.getName().equals("lalalala")){
+                        s.setName("la");
+                        qqq = s;
+                        iterator.remove();
+//                        students.remove(s);
+//                        students.add(0, students.remove(students.indexOf(s)));
+                    }
+                }
+                students.add(0, qqq);
+
+//                for (Student s : students){
+//                    if (s.getName().equals("lalalala")){
+//                        s.setName("la");
+////                        students.remove(s);
+//                        students.add(0, students.remove(students.indexOf(s)));
+//                    }
+//                }
+                for (Student s:students){
+                    Log.e("6666", "onClick: "+s.getName() );
+                }
+//                JumpActivityUtil.JumpSelfActivity(this, ScanActivity.class);
                 break;
 
         }
