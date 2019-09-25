@@ -16,6 +16,7 @@ import com.qlj.lakinqiandemo.eventbus.EventbusActivity;
 import com.qlj.lakinqiandemo.h5.H5Activity;
 import com.qlj.lakinqiandemo.hook.HookActivity;
 import com.qlj.lakinqiandemo.json.JsonAnalysisActivity;
+import com.qlj.lakinqiandemo.json.bean.CBAPlayer;
 import com.qlj.lakinqiandemo.mvp.login.view.LoginActivity;
 import com.qlj.lakinqiandemo.optimize.MemoryOptimizeActivity;
 import com.qlj.lakinqiandemo.reflection.ReflectionActivity;
@@ -34,6 +35,9 @@ import com.qlj.lakinqiandemo.views.lottie.LottieActivity;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
 import static com.qlj.lakinqiandemo.service.JobServiceHelper.SHOW_NOTIFICATION;
 import static com.qlj.lakinqiandemo.share.ShareBottomDialog.FACEBOOK;
@@ -211,5 +215,29 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
+
+    public class DynamicProxy implements InvocationHandler {//实现InvocationHandler接口
+        private Object obj;//被代理的对象
+
+        public DynamicProxy(Object obj) {
+            this.obj = obj;
+        }
+
+        //重写invoke()方法
+        @Override
+        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+            System.out.println("海外动态代理调用方法： "+method.getName());
+            Object result = method.invoke(obj, args);//调用被代理的对象的方法
+            return result;
+        }
+    }
+
+    public void test() {
+        CBAPlayer domestic = new CBAPlayer();                                 //创建国内购买人
+        DynamicProxy proxy = new DynamicProxy(domestic);                  //创建动态代理
+        ClassLoader classLoader = domestic.getClass().getClassLoader();   //获取ClassLoader
+        CBAPlayer oversea = (CBAPlayer) Proxy.newProxyInstance(classLoader, new Class[]{CBAPlayer.class}, proxy); //通过 Proxy 创建海外代购实例 ，实际上通过反射来实现的。
+
+    }
 
 }
