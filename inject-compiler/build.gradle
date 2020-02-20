@@ -1,0 +1,12 @@
+apply plugin: 'java-library'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':inject-annotion')
+    implementation 'com.google.auto:auto-common:0.8'
+    implementation 'com.google.auto.service:auto-service:1.0-rc3'
+    implementation 'com.squareup:javapoet:1.8.0'
+}
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
