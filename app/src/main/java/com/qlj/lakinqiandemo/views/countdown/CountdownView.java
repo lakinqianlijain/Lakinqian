@@ -63,6 +63,9 @@ public class CountdownView extends View {
     private float mProgressWidth;
     // 当前所在的绘制的进度条的位置
     private float mCurrentProgressPosition;
+    //
+    private int mBitmapWidth, mBitmapHeight;
+    private Matrix mMatrix;
 
     private RectF mArcLeftRectF, mArcRightRectF, mGrayRectF, mProgressRectF;
     private CountDownFormatter mCountDownFormatter = new DefaultCountDownFormatter();
@@ -89,6 +92,9 @@ public class CountdownView extends View {
 
     private void initBitmap() {
         mClockBitmap = ((BitmapDrawable) mContext.getResources().getDrawable(R.drawable.ic_clock)).getBitmap();
+        mBitmapWidth = mClockBitmap.getWidth();
+        mBitmapHeight = mClockBitmap.getHeight();
+        mMatrix = new Matrix();
     }
 
     private void initPaint() {
@@ -158,8 +164,21 @@ public class CountdownView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         drawProgress(canvas);
-        canvas.drawBitmap(mClockBitmap, (float) (mTotalHeight * 0.15), (float) (mTotalHeight * 0.15), mBitmapPaint);
+        drawableClickBitmap(canvas);
         drawCountdownText(canvas);
+    }
+
+    private void drawableClickBitmap(Canvas canvas) {
+//        Rect src = new Rect(0, 0, (int)mTotalHeight, (int)mTotalHeight);
+//        Rect dst = new Rect((int)(mTotalHeight/2),(int)(mTotalHeight/2),(int)(mTotalHeight),(int)(mTotalHeight));
+//
+//        canvas.drawBitmap(mClockBitmap, src, dst, mBitmapPaint);
+
+        mMatrix.reset();
+        mMatrix.postScale(3, 3);
+        mMatrix.postTranslate(mTotalHeight/2 - 1.5f * mBitmapWidth, mTotalHeight/2 - 1.5f * mBitmapHeight);
+        canvas.drawBitmap(mClockBitmap, mMatrix, mBitmapPaint);
+
     }
 
     private void drawProgress(Canvas canvas) {

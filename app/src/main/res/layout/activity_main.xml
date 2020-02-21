@@ -161,6 +161,12 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/bt_social"
             android:text="Annotation" />
+        <Button
+            android:id="@+id/bt_canvas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/bt_annotation"
+            android:text="Canvas" />
 
     </RelativeLayout>
 

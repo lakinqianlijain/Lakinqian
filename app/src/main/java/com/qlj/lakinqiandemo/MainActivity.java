@@ -31,6 +31,7 @@ import com.qlj.lakinqiandemo.video.VideoActivity;
 import com.qlj.lakinqiandemo.views.CustomizeViewActivity;
 import com.qlj.lakinqiandemo.views.SlideViewActivity;
 import com.qlj.lakinqiandemo.views.animation.LoadingActivity;
+import com.qlj.lakinqiandemo.views.canvas.CanvasActivity;
 import com.qlj.lakinqiandemo.views.lottie.LottieActivity;
 
 import java.util.ArrayList;
@@ -89,6 +90,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.bt_share).setOnClickListener(this);
         findViewById(R.id.bt_social).setOnClickListener(this);
         findViewById(R.id.bt_annotation).setOnClickListener(this);
+        findViewById(R.id.bt_canvas).setOnClickListener(this);
     }
 
 
@@ -191,7 +193,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 Iterator<Student> iterator = students.iterator();
                 while (iterator.hasNext()) {
                     Student s = iterator.next();
-                    if (s.getName().equals("lalalala")){
+                    if (s.getName().equals("lalalala")) {
                         s.setName("la");
                         qqq = s;
                         iterator.remove();
@@ -208,13 +210,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //                        students.add(0, students.remove(students.indexOf(s)));
 //                    }
 //                }
-                for (Student s:students){
-                    Log.e("6666", "onClick: "+s.getName() );
+                for (Student s : students) {
+                    Log.e("6666", "onClick: " + s.getName());
                 }
 //                JumpActivityUtil.JumpSelfActivity(this, ScanActivity.class);
                 break;
             case R.id.bt_annotation:
                 JumpActivityUtil.JumpSelfActivity(this, TestAnnotationActivity.class);
+                break;
+            case R.id.bt_canvas:
+                JumpActivityUtil.JumpSelfActivity(this, CanvasActivity.class);
                 break;
 
         }
@@ -231,7 +236,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         //重写invoke()方法
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            System.out.println("海外动态代理调用方法： "+method.getName());
+            System.out.println("海外动态代理调用方法： " + method.getName());
             Object result = method.invoke(obj, args);//调用被代理的对象的方法
             return result;
         }

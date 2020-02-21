@@ -55,6 +55,7 @@
         <activity android:name=".social.code.ScanActivity"/>
         <activity android:name=".social.code.QRCodeActivity"/>
         <activity android:name=".annotation.TestAnnotationActivity"/>
+        <activity android:name=".views.canvas.CanvasActivity" />
 
 
         <receiver android:name="com.qlj.lakinqiandemo.receiver.GlobalReceiver">
