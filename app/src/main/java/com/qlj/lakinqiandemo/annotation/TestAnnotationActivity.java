@@ -20,7 +20,7 @@ public class TestAnnotationActivity extends BaseActivity {
 
    @OnClickRun(id = R.id.button1)
     public void button1OnClick() {
-       Log.i("tag", "这是一个测试的例子");
+       Toast.makeText(this, "运行时注解button1 成功", Toast.LENGTH_SHORT).show();
    }
 
    @BindView(value = R.id.button2)
@@ -37,7 +37,7 @@ public class TestAnnotationActivity extends BaseActivity {
 
     private void showCompileTimeAnnotation() {
         if (button2 != null){
-            Toast.makeText(this, "button2 注解成功", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "编译时注解button2 成功", Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.qlj.lakinqiandemo.annotation.TestAnnotationActivity;
 import com.qlj.lakinqiandemo.bean.Student;
 import com.qlj.lakinqiandemo.common.notification.NotificationHelper;
 import com.qlj.lakinqiandemo.contralayout.ContralayoutActivity;
@@ -87,6 +88,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.bt_banner).setOnClickListener(this);
         findViewById(R.id.bt_share).setOnClickListener(this);
         findViewById(R.id.bt_social).setOnClickListener(this);
+        findViewById(R.id.bt_annotation).setOnClickListener(this);
     }
 
 
@@ -210,6 +212,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     Log.e("6666", "onClick: "+s.getName() );
                 }
 //                JumpActivityUtil.JumpSelfActivity(this, ScanActivity.class);
+                break;
+            case R.id.bt_annotation:
+                JumpActivityUtil.JumpSelfActivity(this, TestAnnotationActivity.class);
                 break;
 
         }

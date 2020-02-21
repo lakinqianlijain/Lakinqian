@@ -155,6 +155,13 @@
             android:layout_height="wrap_content"
             android:text="Social相关" />
 
+        <Button
+            android:id="@+id/bt_annotation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/bt_social"
+            android:text="Annotation" />
+
     </RelativeLayout>
 
 </RelativeLayout>
