@@ -1,14 +1,280 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fl_canvas"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/tv_canvas1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="画布1">
-    </Button>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/tv_canvas1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="画布1" />
+
+        <Button
+            android:id="@+id/tv_canvas2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/tv_canvas1"
+            android:gravity="center"
+            android:text="Path1" />
+
+        <Button
+            android:id="@+id/tv_canvas3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/tv_canvas2"
+            android:gravity="center"
+            android:text="Path2" />
+
+        <Button
+            android:id="@+id/tv_canvas4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/tv_canvas3"
+            android:gravity="center"
+            android:text="Path3" />
+
+        <Button
+            android:id="@+id/tv_canvas5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_canvas1"
+            android:gravity="center"
+            android:text="Path4" />
+
+        <Button
+            android:id="@+id/tv_canvas6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_canvas2"
+            android:layout_toEndOf="@+id/tv_canvas5"
+            android:gravity="center"
+            android:text="AddPath" />
+
+        <Button
+            android:id="@+id/tv_canvas7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_canvas3"
+            android:layout_toEndOf="@+id/tv_canvas6"
+            android:gravity="center"
+            android:text="PathProperty" />
+
+        <Button
+            android:id="@+id/tv_canvas8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_canvas4"
+            android:layout_toEndOf="@+id/tv_canvas7"
+            android:gravity="center"
+            android:text="PathOP" />
+
+        <Button
+            android:id="@+id/tv_canvas9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_canvas5"
+            android:gravity="center"
+            android:text="CanvasToBitmap" />
+
+        <Button
+            android:id="@+id/tv_canvas10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_canvas6"
+            android:layout_toEndOf="@+id/tv_canvas9"
+            android:gravity="center"
+            android:text="DrawArc" />
+
+        <Button
+            android:id="@+id/tv_canvas11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_canvas7"
+            android:layout_toEndOf="@+id/tv_canvas10"
+            android:gravity="center"
+            android:text="DrawText" />
+
+        <Button
+            android:id="@+id/tv_canvas12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_canvas8"
+            android:layout_toEndOf="@+id/tv_canvas11"
+            android:gravity="center"
+            android:text="DrawPicture" />
+
+        <Button
+            android:id="@+id/tv_canvas13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_canvas9"
+            android:gravity="center"
+            android:text="DrawBitmap" />
+
+        <Button
+            android:id="@+id/tv_canvas14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_canvas10"
+            android:layout_toEndOf="@+id/tv_canvas13"
+            android:gravity="center"
+            android:text="NOPorterDuff" />
+
+        <Button
+            android:id="@+id/tv_canvas15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_canvas11"
+            android:layout_toEndOf="@+id/tv_canvas14"
+            android:gravity="center"
+            android:text="CLEAR" />
+
+        <Button
+            android:id="@+id/tv_canvas16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_canvas12"
+            android:layout_toEndOf="@+id/tv_canvas15"
+            android:gravity="center"
+            android:text="SRC" />
+
+        <Button
+            android:id="@+id/tv_canvas17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_canvas13"
+            android:gravity="center"
+            android:text="DST" />
+
+        <Button
+            android:id="@+id/tv_canvas18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_canvas14"
+            android:layout_toEndOf="@+id/tv_canvas17"
+            android:gravity="center"
+            android:text="SRC_OVER" />
+
+        <Button
+            android:id="@+id/tv_canvas19"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_canvas15"
+            android:layout_toEndOf="@+id/tv_canvas18"
+            android:gravity="center"
+            android:text="DST_OVER" />
+
+        <Button
+            android:id="@+id/tv_canvas20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_canvas16"
+            android:layout_toEndOf="@+id/tv_canvas19"
+            android:gravity="center"
+            android:text="SRC_IN" />
+
+        <Button
+            android:id="@+id/tv_canvas21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_canvas17"
+            android:gravity="center"
+            android:text="DST_IN" />
+
+        <Button
+            android:id="@+id/tv_canvas22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_canvas18"
+            android:layout_toEndOf="@+id/tv_canvas21"
+            android:gravity="center"
+            android:text="SRC_OUT" />
+
+        <Button
+            android:id="@+id/tv_canvas23"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_canvas19"
+            android:layout_toEndOf="@+id/tv_canvas22"
+            android:gravity="center"
+            android:text="DST_OUT" />
+
+        <Button
+            android:id="@+id/tv_canvas24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_canvas20"
+            android:layout_toEndOf="@+id/tv_canvas23"
+            android:gravity="center"
+            android:text="SRC_ATOP" />
+
+        <Button
+            android:id="@+id/tv_canvas25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_canvas21"
+            android:gravity="center"
+            android:text="DST_ATOP" />
+
+        <Button
+            android:id="@+id/tv_canvas26"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_canvas22"
+            android:layout_toEndOf="@+id/tv_canvas25"
+            android:gravity="center"
+            android:text="XOR" />
+
+        <Button
+            android:id="@+id/tv_canvas27"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_canvas23"
+            android:layout_toEndOf="@+id/tv_canvas26"
+            android:gravity="center"
+            android:text="DARKEN" />
+
+        <Button
+            android:id="@+id/tv_canvas28"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_canvas24"
+            android:layout_toEndOf="@+id/tv_canvas27"
+            android:gravity="center"
+            android:text="LIGHTEN" />
+
+        <Button
+            android:id="@+id/tv_canvas29"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_canvas25"
+            android:gravity="center"
+            android:text="MULTIPLY" />
+
+        <Button
+            android:id="@+id/tv_canvas30"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_canvas26"
+            android:layout_toEndOf="@+id/tv_canvas29"
+            android:gravity="center"
+            android:text="SCREEN" />
+
+
+        <ImageView
+            android:id="@+id/iv_canvas_to_bitmap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+</FrameLayout>

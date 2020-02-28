@@ -177,6 +177,8 @@ public class CountdownView extends View {
         mMatrix.reset();
         mMatrix.postScale(3, 3);
         mMatrix.postTranslate(mTotalHeight/2 - 1.5f * mBitmapWidth, mTotalHeight/2 - 1.5f * mBitmapHeight);
+//        canvas.scale(3,3);
+//        canvas.translate(mTotalHeight/6 - 0.5f * mBitmapWidth, mTotalHeight/6 - 0.5f * mBitmapHeight);
         canvas.drawBitmap(mClockBitmap, mMatrix, mBitmapPaint);
 
     }
