@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/inject" />
             <option value="$PROJECT_DIR$/inject-annotion" />
             <option value="$PROJECT_DIR$/inject-compiler" />
+            <option value="$PROJECT_DIR$/serverofaidl" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

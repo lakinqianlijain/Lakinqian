@@ -11,6 +11,8 @@ import android.widget.Button;
 
 import com.qlj.lakinqiandemo.annotation.TestAnnotationActivity;
 import com.qlj.lakinqiandemo.bean.Student;
+import com.qlj.lakinqiandemo.binder.BinderActivity;
+import com.qlj.lakinqiandemo.binder.aidl.EasyDemoActivity;
 import com.qlj.lakinqiandemo.common.notification.NotificationHelper;
 import com.qlj.lakinqiandemo.contralayout.ContralayoutActivity;
 import com.qlj.lakinqiandemo.eventbus.EventbusActivity;
@@ -91,6 +93,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.bt_social).setOnClickListener(this);
         findViewById(R.id.bt_annotation).setOnClickListener(this);
         findViewById(R.id.bt_canvas).setOnClickListener(this);
+        findViewById(R.id.bt_binder).setOnClickListener(this);
     }
 
 
@@ -220,6 +223,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.bt_canvas:
                 JumpActivityUtil.JumpSelfActivity(this, CanvasActivity.class);
+                break;
+            case R.id.bt_binder:
+                JumpActivityUtil.JumpSelfActivity(this, BinderActivity.class);
                 break;
 
         }

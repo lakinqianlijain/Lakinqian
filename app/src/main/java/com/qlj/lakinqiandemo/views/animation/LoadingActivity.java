@@ -27,6 +27,23 @@ public class LoadingActivity extends BaseActivity implements View.OnClickListene
     private Button mLoadBtn, mClearBtn;
     private long mStartTime = 0;
     private long mTotalTime = 20;
+    private GADownloadingView mGADownloadingView;
+    private Button mShowSuccess, mShowFailed;
+    private boolean isSuccess = true;
+
+    private static final int UPDATE_PROGRESS_DELAY = 1000;
+
+    private Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            mProgress += 10;
+            if (!isSuccess && mProgress >= 60) {
+                mGADownloadingView.onFail();
+            }
+            mGADownloadingView.updateProgress(mProgress);
+            mHandler.postDelayed(mRunnable, UPDATE_PROGRESS_DELAY);
+        }
+    };
 
     Handler mHandler = new Handler() {
         @Override
@@ -66,7 +83,11 @@ public class LoadingActivity extends BaseActivity implements View.OnClickListene
         mLoadBtn.setOnClickListener(this);
         mLeafLoadingView = findViewById(R.id.leaf_loading);
         mCountdownView = findViewById(R.id.cv_countdown_view);
-
+        mGADownloadingView = findViewById(R.id.ga_downloading);
+        mShowSuccess = findViewById(R.id.show_success);
+        mShowSuccess.setOnClickListener(this);
+        mShowFailed = findViewById(R.id.show_failed);
+        mShowFailed.setOnClickListener(this);
     }
 
     @Override
@@ -82,6 +103,24 @@ public class LoadingActivity extends BaseActivity implements View.OnClickListene
             mLeafLoadingView.setProgress(0);
             mCountdownView.setProgress(mStartTime, mTotalTime);
             mHandler.sendEmptyMessageDelayed(REFRESH_PROGRESS, 1000);
+        } else if (v == mShowSuccess){
+            mGADownloadingView.releaseAnimation();
+            mHandler.removeCallbacks(mRunnable);
+
+            isSuccess = true;
+            mProgress = 0;
+            mGADownloadingView.performAnimation();
+            mGADownloadingView.updateProgress(0);
+            mHandler.postDelayed(mRunnable, 0);
+        } else if (v == mShowFailed){
+            mGADownloadingView.releaseAnimation();
+            mHandler.removeCallbacks(mRunnable);
+
+            isSuccess = false;
+            mProgress = 0;
+            mGADownloadingView.performAnimation();
+            mGADownloadingView.updateProgress(0);
+            mHandler.postDelayed(mRunnable, 0);
         }
     }
 }

@@ -1,1 +1,1 @@
-include ':app', ':inject', ':inject-annotion', ':inject-compiler'
+include ':app', ':inject', ':inject-annotion', ':inject-compiler', ':serverofaidl'

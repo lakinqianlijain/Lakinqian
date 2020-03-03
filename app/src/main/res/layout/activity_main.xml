@@ -168,6 +168,13 @@
             android:layout_toRightOf="@+id/bt_annotation"
             android:text="Canvas" />
 
+        <Button
+            android:id="@+id/bt_binder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/bt_canvas"
+            android:text="Binder" />
+
     </RelativeLayout>
 
 </RelativeLayout>

@@ -2,13 +2,18 @@ package com.qlj.lakinqiandemo.views.animation;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Camera;
 import android.graphics.Canvas;
 import android.graphics.CornerPathEffect;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PathDashPathEffect;
+import android.graphics.PathMeasure;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
@@ -16,7 +21,10 @@ import android.graphics.RectF;
 import android.graphics.Xfermode;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.animation.LinearInterpolator;
 
 import com.qlj.lakinqiandemo.R;
 import com.qlj.lakinqiandemo.utils.DensityUtil;
@@ -55,7 +63,7 @@ public class GADownloadingView extends View {
     private static final int DEFAULT_PROGRESS_TEXT_COLOR = 0xFF000000;
     private static final int DEFAULT_DONE_PROGRESS_TEXT_COLOR = 0xFF5F9C62;
 
-    private static final int BEFORE_PROGRESS_CIRCLE_SCALE_DURATION = 3000;
+    private static final int BEFORE_PROGRESS_CIRCLE_SCALE_DURATION = 450;
     private static final int BEFORE_PROGRESS_INNER_CIRCLE_SCALE_DURATION
             = BEFORE_PROGRESS_CIRCLE_SCALE_DURATION / 2;
     private static final int BEFORE_PROGRESS_INNER_CIRCLE_SCALE_DELAY
@@ -173,9 +181,8 @@ public class GADownloadingView extends View {
     private int mProgressTextColor;
     private int mDoneTextColor;
 
-    private boolean mIsFailed;
-    private int mNextProgress, mLastValidProgress, mLastProgress;
-    private String mLastValidProgressTextStr;
+    // other
+    private Camera mCamera;
     private List<Animator> mAnimatorList;
 
     // loadingView
@@ -194,12 +201,76 @@ public class GADownloadingView extends View {
     private int mProgressTextSize;
 
     // before progress
+    private AnimatorSet mBefProgressAnimatorSet;
     private ValueAnimator mBefProgCircleScaleAnimator;
     private float mBefProgCircleScalingFactor;
     private ValueAnimator mBefProgInnerCircleScaleAnimator;
     private float mBefProgInnerCircleScalingFactor;
     private ValueAnimator mBefProgCircleToLineAnimator;
     private float mBefProgCircleToLineNormalizedTime;
+    private ValueAnimator mBefProgArrowMoveAnimator;
+    private float mBefProgArrowMoveNormalizedTime;
+    private ValueAnimator mBefProgLineOscillAnimator;
+    private float mBefProgLineOscillationFactor;
+
+    // arrow move
+    private float[] mArrowMovePoint;
+    private Path mArrowMovePath;
+    private Rect mArrowMovePathRect;
+    private PathMeasure mArrowPathMeasure;
+    private float mArrowMovePathLength;
+
+    // arrow bounce
+    private Path mArrowBouncePath;
+    private PathMeasure mArrowBouncePathMeasure;
+    private float mArrowBouncePathLength;
+
+
+    // in progress
+    private float mProgressValue;
+    private int mLastProgress;
+    private int mNextProgress;
+    private ValueAnimator mProgressAnimator;
+    private RectF mProgressLinePathRectF;
+    private int mLastValidProgress;
+    private String mLastValidProgressTextStr;
+
+    // done
+    private AnimatorSet mDoneAnimatorSet;
+    private ValueAnimator mDoneRotateAnimator;
+    private float mDoneRotateNormalizedTime;
+    private ValueAnimator mDoneLinePackUpAnimator;
+    private float mDoneLinePackUpNormalizedTime;
+    private ValueAnimator mDoneArrowShakeAnimator;
+    private float mDoneArrowShakeAngle;
+    private ValueAnimator mDoneRestToCircleAnimator;
+    private float mDoneRestToCircleScalingFactor;
+    private ValueAnimator mDoneDialogToArrowAnimator;
+    private float mDoneDialogToArrowNormalizedTime;
+    private ValueAnimator mDoneDialogToArrowUpDownAnimator;
+    private float mDoneDialogToArrowUpDownFactor;
+
+    //fail
+    private boolean mIsFailed;
+    private AnimatorSet mFailedAnimatorSet;
+    private ValueAnimator mFailedArrowShakeAnimator;
+    private float mFailedArrowUpAndDownFactor;
+    private ValueAnimator mFailedArrowRotateAnimator;
+    private float mFailedArrowRotateAngle;
+    private ValueAnimator mFailedLineOscillationAnimator;
+    private float mFailedLineOscillationFactor;
+    private ValueAnimator mFailedArrowMoveAnimator;
+    private float mFailedArrowMoveNormalizeTiem;
+    private ValueAnimator mFailedLinePackUpAnimator;
+    private float mFailedLinePackUpFactor;
+    private ValueAnimator mFailedCircleScaleAnimator;
+    private float mFailedCircleScaleFactor;
+    private ValueAnimator mFailedBombAnimator;
+    private float mFailedBombAnimatorPer;
+    private Paint mFailedBombPaint;
+    private Paint mFailedBombBellowPaint;
+    private Path mFailedBombPath;
+    private Path mFailedBombPathBellow;
 
 
     // circle
@@ -235,30 +306,32 @@ public class GADownloadingView extends View {
     private int mLastArrowRectHeight;
     private int mLastArrowTriWidth;
     private int mLastArrowTriHeight;
-
-
+    private int mLastArrowOffsetX;
+    private int mLastArrowOffsetY;
+    private float[] mChangeArrowToDialogParamters = new float[5];
+    private Matrix mArrowRotateMatrix;
 
     private int mCurrentState;
 
 
     public GADownloadingView(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public GADownloadingView(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs, R.attr.downloading_def_style);
+        this(context, attrs, 0);
     }
 
     public GADownloadingView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         TypedArray typedArray = context.obtainStyledAttributes(attrs,
                 R.styleable.GADownloadingView, defStyleAttr, 0);
-        mArrowColor = typedArray.getColor(R.styleable.GADownloadingView_arrow_color, 0);
-        mLoadingCircleBackColor = typedArray.getColor(R.styleable.GADownloadingView_loading_circle_back_color, 0);
-        mLoadingLineColor = typedArray.getColor(R.styleable.GADownloadingView_loading_line_color, 0);
-        mProgressLineColor = typedArray.getColor(R.styleable.GADownloadingView_progress_line_color, 0);
-        mProgressTextColor = typedArray.getColor(R.styleable.GADownloadingView_progress_text_color, 0);
-        mDoneTextColor = typedArray.getColor(R.styleable.GADownloadingView_done_text_color, 0);
+        mArrowColor = typedArray.getColor(R.styleable.GADownloadingView_arrow_color, DEFAULT_ARROW_COLOR);
+        mLoadingCircleBackColor = typedArray.getColor(R.styleable.GADownloadingView_loading_circle_back_color, DEFAULT_LOADING_CIRCLE_BG_COLOR);
+        mLoadingLineColor = typedArray.getColor(R.styleable.GADownloadingView_loading_line_color, DEFAULT_LOADING_LINE_COLOR);
+        mProgressLineColor = typedArray.getColor(R.styleable.GADownloadingView_progress_line_color, DEFAULT_PROGRESS_LINE_LEFT_COLOR);
+        mProgressTextColor = typedArray.getColor(R.styleable.GADownloadingView_progress_text_color, DEFAULT_PROGRESS_TEXT_COLOR);
+        mDoneTextColor = typedArray.getColor(R.styleable.GADownloadingView_done_text_color, DEFAULT_DONE_PROGRESS_TEXT_COLOR);
         typedArray.recycle();
 
         init();
@@ -291,8 +364,8 @@ public class GADownloadingView extends View {
         mProgressTextPaint.setAntiAlias(true);
         mProgressTextRect = new Rect();
 
-        mLoadingViewWidth = DensityUtil.dip2px(getContext(), 300);
-        mLoadingViewHeight = DensityUtil.dip2px(getContext(), 4);
+        mLoadingViewWidth = DensityUtil.dip2px(getContext(), SUGGEST_LOADING_VIEW_WIDTH);
+        mLoadingViewHeight = DensityUtil.dip2px(getContext(), SUGGEST_LOADING_VIEW_HEIGHT);
         mAnimatorList = new ArrayList<Animator>();
     }
 
@@ -379,7 +452,577 @@ public class GADownloadingView extends View {
             case STATE_BEFORE_PROGRESS_CIRCLE_TO_LINE:
                 drawBeforeProgressCircleToLine(canvas, mBefProgCircleToLineNormalizedTime);
                 break;
+            // in this state, arrow move to left, while line oscillate
+            case STATE_BEFORE_PROGRESS_ARROW_MOVE_LINE_OSCILL:
+                drawBeforeProgressArrowMoveAndLineOscill(canvas,
+                        mBefProgArrowMoveNormalizedTime, mBefProgLineOscillationFactor);
+                break;
+            case STATE_FAILED_ARROW_SHAKE:
+                drawFailedArrowShake(canvas, mFailedArrowUpAndDownFactor, mFailedArrowRotateAngle, 15f);
+                break;
+            case STATE_FAILED_LINE_OSCILL:
+                drawFailedRopeOscillation(canvas, mFailedLineOscillationFactor);
+                drawFailedArrowMove(canvas, mFailedArrowMoveNormalizeTiem);
+                break;
+            case STATE_FAILED_LINE_PACK_UP:
+                drawFailedLinePackUp(canvas, mFailedLinePackUpFactor);
+                drawFailedArrowMove(canvas, mFailedArrowMoveNormalizeTiem);
+                break;
+            case STATE_FAILED_CIRCLE_SCALE:
+                drawFailedCircleScale(canvas, mFailedCircleScaleFactor);
+                drawFailedArrowMove(canvas, mFailedArrowMoveNormalizeTiem);
+                break;
+            // in this state, draw arrow move by progress
+            case STATE_IN_PROGRESS:
+                drawProgress(canvas, mProgressValue);
+                break;
+            // in this state, arrow is rotate by y
+            case STATE_DONE_ROTATE:
+                drawArrowRotate(canvas, mDoneRotateNormalizedTime);
+                break;
+            // in this state, arrow move to center, line pack up
+            case STATE_DONE_LINE_PACK_UP:
+                drawDoneLinePackUp(canvas, mDoneLinePackUpNormalizedTime);
+                break;
+            // in this state, arrow shake
+            case STATE_DONE_ARROW_SHAKE:
+                drawDoneLinePackUpArrowShake(canvas, mDoneArrowShakeAngle);
+                break;
+            case STATE_DONE_REST_TO_CIRCLE:
+                drawDoneRestToCircle(canvas, mDoneRestToCircleScalingFactor,
+                        mDoneDialogToArrowNormalizedTime, mDoneDialogToArrowUpDownFactor);
+                break;
         }
+    }
+
+    private void drawDoneRestToCircle(Canvas canvas, float circleScaleFactor,
+                                      float dialogToArrowNormalizeTime, float arrowUpDownFactor) {
+        // draw bg circle
+        float circleRadius = mCircleRadius * circleScaleFactor;
+        mDefaultPaint.setColor(mLoadingCircleBackColor);
+        canvas.drawCircle(mCircleRectF.centerX(), mCircleRectF.centerY(), circleRadius, mDefaultPaint);
+
+        // draw arrow
+        // generate dialog to arrow
+        updateArrowToDialogParamters(mChangeArrowToDialogParamters, 1 - dialogToArrowNormalizeTime);
+        updateArrowPath((int) (mCircleRadius * mChangeArrowToDialogParamters[0]),
+                (int) (mCircleRadius * mChangeArrowToDialogParamters[1]),
+                (int) (mCircleRadius * mChangeArrowToDialogParamters[2]),
+                (int) (mCircleRadius * mChangeArrowToDialogParamters[3]));
+        int offsetArrowX = (int) (mCircleRectF.centerX() - mArrowRectF.width() / 2);
+        // dialogToArrowNormalizeTime * 0.5 can ensure the arrow move end point smoothly
+        int offsetArrowY = (int) (mCircleRectF.centerY() - mArrowRectF.height()
+                * (1 - dialogToArrowNormalizeTime * 0.5 + arrowUpDownFactor));
+        canvas.save();
+        canvas.translate(offsetArrowX, offsetArrowY);
+        mDefaultPaint.setColor(mArrowColor);
+        canvas.drawPath(mArrowPath, mDefaultPaint);
+        canvas.restore();
+    }
+
+    private void drawDoneLinePackUpArrowShake(Canvas canvas, float angle) {
+        int adjustLen = DONE_LINE_PACK_UP_ARROW_SHAKE_BASE_POINT_DIAMETER;
+        mBaseLinePaint.setColor(mProgressLineColor);
+        canvas.drawLine(mBaseLineCenterX, mBaseLineY, mBaseLineCenterX + adjustLen, mBaseLineY, mBaseLinePaint);
+        drawArrowTrans(canvas,
+                (int) (mBaseLineCenterX - mArrowRectF.width() / 2),
+                (int) (mBaseLineY - mArrowRectF.height()), angle);
+    }
+
+    private void drawDoneLinePackUp(Canvas canvas, float normalizedTime) {
+        int adjustLen = (int) (mBaseLineLen * (FULL_NORMALIZED_TIME - normalizedTime));
+        // keep a min len
+        if (adjustLen < DONE_LINE_PACK_UP_ARROW_SHAKE_BASE_POINT_DIAMETER) {
+            adjustLen = DONE_LINE_PACK_UP_ARROW_SHAKE_BASE_POINT_DIAMETER;
+        }
+        int adjustBaseLineX = mBaseLineCenterX - adjustLen / 2;
+        mLastArrowOffsetX = (int) (adjustBaseLineX + adjustLen - mArrowRectF.width() / 2);
+        mLastArrowOffsetY = (int) (mBaseLineY - mArrowRectF.height());
+
+        mBaseLinePaint.setColor(mProgressLineColor);
+        canvas.drawLine(adjustBaseLineX, mBaseLineY, adjustBaseLineX + adjustLen, mBaseLineY, mBaseLinePaint);
+        drawArrowTrans(canvas, mLastArrowOffsetX, mLastArrowOffsetY, DONE_LINE_PACK_UP_ARROW_ANGLE);
+    }
+
+    private void drawArrowRotate(Canvas canvas, float normalizedTime) {
+        if (mArrowRotateMatrix == null) {
+            mArrowRotateMatrix = new Matrix();
+        } else {
+            mArrowRotateMatrix.reset();
+        }
+        mArrowRotateMatrix.reset();
+
+        float angle;
+        String tmpStr = mLastValidProgressTextStr;
+        if (normalizedTime <= HALF_NORMALIZED_PROGRESS) {
+            // first text is 100%, rotate angle is  0 to 90
+            mLastValidProgressTextStr = FULL_PROGRESS_STR;
+            angle = HALF_FULL_ANGLE * normalizedTime;
+            mProgressTextPaint.setColor(mProgressTextColor);
+        } else {
+            // second text is done, rotate angle is  270 to 360
+            mLastValidProgressTextStr = FULL_PROGRESS_DONE_STR;
+            angle = HALF_FULL_ANGLE * normalizedTime + HALF_FULL_ANGLE;
+            mProgressTextPaint.setColor(mDoneTextColor);
+        }
+        if (mCamera == null) {
+            mCamera = new Camera();
+        }
+        mCamera.save();
+        mCamera.rotateY(angle);
+        mCamera.getMatrix(mArrowRotateMatrix);
+        mCamera.restore();
+        mArrowRotateMatrix.preTranslate(-mArrowRectF.centerX(), -mArrowRectF.centerY());
+        mArrowRotateMatrix.postTranslate(mArrowRectF.centerX(), mArrowRectF.centerY());
+
+        mLastArrowOffsetX = (int) (mBaseLineX + mBaseLineLen - mArrowRectF.width() / 2);
+        mLastArrowOffsetY = (int) (mBaseLineY - mArrowRectF.height());
+
+        canvas.save();
+        canvas.translate(mLastArrowOffsetX, mLastArrowOffsetY);
+        canvas.concat(mArrowRotateMatrix);
+        mDefaultPaint.setColor(mArrowColor);
+        canvas.drawPath(mArrowPath, mDefaultPaint);
+
+        // str is changed, need re-calculate bounds
+        if (!tmpStr.equals(mLastValidProgressTextStr)) {
+            mProgressTextPaint.getTextBounds(mLastValidProgressTextStr,
+                    0, mLastValidProgressTextStr.length(), mProgressTextRect);
+        }
+
+        int textBaseLineX = (int) (mArrowRectF.left + (mArrowRectF.width() - mProgressTextRect.width()) / 2);
+        int textBaseLineY = (int) (mArrowRectF.bottom - mArrowRectF.height() / 2);
+        canvas.drawText(mLastValidProgressTextStr, textBaseLineX, textBaseLineY, mProgressTextPaint);
+        canvas.restore();
+
+        // the FULL_NORMALIZED_TIME is means, no need bounce
+        drawProgressLinePath(canvas, FULL_NORMALIZED_TIME, mBaseLineLen,
+                mBaseLineX, mBaseLineY, mProgressLineMaxHeight, mProgressLineColor);
+    }
+
+    private void drawProgress(Canvas canvas, float progress) {
+        float normalizedProgress = progress / FULL_PROGRESS;
+        drawProgressLinePath(canvas, normalizedProgress, mBaseLineLen,
+                mBaseLineX, mBaseLineY, mProgressLineMaxHeight, mProgressLineColor);
+        mLastArrowOffsetX = (int) (mProgressLinePathRectF.left - mArrowRectF.width() / 2
+                + mBaseLineLen * normalizedProgress);
+        mLastArrowOffsetY = (int) (mProgressLinePathRectF.bottom - mArrowRectF.height());
+        drawArrowTrans(canvas, mLastArrowOffsetX, mLastArrowOffsetY, 0);
+
+        // draw progress text
+        if (mLastValidProgress != (int) progress) {
+            mLastValidProgressTextStr = String.valueOf((int) progress) + "%";
+            mProgressTextPaint.getTextBounds(mLastValidProgressTextStr, 0,
+                    mLastValidProgressTextStr.length(), mProgressTextRect);
+        }
+        int offsetHeight = (mEndArrowRectHeight - mProgressTextRect.height()) / 2;
+        int textBaseLineX = (int) (mLastArrowOffsetX
+                + (mArrowRectF.width() - mProgressTextRect.width()) / 2);
+        int textBastLineY = mLastArrowOffsetY + offsetHeight - mProgressTextRect.top;
+        mProgressTextPaint.setColor(mProgressTextColor);
+        canvas.drawText(mLastValidProgressTextStr, textBaseLineX, textBastLineY
+                , mProgressTextPaint);
+    }
+
+    private void drawFailedCircleScale(Canvas canvas, float scaleFactor) {
+        int circleRadius = (int) (mCircleRadius * scaleFactor);
+        mDefaultPaint.setColor(mLoadingCircleBackColor);
+        canvas.drawCircle(mCircleRectF.centerX(), mCircleRectF.centerY(), circleRadius, mDefaultPaint);
+    }
+
+    private void drawFailedLinePackUp(Canvas canvas, float packUpFactor) {
+        int halfLineLen = (int) (mHalfBaseLineLen * packUpFactor);
+        mBaseLinePaint.setColor(mLoadingLineColor);
+        canvas.drawLine(mLoadingViewCenterX - halfLineLen, mLoadingViewCenterY,
+                mLoadingViewCenterX + halfLineLen, mLoadingViewCenterY, mBaseLinePaint);
+    }
+
+    private void drawFailedArrowMove(Canvas canvas, float normalizedTime) {
+        int circleRadius = (int) (mCircleRectF.width() / 2);
+        int halfLineLen = (int) (circleRadius * MAX_LINE_WIDTH_FACTOR);
+        int startX = (int) (mLoadingViewCenterX
+                + (mProgressValue - HALF_PROGRESS) / HALF_PROGRESS * halfLineLen);
+        int width = Math.abs(startX - mLoadingViewCenterX);
+        int maxMovePathHeight = (int) (circleRadius
+                * DEFAULT_ARROW_MOVE_MAX_HEIGHT_TO_CIRCLE_DIAMETER_RATIO);
+
+        updateArrowMovePoint(normalizedTime, FULL_NORMALIZED_TIME,
+                width, maxMovePathHeight, Math.min(startX, mLoadingViewCenterX),
+                mLoadingViewCenterY - maxMovePathHeight, mProgressValue < HALF_PROGRESS);
+        int offsetArrowX = (int) (mArrowMovePoint[0] - mArrowRectF.width() / 2);
+        int offsetArrowY = (int) (mArrowMovePoint[1] - mArrowRectF.height() / 2);
+
+        updateFailedDialogToArrowParamters(mChangeArrowToDialogParamters, normalizedTime);
+        updateArrowPath((int) (mCircleRadius * mChangeArrowToDialogParamters[0]),
+                (int) (mCircleRadius * mChangeArrowToDialogParamters[1]),
+                (int) (mCircleRadius * mChangeArrowToDialogParamters[2]),
+                (int) (mCircleRadius * mChangeArrowToDialogParamters[3]));
+        mDefaultPaint.setColor(mArrowColor);
+        canvas.save();
+        canvas.translate(offsetArrowX, offsetArrowY);
+        canvas.concat(mArrowRotateMatrix);
+        canvas.drawPath(mArrowPath, mDefaultPaint);
+        canvas.restore();
+    }
+
+    private void updateFailedDialogToArrowParamters(float[] paramters, float normalizeTime) {
+
+        if (paramters == null || paramters.length != 5) {
+            return;
+        }
+
+        // rect width
+        paramters[0] = (DEFAULT_INIT_ARROW_RECT_WIDTH_TO_CIRCLE_RADIUS_RATIO
+                - DEFAULT_END_ARROW_RECT_WIDTH_TO_CIRCLE_RADIUS_RATIO)
+                * normalizeTime + DEFAULT_END_ARROW_RECT_WIDTH_TO_CIRCLE_RADIUS_RATIO;
+
+        // rect height
+        paramters[1] = (DEFAULT_INIT_ARROW_RECT_HEIGHT_TO_CIRCLE_RADIUS_RATIO
+                - DEFAULT_END_ARROW_RECT_HEIGHT_TO_CIRCLE_RADIUS_RATIO)
+                * normalizeTime + DEFAULT_END_ARROW_RECT_HEIGHT_TO_CIRCLE_RADIUS_RATIO;
+
+        // tri width and height
+        // tri width
+        paramters[2] = (DEFAULT_INIT_ARROW_TRI_WIDTH_TO_CIRCLE_RADIUS_RATIO
+                - DEFAULT_END_ARROW_TRI_WIDTH_TO_CIRCLE_RADIUS_RATIO)
+                * normalizeTime + DEFAULT_END_ARROW_TRI_WIDTH_TO_CIRCLE_RADIUS_RATIO;
+        // tri height
+        paramters[3] = (DEFAULT_INIT_ARROW_TRI_HEIGHT_TO_CIRCLE_RADIUS_RATIO
+                - DEFAULT_END_ARROW_TRI_HEIGHT_TO_CIRCLE_RADIUS_RATIO)
+                * normalizeTime + DEFAULT_END_ARROW_TRI_HEIGHT_TO_CIRCLE_RADIUS_RATIO;
+
+    }
+
+    private void drawFailedRopeOscillation(Canvas canvas, float ropeOsillFactor) {
+        updateLineOscillationPath(ropeOsillFactor, mBaseLineLen,
+                mBaseLineX, mBaseLineY, mLineOscillationMaxHeight, mHalfBaseLineLen);
+        mBaseLinePaint.setColor(mLoadingLineColor);
+        canvas.drawPath(mOscillationLinePath, mBaseLinePaint);
+    }
+
+    private void drawFailedArrowShake(Canvas canvas, float upAndDownFactor, float rotateFactor, float maxRotateAngle) {
+        float normalizedProgress = mProgressValue / FULL_PROGRESS;
+        int offsetLine = (int) (mProgressLineMaxHeight * upAndDownFactor);
+        int offsetArrow;
+        if (normalizedProgress < HALF_NORMALIZED_PROGRESS) {
+            offsetArrow = (int) (offsetLine * normalizedProgress / HALF_NORMALIZED_PROGRESS);
+        } else {
+            offsetArrow = (int) (offsetLine * (FULL_NORMALIZED_PROGRESS - normalizedProgress) / HALF_NORMALIZED_PROGRESS);
+        }
+        drawProgressLinePath(canvas, normalizedProgress, mBaseLineLen,
+                mBaseLineX, mBaseLineY, mProgressLineMaxHeight + offsetLine, mLoadingLineColor);
+        drawBombPoint(canvas, mFailedBombAnimatorPer, (int) mProgressValue, mProgressLineMaxHeight);
+
+        if (!mLastValidProgressTextStr.equals(FAILED_PROGRESS_STR)) {
+            mLastValidProgressTextStr = FAILED_PROGRESS_STR;
+            mProgressTextPaint.getTextBounds(FAILED_PROGRESS_STR,
+                    0, FAILED_PROGRESS_STR.length(), mProgressTextRect);
+        }
+
+        canvas.save();
+        canvas.translate(mLastArrowOffsetX, mLastArrowOffsetY + offsetArrow);
+        canvas.rotate(maxRotateAngle * rotateFactor, mArrowRectF.centerX(), mArrowRectF.bottom);
+        canvas.save();
+        canvas.rotate(HALF_FULL_ANGLE, mArrowRectF.centerX(), mArrowRectF.bottom);
+        canvas.drawPath(mArrowPath, mDefaultPaint);
+        canvas.restore();
+        int textBaseLineX = (int) (mArrowRectF.left + (mArrowRectF.width() - mProgressTextRect.width()) / 2);
+        int textBaseLineY = (int) (mArrowRectF.bottom + mArrowRectF.height() +
+                -(mEndArrowRectHeight - mProgressTextRect.height()) / 2
+                - mProgressTextRect.bottom);
+        canvas.drawText(FAILED_PROGRESS_STR, textBaseLineX, textBaseLineY, mProgressTextPaint);
+        canvas.restore();
+    }
+
+    private void drawProgressLinePath(
+            Canvas canvas, float normalizeProgress, int baselineLen,
+            int baseLineX, int baseLineY, int highestPointHeight, int leftLineColor) {
+        int halfLen = baselineLen / 2;
+        int middlePointX = (int) (baseLineX + baselineLen * normalizeProgress);
+        int middlePointY;
+
+        float k = (float) highestPointHeight / halfLen;
+        if (normalizeProgress < HALF_NORMALIZED_PROGRESS) {
+            middlePointY = (int) (halfLen * k
+                    * normalizeProgress / HALF_NORMALIZED_PROGRESS) + baseLineY;
+        } else {
+            middlePointY = (int) (halfLen * k
+                    * (1 - normalizeProgress) / HALF_NORMALIZED_PROGRESS) + baseLineY;
+        }
+        // draw right part first
+        mBaseLinePaint.setColor(mLoadingLineColor);
+        canvas.drawLine(middlePointX, middlePointY, baseLineX + baselineLen,
+                baseLineY, mBaseLinePaint);
+
+        // draw left part
+        mBaseLinePaint.setColor(leftLineColor);
+        canvas.drawLine(baseLineX, baseLineY, middlePointX, middlePointY, mBaseLinePaint);
+        if (mProgressLinePathRectF == null) {
+            mProgressLinePathRectF = new RectF();
+        }
+        mProgressLinePathRectF.set(baseLineX, baseLineY, baseLineX + baselineLen, middlePointY);
+    }
+
+    private void drawBombPoint(Canvas canvas, float normalizedTime, int lastProgress, int highestPointHeight) {
+        if (mFailedBombPaint == null || mFailedBombBellowPaint == null) {
+            Path circle = new Path();
+            // generate bomb point shape
+            circle.addCircle(0, 0, mBaseLineStrokeWidth / 2, Path.Direction.CCW);
+            circle.addCircle(mBaseLineStrokeWidth, 0, mBaseLineStrokeWidth / 3, Path.Direction.CCW);
+            circle.addCircle(mBaseLineStrokeWidth * 2, 0, mBaseLineStrokeWidth / 4, Path.Direction.CCW);
+            circle.addCircle(mBaseLineStrokeWidth * 3, 0, mBaseLineStrokeWidth / 5, Path.Direction.CCW);
+            mFailedBombPaint = new Paint();
+            mFailedBombPaint.setStrokeWidth(mBaseLineStrokeWidth);
+            mFailedBombPaint.setAntiAlias(true);
+            mFailedBombPaint.setColor(mProgressLineColor);
+            mFailedBombPaint.setStyle(Paint.Style.STROKE);
+
+            mFailedBombPaint.setPathEffect(new PathDashPathEffect(circle,
+                    mBaseLineStrokeWidth * 3, 0, PathDashPathEffect.Style.TRANSLATE));
+            mFailedBombBellowPaint = new Paint(mFailedBombPaint);
+            mFailedBombBellowPaint.setPathEffect(new PathDashPathEffect(circle,
+                    mBaseLineStrokeWidth * 3, HALF_FULL_ANGLE, PathDashPathEffect.Style.TRANSLATE));
+        }
+
+        if (mFailedBombPath == null || mFailedBombPathBellow == null) {
+            mFailedBombPath = new Path();
+            float normalizeProgress = (float) lastProgress / FULL_PROGRESS;
+            int baseLineEndX = (int) (mBaseLineX + normalizeProgress * mBaseLineLen);
+            int baseLineEndY;
+            float k = (float) highestPointHeight / mHalfBaseLineLen;
+            if (normalizeProgress < HALF_NORMALIZED_PROGRESS) {
+                baseLineEndY = (int) (mHalfBaseLineLen * k * normalizeProgress / HALF_NORMALIZED_PROGRESS) + mBaseLineY;
+            } else {
+                baseLineEndY = (int) (mHalfBaseLineLen * k * (1 - normalizeProgress) / HALF_NORMALIZED_PROGRESS) + mBaseLineY;
+            }
+            mFailedBombPath.moveTo(mBaseLineX, mBaseLineY - mBaseLineStrokeWidth / 2);
+            mFailedBombPath.lineTo(baseLineEndX, baseLineEndY);
+            mFailedBombPathBellow = new Path(mFailedBombPath);
+            mFailedBombPathBellow.offset(0, mBaseLineStrokeWidth / 2);
+        }
+        mFailedBombPaint.setAlpha((int) (FULL_ALPHA * (1 - normalizedTime)));
+        mFailedBombBellowPaint.setAlpha((int) (FULL_ALPHA * (1 - normalizedTime)));
+        canvas.save();
+        canvas.translate(0, -mBaseLineStrokeWidth * normalizedTime);
+        canvas.drawPath(mFailedBombPath, mFailedBombPaint);
+        canvas.translate(0, mBaseLineStrokeWidth * 2 * normalizedTime);
+        canvas.drawPath(mFailedBombPathBellow, mFailedBombBellowPaint);
+        canvas.restore();
+    }
+
+    private void drawBeforeProgressArrowMoveAndLineOscill(Canvas canvas, float normalizeTime, float lineOsscilFactor) {
+        // update arrow paramters
+        updateArrowToDialogParamters(mChangeArrowToDialogParamters, normalizeTime);
+        // height point of path move
+        int maxMovePathHeight = (int) (mCircleDiameter * DEFAULT_ARROW_MOVE_MAX_HEIGHT_TO_CIRCLE_DIAMETER_RATIO);
+        updateArrowMovePoint(normalizeTime,
+                CHANGE_ARROW_TO_DIALOG_BOUNCE_TIME, mHalfBaseLineLen,
+                maxMovePathHeight, mLoadingViewCenterX - mHalfBaseLineLen,
+                mLoadingViewCenterY - maxMovePathHeight, false);
+        // move the center of arrow by path
+        mLastArrowOffsetX = (int) (mArrowMovePoint[0] - mArrowRectF.width() / 2);
+        mLastArrowOffsetY = (int) (mArrowMovePoint[1] - mArrowRectF.height());
+        drawArrowTrans(canvas, mLastArrowOffsetX, mLastArrowOffsetY, mChangeArrowToDialogParamters);
+        int maxHeightPointOfLineOscill = (int) (mBaseLineLen * DEFAULT_LINE_OSCILLATION_MAX_HEIGHT_TO_BASELINE_RATIO);
+        updateLineOscillationPath(lineOsscilFactor, mBaseLineLen,
+                mBaseLineX, mBaseLineY, maxHeightPointOfLineOscill, mHalfBaseLineLen);
+        canvas.drawPath(mOscillationLinePath, mBaseLinePaint);
+    }
+
+    private void drawArrowTrans(Canvas canvas, int offsetX, int offsetY, float[] paramters) {
+        updateArrowPath((int) (mCircleRadius * paramters[0]),
+                (int) (mCircleRadius * paramters[1]),
+                (int) (mCircleRadius * paramters[2]),
+                (int) (mCircleRadius * paramters[3]));
+        drawArrowTrans(canvas, offsetX, offsetY, paramters[4]);
+    }
+
+
+    /**
+     * @param oscillFactor            line oscillation factor
+     * @param baseLineX               The the original X coordinate of starting point of the base straight line
+     * @param baseLineY               The the original Y coordinate of starting point of the base straight line
+     * @param highestPointHeight      The height highest point
+     * @param highestPointPaddingLeft Indicates the distance from the top of the rope to the left of the rope
+     */
+    private void updateLineOscillationPath(
+            float oscillFactor, int baselineLen,
+            int baseLineX, int baseLineY, int highestPointHeight, int highestPointPaddingLeft) {
+        if (mOscillationLinePath == null) {
+            mOscillationLinePath = new Path();
+        } else {
+            mOscillationLinePath.reset();
+        }
+        // calculate the y of the control point
+        highestPointHeight *= oscillFactor;
+        int controlPointY = (int) (highestPointHeight * baselineLen
+                * baselineLen / (2f * highestPointPaddingLeft * (baselineLen - highestPointPaddingLeft)));
+
+        // move to start point
+        mOscillationLinePath.moveTo(baseLineX, baseLineY);
+        mOscillationLinePath.quadTo(baseLineX + highestPointPaddingLeft,
+                baseLineY - controlPointY,
+                baseLineX + baselineLen, baseLineY);
+    }
+
+    private void updateArrowMovePoint(float normalizedTime, float startBounceTime,
+                                      int width, int height, int left, int top, boolean isLTR) {
+
+        if (mArrowMovePath == null) {
+            mArrowMovePath = new Path();
+        }
+
+        if (mArrowPathMeasure == null) {
+            mArrowPathMeasure = new PathMeasure();
+        }
+
+        if (mArrowBouncePath == null) {
+            mArrowBouncePath = new Path();
+        }
+
+        if (mArrowBouncePathMeasure == null) {
+            mArrowBouncePathMeasure = new PathMeasure();
+        }
+
+        if (mArrowMovePathRect == null) {
+            mArrowMovePathRect = new Rect();
+        }
+
+        if (mArrowMovePathRect.width() != width || mArrowMovePathRect.height() != height
+                || mArrowMovePathRect.left != left || mArrowMovePathRect.top != top) {
+            mArrowMovePathRect.set(left, top, left + width, top + height);
+            mArrowMovePath.reset();
+            mArrowBouncePath.reset();
+
+        }
+
+        // move path
+        if (mArrowMovePath.isEmpty()) {
+            mArrowMovePath.moveTo(mArrowMovePathRect.left, mArrowMovePathRect.bottom);
+            mArrowMovePath.cubicTo(mArrowMovePathRect.left + mArrowMovePathRect.width() / 4,
+                    mArrowMovePathRect.top,
+                    mArrowMovePathRect.right,
+                    mArrowMovePathRect.top,
+                    mArrowMovePathRect.right, mArrowMovePathRect.bottom);
+            mArrowPathMeasure.setPath(mArrowMovePath, false);
+            mArrowMovePathLength = mArrowPathMeasure.getLength();
+        }
+
+        // bounce path
+        if (mArrowBouncePath.isEmpty()) {
+            mArrowBouncePath.moveTo(mArrowMovePathRect.right, mArrowMovePathRect.bottom);
+            mArrowBouncePath.lineTo(mArrowMovePathRect.right, mArrowMovePathRect.bottom
+                    - mArrowRectF.height() * ARROW_BOUNCE_LENGTH_RATIO);
+            mArrowBouncePath.lineTo(mArrowMovePathRect.right, mArrowMovePathRect.bottom);
+            mArrowBouncePath.lineTo(mArrowMovePathRect.right, mArrowMovePathRect.bottom
+                    - mArrowRectF.height() * ARROW_BOUNCE_LENGTH_RATIO_2);
+            mArrowBouncePath.lineTo(mArrowMovePathRect.right, mArrowMovePathRect.bottom);
+            mArrowBouncePathMeasure.setPath(mArrowBouncePath, false);
+            mArrowBouncePathLength = mArrowBouncePathMeasure.getLength();
+        }
+
+        if (mArrowMovePoint == null) {
+            mArrowMovePoint = new float[2];
+        }
+
+        // move
+        if (normalizedTime <= startBounceTime) {
+            mArrowPathMeasure.getPosTan(mArrowMovePathLength
+                    * normalizedTime / startBounceTime, mArrowMovePoint, null);
+        } else {
+            // bounce
+            mArrowBouncePathMeasure.getPosTan(mArrowBouncePathLength
+                    * (normalizedTime - startBounceTime)
+                    / (FULL_NORMALIZED_TIME - startBounceTime), mArrowMovePoint, null);
+        }
+
+        if (!isLTR) {
+            mArrowMovePoint[0] = mArrowMovePathRect.centerX()
+                    - (mArrowMovePoint[0] - mArrowMovePathRect.centerX());
+        }
+    }
+
+    /**
+     * generate arrow change to dialog paramters
+     *
+     * @param paramters must be length = 5
+     *                  paramteArr[0] and paramteArr[1] indicate arrow rectangle's width and height,respectively.
+     *                  paramteArr[2] and paramteArr[3] indicate arrow triangle's width and height,respectively.
+     *                  paramteArr[4] indicates arrow rotate angle.
+     */
+    private void updateArrowToDialogParamters(float[] paramters, float normalizeTime) {
+
+        if (paramters == null || paramters.length != 5) {
+            return;
+        }
+
+        // rect width
+        if (normalizeTime <= CHANGE_ARROW_TO_DIALOG_BOUNCE_TIME) {
+            paramters[0] = (DEFAULT_END_ARROW_RECT_WIDTH_TO_CIRCLE_RADIUS_RATIO
+                    - DEFAULT_INIT_ARROW_RECT_WIDTH_TO_CIRCLE_RADIUS_RATIO)
+                    * normalizeTime / CHANGE_ARROW_TO_DIALOG_BOUNCE_TIME
+                    + DEFAULT_INIT_ARROW_RECT_WIDTH_TO_CIRCLE_RADIUS_RATIO;
+        } else {
+            paramters[0] = DEFAULT_END_ARROW_RECT_WIDTH_TO_CIRCLE_RADIUS_RATIO;
+        }
+
+        // rect height
+        if (normalizeTime <= CHANGE_ARROW_TO_DIALOG_RECT_CHANGE) {
+            paramters[1] = (DEFAULT_MIDDLE_ARROW_RECT_HEIGHT_TO_CIRCLE_RADIUS_RATIO
+                    - DEFAULT_INIT_ARROW_RECT_HEIGHT_TO_CIRCLE_RADIUS_RATIO)
+                    * normalizeTime / CHANGE_ARROW_TO_DIALOG_RECT_CHANGE
+                    + DEFAULT_INIT_ARROW_RECT_HEIGHT_TO_CIRCLE_RADIUS_RATIO;
+        } else if (normalizeTime <= CHANGE_ARROW_TO_DIALOG_BOUNCE_TIME) {
+            paramters[1] = (DEFAULT_END_ARROW_RECT_HEIGHT_TO_CIRCLE_RADIUS_RATIO
+                    - DEFAULT_MIDDLE_ARROW_RECT_HEIGHT_TO_CIRCLE_RADIUS_RATIO)
+                    * (normalizeTime - CHANGE_ARROW_TO_DIALOG_RECT_CHANGE)
+                    / (CHANGE_ARROW_TO_DIALOG_BOUNCE_TIME - CHANGE_ARROW_TO_DIALOG_RECT_CHANGE)
+                    + DEFAULT_MIDDLE_ARROW_RECT_HEIGHT_TO_CIRCLE_RADIUS_RATIO;
+        } else {
+            paramters[1] = DEFAULT_END_ARROW_RECT_HEIGHT_TO_CIRCLE_RADIUS_RATIO;
+        }
+
+        // tri width and height
+        if (normalizeTime < CHANGE_ARROW_TO_DIALOG_BOUNCE_TIME) {
+            // tri width
+            paramters[2] = (DEFAULT_END_ARROW_TRI_WIDTH_TO_CIRCLE_RADIUS_RATIO
+                    - DEFAULT_INIT_ARROW_TRI_WIDTH_TO_CIRCLE_RADIUS_RATIO)
+                    * normalizeTime / CHANGE_ARROW_TO_DIALOG_BOUNCE_TIME
+                    + DEFAULT_INIT_ARROW_TRI_WIDTH_TO_CIRCLE_RADIUS_RATIO;
+            // tri height
+            paramters[3] = (DEFAULT_END_ARROW_TRI_HEIGHT_TO_CIRCLE_RADIUS_RATIO
+                    - DEFAULT_INIT_ARROW_TRI_HEIGHT_TO_CIRCLE_RADIUS_RATIO)
+                    * normalizeTime / CHANGE_ARROW_TO_DIALOG_BOUNCE_TIME
+                    + DEFAULT_INIT_ARROW_TRI_HEIGHT_TO_CIRCLE_RADIUS_RATIO;
+        } else {
+            // tri width
+            paramters[2] = DEFAULT_END_ARROW_TRI_WIDTH_TO_CIRCLE_RADIUS_RATIO;
+            // tri height
+            paramters[3] = DEFAULT_END_ARROW_TRI_HEIGHT_TO_CIRCLE_RADIUS_RATIO;
+        }
+
+        // angle
+        if (normalizeTime <= ROTATE_ARROW_TO_DIALOG_ANGLE_SEASON_1) {
+            paramters[4] = (ROTATE_ARROW_TO_DIALOG_ANGLE_1 - ROTATE_ARROW_TO_DIALOG_INIT_ANGLE)
+                    * normalizeTime / ROTATE_ARROW_TO_DIALOG_ANGLE_SEASON_1
+                    + ROTATE_ARROW_TO_DIALOG_INIT_ANGLE;
+        } else if (normalizeTime <= ROTATE_ARROW_TO_DIALOG_ANGLE_SEASON_2) {
+            paramters[4] = (ROTATE_ARROW_TO_DIALOG_ANGLE_2 - ROTATE_ARROW_TO_DIALOG_ANGLE_1)
+                    * (normalizeTime - ROTATE_ARROW_TO_DIALOG_ANGLE_SEASON_1)
+                    / (ROTATE_ARROW_TO_DIALOG_ANGLE_SEASON_2 - ROTATE_ARROW_TO_DIALOG_ANGLE_SEASON_1)
+                    + ROTATE_ARROW_TO_DIALOG_ANGLE_1;
+        } else if (normalizeTime <= ROTATE_ARROW_TO_DIALOG_ANGLE_SEASON_3) {
+            paramters[4] = (ROTATE_ARROW_TO_DIALOG_ANGLE_3 - ROTATE_ARROW_TO_DIALOG_ANGLE_2)
+                    * (normalizeTime - ROTATE_ARROW_TO_DIALOG_ANGLE_SEASON_2)
+                    / (ROTATE_ARROW_TO_DIALOG_ANGLE_SEASON_3 - ROTATE_ARROW_TO_DIALOG_ANGLE_SEASON_2)
+                    + ROTATE_ARROW_TO_DIALOG_ANGLE_2;
+        } else {
+            paramters[4] = (ROTATE_ARROW_TO_DIALOG_INIT_ANGLE - ROTATE_ARROW_TO_DIALOG_ANGLE_3)
+                    * (normalizeTime - ROTATE_ARROW_TO_DIALOG_ANGLE_SEASON_3)
+                    / (ROTATE_ARROW_TO_DIALOG_ANGLE_SEASON_4 - ROTATE_ARROW_TO_DIALOG_ANGLE_SEASON_3)
+                    + ROTATE_ARROW_TO_DIALOG_ANGLE_3;
+        }
+
     }
 
     private void drawBeforeProgressCircleToLine(Canvas canvas, float normalizeTime) {
@@ -391,6 +1034,48 @@ public class GADownloadingView extends View {
         canvas.drawPath(mBaseLinePath, mBaseLinePaint);
         // compute bounds to get the lowest (center) point of the path
         mBaseLinePath.computeBounds(mBaseLineRectF, false);
+
+        // because the bounds of arrow is always [0, 0, width, height]
+        mLastArrowOffsetX = (int) (mCircleRectF.centerX() - mArrowRectF.centerX());
+        mLastArrowOffsetY = (int) (mCircleRectF.centerY() - mArrowRectF.centerY());
+        // calculate the bottom of arrow
+        int arrowBottom = (int) (mLastArrowOffsetY + mArrowRectF.height());
+        // determine if the bottom of the rope is below the bottom of the arrow
+        if (mBaseLineRectF.bottom <= arrowBottom) {
+            // move arrow up
+            mLastArrowOffsetY += (int) (mBaseLineRectF.bottom - arrowBottom);
+        }
+        drawArrowTrans(canvas, mLastArrowOffsetX, mLastArrowOffsetY, 0);
+    }
+
+    private void drawArrowTrans(Canvas canvas, int offsetX, int offsetY, float rotateAngle) {
+        if (mArrowPath == null) {
+            mArrowPath = new Path();
+            updateArrowPath(mInitArrowRectWidth, mInitArrowRectHeight,
+                    mInitArrowTriWidth, mLastArrowTriWidth);
+        }
+
+        if (mArrowRectF == null) {
+            mArrowRectF = new RectF();
+            mArrowPath.computeBounds(mArrowRectF, true);
+        }
+        if (mArrowRotateMatrix == null) {
+            mArrowRotateMatrix = new Matrix();
+        } else {
+            mArrowRotateMatrix.reset();
+        }
+
+        mDefaultPaint.setColor(mArrowColor);
+        canvas.save();
+        canvas.translate(offsetX, offsetY);
+        // arrow shake
+        if (rotateAngle != 0) {
+            mArrowRotateMatrix.postRotate(rotateAngle,
+                    mArrowRectF.centerX(), mArrowRectF.bottom);
+            canvas.concat(mArrowRotateMatrix);
+        }
+        canvas.drawPath(mArrowPath, mDefaultPaint);
+        canvas.restore();
     }
 
     /**
@@ -534,14 +1219,15 @@ public class GADownloadingView extends View {
     }
 
     private void updateArrowPath(int rectWith, int rectHeight, int triWidth, int triHeight) {
-        if (mArrowPath == null){
+        if (mArrowPath == null) {
             mArrowPath = new Path();
         } else if (mLastArrowRectWidth == rectWith && mLastArrowRectHeight == rectHeight
-                && mLastArrowTriWidth == triWidth && mLastArrowTriHeight == triHeight){
+                && mLastArrowTriWidth == triWidth && mLastArrowTriHeight == triHeight) {
             return;
         } else {
             mArrowPath.reset();
         }
+
         mLastArrowRectWidth = rectWith;
         mLastArrowRectHeight = rectHeight;
         mLastArrowTriWidth = triWidth;
@@ -566,9 +1252,9 @@ public class GADownloadingView extends View {
         // tri right edge
         mArrowPath.lineTo(arrowWidth - triPaddingLeft, rectHeight);
         // tri bottom right edge
-        mArrowPath.lineTo(arrowHeight - rectPaddingLeft, rectHeight);
+        mArrowPath.lineTo(arrowWidth - rectPaddingLeft, rectHeight);
         // rect right edge
-        mArrowPath.lineTo(arrowHeight - rectPaddingLeft, 0);
+        mArrowPath.lineTo(arrowWidth - rectPaddingLeft, 0);
         // rect right bottom edge
         mArrowPath.lineTo(halfArrowWidth, 0);
 
@@ -644,10 +1330,348 @@ public class GADownloadingView extends View {
         mBefProgCircleToLineAnimator.setDuration(BEFORE_PROGRESS_CIRCLE_TO_LINE_DURATION);
         mAnimatorList.add(mBefProgCircleToLineAnimator);
 
+        // arrow move animation
+        mBefProgArrowMoveAnimator = ValueAnimator.ofFloat(0, 1f);
+        mBefProgArrowMoveAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mBefProgArrowMoveNormalizedTime = (float) animation.getAnimatedValue();
+                invalidate();
+            }
+        });
+        mBefProgArrowMoveAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                mCurrentState = STATE_BEFORE_PROGRESS_ARROW_MOVE_LINE_OSCILL;
+            }
 
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                performProgressAnimation();
+            }
+        });
+        mBefProgArrowMoveAnimator.setDuration(BEFORE_PROGRESS_ARROW_MOVE_AND_LINE_OSCILL);
+        mAnimatorList.add(mBefProgArrowMoveAnimator);
 
+        // line oscill animation
+        mBefProgLineOscillAnimator = ValueAnimator.ofFloat(0, 1, -0.5f, 0.25f, -0.125f, 0);
+        mBefProgLineOscillAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mBefProgLineOscillationFactor = (float) animation.getAnimatedValue();
+            }
+        });
+        mBefProgLineOscillAnimator.setDuration(BEFORE_PROGRESS_ARROW_MOVE_AND_LINE_OSCILL);
+        AnimatorSet arrowMoveAndLineOscillSet = new AnimatorSet();
+        arrowMoveAndLineOscillSet.playTogether(mBefProgArrowMoveAnimator, mBefProgLineOscillAnimator);
+        mAnimatorList.add(arrowMoveAndLineOscillSet);
 
+        mBefProgressAnimatorSet = new AnimatorSet();
+        mBefProgressAnimatorSet.playSequentially(mBefProgCircleScaleAnimator, mBefProgCircleToLineAnimator,
+                arrowMoveAndLineOscillSet);
+        mBefProgressAnimatorSet.playTogether(mBefProgInnerCircleScaleAnimator);
+        mBefProgressAnimatorSet.setInterpolator(new LinearInterpolator());
+        mAnimatorList.add(mBefProgressAnimatorSet);
+        mBefProgressAnimatorSet.start();
     }
+
+
+    private void performProgressAnimation() {
+        int startProgress = mLastProgress;
+        int endProgress = mNextProgress;
+        mLastProgress = mNextProgress;
+
+        if (mIsFailed) {
+            performFailedAnimation();
+            return;
+        }
+
+        mProgressAnimator = ValueAnimator.ofFloat(startProgress, endProgress);
+        mProgressAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mProgressValue = (float) animation.getAnimatedValue();
+                invalidate();
+            }
+        });
+        mProgressAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                mCurrentState = STATE_IN_PROGRESS;
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                if (mIsFailed) {
+                    performFailedAnimation();
+                } else if (mLastProgress != FULL_PROGRESS) {
+                    performProgressAnimation();
+                } else {
+                    performDoneAnimation();
+                }
+            }
+        });
+        mProgressAnimator.setInterpolator(new LinearInterpolator());
+        mProgressAnimator.setDuration(Math.max(
+                FULL_PROGRESS_ANIMATION_DURATION
+                        * (endProgress - startProgress) / FULL_PROGRESS,
+                MIN_PROGRESS_ANIMATION_DURATION));
+        mAnimatorList.add(mProgressAnimator);
+        mProgressAnimator.start();
+    }
+
+    private void performDoneAnimation() {
+        // done rotate animation
+        mDoneRotateAnimator = ValueAnimator.ofFloat(0, 1);
+        mDoneRotateAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mDoneRotateNormalizedTime = (float) animation.getAnimatedValue();
+                invalidate();
+            }
+        });
+        mDoneRotateAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                mCurrentState = STATE_DONE_ROTATE;
+            }
+        });
+        mDoneRotateAnimator.setDuration(DONE_ANIMATION_DURATION);
+        mAnimatorList.add(mDoneRotateAnimator);
+
+        // line pack up animation
+        mDoneLinePackUpAnimator = ValueAnimator.ofFloat(0, 1);
+        mDoneLinePackUpAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float value = (float) animation.getAnimatedValue();
+                mDoneLinePackUpNormalizedTime = value;
+                invalidate();
+            }
+        });
+        mDoneLinePackUpAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                mCurrentState = STATE_DONE_LINE_PACK_UP;
+            }
+        });
+        mDoneLinePackUpAnimator.setDuration(DONE_LINE_PACK_UP_ANIMATION_DURATION);
+        mAnimatorList.add(mDoneLinePackUpAnimator);
+
+        // arrow shake animator and line change to a point
+        mDoneArrowShakeAnimator = ValueAnimator.ofFloat(0, -20, 20, -10, 10);
+        mDoneArrowShakeAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mDoneArrowShakeAngle = (float) animation.getAnimatedValue();
+                invalidate();
+            }
+        });
+        mDoneArrowShakeAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                mCurrentState = STATE_DONE_ARROW_SHAKE;
+            }
+        });
+        mDoneArrowShakeAnimator.setDuration(DONE_LINE_PACK_UP_ARROW_SHAKE_ANIMATION_DURATION);
+        mAnimatorList.add(mDoneArrowShakeAnimator);
+
+        // circle scale animation
+        mDoneRestToCircleAnimator = ValueAnimator.ofFloat(0f, 1.1f, .9f, 1f);
+        mDoneRestToCircleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mDoneRestToCircleScalingFactor = (float) animation.getAnimatedValue();
+                invalidate();
+            }
+        });
+        mDoneRestToCircleAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                mCurrentState = STATE_DONE_REST_TO_CIRCLE;
+            }
+        });
+        mDoneRestToCircleAnimator.setDuration(DONE_REST_TO_CIRCLE_DOWN_ANIMATION_DURATION);
+        mAnimatorList.add(mDoneRestToCircleAnimator);
+
+        // dialog change to arrow
+        mDoneDialogToArrowAnimator = ValueAnimator.ofFloat(0, 1f);
+        mDoneDialogToArrowAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mDoneDialogToArrowNormalizedTime = (float) animation.getAnimatedValue();
+            }
+        });
+        mDoneDialogToArrowAnimator.setDuration(DONE_DIALOG_TO_ARROW_DURATION);
+        mAnimatorList.add(mDoneDialogToArrowAnimator);
+
+        // arrow up and down animation
+        mDoneDialogToArrowUpDownAnimator = ValueAnimator.ofFloat(0f, -0.2f, 0.1f, -0.05f, 0f);
+        mDoneDialogToArrowUpDownAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mDoneDialogToArrowUpDownFactor = (float) animation.getAnimatedValue();
+            }
+        });
+        mDoneDialogToArrowUpDownAnimator.setDuration(DONE_DIALOG_UP_DOWN_DURATION);
+        mAnimatorList.add(mDoneDialogToArrowUpDownAnimator);
+
+        AnimatorSet dialogToArrowAnimatorSet = new AnimatorSet();
+        dialogToArrowAnimatorSet.playSequentially(mDoneDialogToArrowAnimator, mDoneDialogToArrowUpDownAnimator);
+        mAnimatorList.add(dialogToArrowAnimatorSet);
+
+        AnimatorSet restToCircleAnimatorSet = new AnimatorSet();
+        restToCircleAnimatorSet.playTogether(mDoneRestToCircleAnimator, dialogToArrowAnimatorSet);
+        mAnimatorList.add(restToCircleAnimatorSet);
+
+        // done animator set
+        mDoneAnimatorSet = new AnimatorSet();
+        mDoneAnimatorSet.setInterpolator(new LinearInterpolator());
+        mDoneAnimatorSet.playSequentially(mDoneRotateAnimator,
+                mDoneLinePackUpAnimator, mDoneArrowShakeAnimator, restToCircleAnimatorSet);
+        mAnimatorList.add(mDoneAnimatorSet);
+        mDoneAnimatorSet.start();
+    }
+
+    private void performFailedAnimation() {
+        // failed arrow shake animation
+        mFailedArrowShakeAnimator = ValueAnimator.ofFloat(0, 0.05f, -0.05f, 0.1f, -0.15f, 0.25f, -1f);
+        mFailedArrowShakeAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mFailedArrowUpAndDownFactor = (float) animation.getAnimatedValue();
+                invalidate();
+            }
+        });
+        mFailedArrowShakeAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                mCurrentState = STATE_FAILED_ARROW_SHAKE;
+            }
+        });
+        mFailedArrowShakeAnimator.setDuration(FAILED_ANIMATION_DURATION);
+        mAnimatorList.add(mFailedArrowShakeAnimator);
+
+        // failed arrow rotate animation
+        mFailedArrowRotateAnimator = ValueAnimator.ofFloat(0, 0.5f, -0.5f, 0.25f, 0.25f, 0f);
+        mFailedArrowRotateAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mFailedArrowRotateAngle = (float) animation.getAnimatedValue();
+            }
+        });
+        mFailedArrowRotateAnimator.setDuration(FAILED_ANIMATION_DURATION);
+        mAnimatorList.add(mFailedArrowRotateAnimator);
+
+        // failed bomb animator
+        mFailedBombAnimator = ValueAnimator.ofFloat(0, 1f);
+        mFailedBombAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mFailedBombAnimatorPer = (float) animation.getAnimatedValue();
+            }
+        });
+        mFailedBombAnimator.setDuration(FAILED_BOMB_ANIMATION_DURATION);
+        mAnimatorList.add(mFailedBombAnimator);
+
+        // arrow shake rotate and line bomb animatorSet
+        AnimatorSet arrowShakeRotateAndLineBomb = new AnimatorSet();
+        arrowShakeRotateAndLineBomb.playTogether(
+                mFailedArrowShakeAnimator, mFailedArrowRotateAnimator, mFailedBombAnimator);
+        mAnimatorList.add(arrowShakeRotateAndLineBomb);
+
+        // failed line oscillation animation
+        mFailedLineOscillationAnimator = ValueAnimator.ofFloat(0, 0.2F, -0.2F, 0.1F, -0.1F, 0F);
+        mFailedLineOscillationAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mFailedLineOscillationFactor = (float) animation.getAnimatedValue();
+            }
+        });
+        mFailedLineOscillationAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                mCurrentState = STATE_FAILED_LINE_OSCILL;
+            }
+        });
+        mFailedLineOscillationAnimator.setDuration(FAILED_ROPE_OSCILLATION_ANIMATION_DURATION);
+        mAnimatorList.add(mFailedLineOscillationAnimator);
+
+        // failed line pack up Animator
+        mFailedLinePackUpAnimator = ValueAnimator.ofFloat(1, 0f);
+        mFailedLinePackUpAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mFailedLinePackUpFactor = (float) animation.getAnimatedValue();
+            }
+        });
+        mFailedLinePackUpAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                mCurrentState = STATE_FAILED_LINE_PACK_UP;
+            }
+        });
+        mFailedLinePackUpAnimator.setDuration(FAILED_ROPE_PACK_UP_ANIMATION_DURATION);
+        mAnimatorList.add(mFailedLinePackUpAnimator);
+
+        // failed circle scale animation
+        mFailedCircleScaleAnimator = ValueAnimator.ofFloat(0, 1.1f, 0.9f, 1.0f);
+        mFailedCircleScaleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mFailedCircleScaleFactor = (float) animation.getAnimatedValue();
+            }
+        });
+        mFailedCircleScaleAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                mCurrentState = STATE_FAILED_CIRCLE_SCALE;
+            }
+        });
+        mFailedCircleScaleAnimator.setInterpolator(new LinearInterpolator());
+        mFailedCircleScaleAnimator.setDuration(FAILED_CIRCLE_SCALE_ANIMATION_DURATION);
+        mAnimatorList.add(mFailedCircleScaleAnimator);
+
+        AnimatorSet lineOscillPackAndCircleScaleSet = new AnimatorSet();
+        lineOscillPackAndCircleScaleSet.playSequentially(
+                mFailedLineOscillationAnimator, mFailedLinePackUpAnimator, mFailedCircleScaleAnimator);
+        mAnimatorList.add(lineOscillPackAndCircleScaleSet);
+
+        // failed arrow move animation
+        mFailedArrowMoveAnimator = ValueAnimator.ofFloat(0, .2f, .4f, .6f, .8f, 1f, .95f, 1f);
+        mFailedArrowMoveAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mFailedArrowMoveNormalizeTiem = (float) animation.getAnimatedValue();
+                invalidate();
+            }
+        });
+        mFailedArrowMoveAnimator.setDuration(FAILED_ARROW_MOVE_ANIMATION_DURATION);
+        mAnimatorList.add(mFailedArrowMoveAnimator);
+
+        AnimatorSet lineOscillAndArrowMoveSet = new AnimatorSet();
+        lineOscillAndArrowMoveSet.playTogether(lineOscillPackAndCircleScaleSet, mFailedArrowMoveAnimator);
+        mAnimatorList.add(lineOscillAndArrowMoveSet);
+
+        mFailedAnimatorSet = new AnimatorSet();
+        mFailedAnimatorSet.setInterpolator(new LinearInterpolator());
+        mFailedAnimatorSet.playSequentially(arrowShakeRotateAndLineBomb, lineOscillAndArrowMoveSet);
+        mAnimatorList.add(mFailedAnimatorSet);
+        mFailedAnimatorSet.start();
+    }
+
 
     public void releaseAnimation() {
         if (mAnimatorList == null || mAnimatorList.size() == 0) {
@@ -667,5 +1691,34 @@ public class GADownloadingView extends View {
             animator = null;
         }
         mAnimatorList.clear();
+    }
+
+    public void updateProgress(int progress) {
+        // adjust progress in area 0 to 100
+        if (progress < ZERO_PROGRESS) {
+            progress = ZERO_PROGRESS;
+        } else if (progress > FULL_PROGRESS) {
+            progress = FULL_PROGRESS;
+        }
+        mNextProgress = Math.max(progress, mNextProgress);
+    }
+
+    public void onFail() {
+        mIsFailed = true;
+    }
+
+    private int dipToPx(Context context, int dip) {
+        return (int) (dip * getScreenDensity(context) + 0.5f);
+    }
+
+    private float getScreenDensity(Context context) {
+        try {
+            DisplayMetrics dm = new DisplayMetrics();
+            ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay()
+                    .getMetrics(dm);
+            return dm.density;
+        } catch (Exception e) {
+            return DisplayMetrics.DENSITY_DEFAULT;
+        }
     }
 }

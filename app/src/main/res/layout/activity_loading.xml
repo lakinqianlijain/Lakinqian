@@ -3,21 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_loading"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:gravity="center"
-        android:text="Loading..."
-        android:textColor="#40ff53"
-        android:textSize="30sp" />
+<!--    <TextView-->
+<!--        android:id="@+id/tv_loading"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:gravity="center"-->
+<!--        android:text="Loading..."-->
+<!--        android:textColor="#40ff53"-->
+<!--        android:textSize="30sp" />-->
 
     <FrameLayout
         android:id="@+id/rl_leaf_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_loading"
         android:layout_marginTop="20dp">
 
         <com.qlj.lakinqiandemo.views.animation.LeafLoadingView
@@ -44,6 +43,7 @@
         android:layout_centerHorizontal="true" />
 
     <LinearLayout
+        android:id="@+id/ll_countdown_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/cv_countdown_view"
@@ -72,6 +72,30 @@
             android:textSize="25sp" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/show_success"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_countdown_view"
+        android:layout_marginTop="10dp"
+        android:text="show success loading" />
+
+    <Button
+        android:id="@+id/show_failed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/show_success"
+        android:text="show failed loading" />
+
+    <com.qlj.lakinqiandemo.views.animation.GADownloadingView
+        android:id="@+id/ga_downloading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/show_failed"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:background="@color/green1"/>
 
 
 </RelativeLayout>
