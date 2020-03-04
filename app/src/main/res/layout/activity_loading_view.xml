@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/green1">
+
+    <com.qlj.lakinqiandemo.views.loadingView.BallPulseView
+        android:id="@+id/bpv"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="10dp" />
+
+    <com.qlj.lakinqiandemo.views.loadingView.BallGridPulseView
+        android:id="@+id/bgpv"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="10dp"
+        android:layout_toEndOf="@+id/bpv" />
+
+    <com.qlj.lakinqiandemo.views.loadingView.BallClipRotateView
+        android:id="@+id/bcrv"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="10dp"
+        android:layout_toEndOf="@+id/bgpv" />
+
+    <com.qlj.lakinqiandemo.views.loadingView.BallClipRotatePulseView
+        android:id="@+id/bcrpv"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="10dp"
+        android:layout_toEndOf="@+id/bcrv" />
+
+    <com.qlj.lakinqiandemo.views.loadingView.SquareSpinView
+        android:id="@+id/ssv"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="10dp"
+        android:layout_toEndOf="@+id/bcrpv" />
+
+    <com.qlj.lakinqiandemo.views.loadingView.BallClipRotateMultipleView
+        android:id="@+id/bcrmv"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/bpv" />
+
+    <com.qlj.lakinqiandemo.views.loadingView.BallPulseRiseView
+        android:id="@+id/bprv"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/bgpv"
+        android:layout_toEndOf="@+id/bcrmv"/>
+
+    <com.qlj.lakinqiandemo.views.loadingView.BallRotateView
+        android:id="@+id/brv"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/bcrv"
+        android:layout_toEndOf="@+id/bprv"/>
+
+    <com.qlj.lakinqiandemo.views.loadingView.BallZigZagView
+        android:id="@+id/bzzv"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/bcrpv"
+        android:layout_toEndOf="@+id/brv"/>
+
+    <com.qlj.lakinqiandemo.views.loadingView.LineScaleView
+        android:id="@+id/lsv"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/bpv"
+        android:layout_toEndOf="@+id/bzzv"/>
+
+    <com.qlj.lakinqiandemo.views.loadingView.BallSpinFadeLoaderView
+        android:id="@+id/bsflv"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/bcrmv" />
+
+    <com.qlj.lakinqiandemo.views.loadingView.PacmanView
+        android:id="@+id/pv"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/brv"
+        android:layout_toEndOf="@+id/bsflv"/>
+
+</RelativeLayout>

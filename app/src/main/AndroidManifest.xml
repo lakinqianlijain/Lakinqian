@@ -58,6 +58,7 @@
         <activity android:name=".views.canvas.CanvasActivity" />
         <activity android:name=".binder.aidl.EasyDemoActivity" />
         <activity android:name=".binder.BinderActivity" />
+        <activity android:name=".views.loadingView.LoadingViewActivity" />
 
 
         <receiver android:name="com.qlj.lakinqiandemo.receiver.GlobalReceiver">

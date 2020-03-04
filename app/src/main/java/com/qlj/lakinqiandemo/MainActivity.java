@@ -34,6 +34,7 @@ import com.qlj.lakinqiandemo.views.CustomizeViewActivity;
 import com.qlj.lakinqiandemo.views.SlideViewActivity;
 import com.qlj.lakinqiandemo.views.animation.LoadingActivity;
 import com.qlj.lakinqiandemo.views.canvas.CanvasActivity;
+import com.qlj.lakinqiandemo.views.loadingView.LoadingViewActivity;
 import com.qlj.lakinqiandemo.views.lottie.LottieActivity;
 
 import java.util.ArrayList;
@@ -94,6 +95,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.bt_annotation).setOnClickListener(this);
         findViewById(R.id.bt_canvas).setOnClickListener(this);
         findViewById(R.id.bt_binder).setOnClickListener(this);
+        findViewById(R.id.bt_loading_view).setOnClickListener(this);
     }
 
 
@@ -226,6 +228,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.bt_binder:
                 JumpActivityUtil.JumpSelfActivity(this, BinderActivity.class);
+                break;
+            case R.id.bt_loading_view:
+                JumpActivityUtil.JumpSelfActivity(this, LoadingViewActivity.class);
                 break;
 
         }
