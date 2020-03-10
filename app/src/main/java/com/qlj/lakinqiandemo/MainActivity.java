@@ -4,15 +4,13 @@ import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
-import com.qlj.lakinqiandemo.annotation.TestAnnotationActivity;
 import com.qlj.lakinqiandemo.bean.Student;
 import com.qlj.lakinqiandemo.binder.BinderActivity;
-import com.qlj.lakinqiandemo.binder.aidl.EasyDemoActivity;
 import com.qlj.lakinqiandemo.common.notification.NotificationHelper;
 import com.qlj.lakinqiandemo.contralayout.ContralayoutActivity;
 import com.qlj.lakinqiandemo.eventbus.EventbusActivity;
@@ -27,8 +25,6 @@ import com.qlj.lakinqiandemo.reflection.ReflectionActivity;
 import com.qlj.lakinqiandemo.service.JobServiceHelper;
 import com.qlj.lakinqiandemo.share.ShareBottomDialog;
 import com.qlj.lakinqiandemo.share.ShareUtils;
-import com.qlj.lakinqiandemo.social.code.QRCodeActivity;
-import com.qlj.lakinqiandemo.social.code.ScanActivity;
 import com.qlj.lakinqiandemo.utils.JumpActivityUtil;
 import com.qlj.lakinqiandemo.video.MediaEdit.MediaEditActivity;
 import com.qlj.lakinqiandemo.video.VideoActivity;
@@ -39,12 +35,12 @@ import com.qlj.lakinqiandemo.views.canvas.CanvasActivity;
 import com.qlj.lakinqiandemo.views.loadingView.LoadingViewActivity;
 import com.qlj.lakinqiandemo.views.lottie.LottieActivity;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import static com.qlj.lakinqiandemo.service.JobServiceHelper.SHOW_NOTIFICATION;
 import static com.qlj.lakinqiandemo.share.ShareBottomDialog.FACEBOOK;
@@ -225,7 +221,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //                JumpActivityUtil.JumpSelfActivity(this, ScanActivity.class);
                 break;
             case R.id.bt_annotation:
-                JumpActivityUtil.JumpSelfActivity(this, TestAnnotationActivity.class);
+                Toast.makeText(this, "注解请查看另一个InjectDemo", Toast.LENGTH_SHORT).show();
+//                JumpActivityUtil.JumpSelfActivity(this, TestAnnotationActivity.class);
                 break;
             case R.id.bt_canvas:
                 JumpActivityUtil.JumpSelfActivity(this, CanvasActivity.class);

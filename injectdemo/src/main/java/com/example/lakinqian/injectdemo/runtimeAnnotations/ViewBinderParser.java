@@ -1,4 +1,4 @@
-package com.qlj.lakinqiandemo.annotation.runtimeAnnotations;
+package com.example.lakinqian.injectdemo.runtimeAnnotations;
 
 import android.app.Activity;
 import android.view.View;

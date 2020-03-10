@@ -1,4 +1,4 @@
-package com.qlj.lakinqiandemo.annotation.runtimeAnnotations;
+package com.example.lakinqian.injectdemo.runtimeAnnotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

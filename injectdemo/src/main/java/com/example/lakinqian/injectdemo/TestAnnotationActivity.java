@@ -1,20 +1,19 @@
-package com.qlj.lakinqiandemo.annotation;
+package com.example.lakinqian.injectdemo;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.lakinqian.inject.InjectView;
 import com.example.lakinqian.inject_annotion.BindView;
-import com.qlj.lakinqiandemo.BaseActivity;
-import com.qlj.lakinqiandemo.R;
-import com.qlj.lakinqiandemo.annotation.runtimeAnnotations.OnClickRun;
-import com.qlj.lakinqiandemo.annotation.runtimeAnnotations.ViewBinderRun;
-import com.qlj.lakinqiandemo.annotation.runtimeAnnotations.ViewBinderParser;
+import com.example.lakinqian.injectdemo.runtimeAnnotations.OnClickRun;
+import com.example.lakinqian.injectdemo.runtimeAnnotations.ViewBinderParser;
+import com.example.lakinqian.injectdemo.runtimeAnnotations.ViewBinderRun;
 
-public class TestAnnotationActivity extends BaseActivity {
+import androidx.annotation.Nullable;
+
+public class TestAnnotationActivity extends Activity {
     @ViewBinderRun(id = R.id.button1)
     public Button button1;
 

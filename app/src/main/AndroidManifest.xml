@@ -54,7 +54,6 @@
         <activity android:name="com.qlj.lakinqiandemo.social.message.SessionActivity" />
         <activity android:name=".social.code.ScanActivity"/>
         <activity android:name=".social.code.QRCodeActivity"/>
-        <activity android:name=".annotation.TestAnnotationActivity"/>
         <activity android:name=".views.canvas.CanvasActivity" />
         <activity android:name=".binder.aidl.EasyDemoActivity" />
         <activity android:name=".binder.BinderActivity" />
