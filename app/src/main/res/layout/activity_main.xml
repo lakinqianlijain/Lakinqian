@@ -161,6 +161,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/bt_social"
             android:text="Annotation" />
+
         <Button
             android:id="@+id/bt_canvas"
             android:layout_width="wrap_content"
@@ -188,6 +189,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="LoadingView" />
+
+        <Button
+            android:id="@+id/bt_media_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/bt_loading_view"
+            android:text="MediaEdit" />
+
+        <Button
+            android:id="@+id/bt_ndk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/bt_media_edit"
+            android:text="NDK" />
 
 
     </RelativeLayout>

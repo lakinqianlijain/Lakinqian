@@ -21,6 +21,7 @@ import com.qlj.lakinqiandemo.hook.HookActivity;
 import com.qlj.lakinqiandemo.json.JsonAnalysisActivity;
 import com.qlj.lakinqiandemo.json.bean.CBAPlayer;
 import com.qlj.lakinqiandemo.mvp.login.view.LoginActivity;
+import com.qlj.lakinqiandemo.ndk.NdkActivity;
 import com.qlj.lakinqiandemo.optimize.MemoryOptimizeActivity;
 import com.qlj.lakinqiandemo.reflection.ReflectionActivity;
 import com.qlj.lakinqiandemo.service.JobServiceHelper;
@@ -29,6 +30,7 @@ import com.qlj.lakinqiandemo.share.ShareUtils;
 import com.qlj.lakinqiandemo.social.code.QRCodeActivity;
 import com.qlj.lakinqiandemo.social.code.ScanActivity;
 import com.qlj.lakinqiandemo.utils.JumpActivityUtil;
+import com.qlj.lakinqiandemo.video.MediaEdit.MediaEditActivity;
 import com.qlj.lakinqiandemo.video.VideoActivity;
 import com.qlj.lakinqiandemo.views.CustomizeViewActivity;
 import com.qlj.lakinqiandemo.views.SlideViewActivity;
@@ -96,6 +98,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.bt_canvas).setOnClickListener(this);
         findViewById(R.id.bt_binder).setOnClickListener(this);
         findViewById(R.id.bt_loading_view).setOnClickListener(this);
+        findViewById(R.id.bt_media_edit).setOnClickListener(this);
+        findViewById(R.id.bt_ndk).setOnClickListener(this);
     }
 
 
@@ -231,6 +235,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.bt_loading_view:
                 JumpActivityUtil.JumpSelfActivity(this, LoadingViewActivity.class);
+                break;
+            case R.id.bt_media_edit:
+                JumpActivityUtil.JumpSelfActivity(this, MediaEditActivity.class);
+                break;
+            case R.id.bt_ndk:
+                JumpActivityUtil.JumpSelfActivity(this, NdkActivity.class);
                 break;
 
         }

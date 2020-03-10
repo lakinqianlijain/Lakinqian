@@ -59,6 +59,8 @@
         <activity android:name=".binder.aidl.EasyDemoActivity" />
         <activity android:name=".binder.BinderActivity" />
         <activity android:name=".views.loadingView.LoadingViewActivity" />
+        <activity android:name=".video.MediaEdit.VideoEditActivity" />
+        <activity android:name=".ndk.NdkActivity" />
 
 
         <receiver android:name="com.qlj.lakinqiandemo.receiver.GlobalReceiver">
