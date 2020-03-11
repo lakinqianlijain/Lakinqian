@@ -68,7 +68,7 @@ public class ViewBinderParser {
                         @Override
                         public void onClick(View v) {
                             try {
-                                method.invoke(object, null);
+                                method.invoke(object, new Object[]{});
                             } catch (IllegalAccessException e) {
                                 e.printStackTrace();
                             } catch (InvocationTargetException e) {
